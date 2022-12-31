@@ -5,7 +5,7 @@ function NavBar() {
       <div className="logo-title">
         <Link to="/">
           <i className="fa-solid fa-clapperboard"></i>
-          <span className="title">MOVIE HUB</span>
+          <span className="title">Movie Hub</span>
         </Link>
       </div>
       <div className="nav-link">

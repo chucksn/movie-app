@@ -22,7 +22,8 @@ function Footer() {
         </a>
       </div>
       <div className="footer-text">
-        <span>Developed with ReactJS</span>
+        <span className="top-text">Developed with ReactJS</span>
+        <br />
         <br />
         <small>Designed and Developed By Chucks N &#169;{year}</small>
       </div>

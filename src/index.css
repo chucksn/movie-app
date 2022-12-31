@@ -1,10 +1,6 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Ubuntu", sans-serif;
 }
 
 /* SharedLayout */
@@ -38,7 +34,8 @@ body {
 
 .logo-title {
   font-size: 2rem;
-  font-weight: 500;
+  font-family: "Prosto One", cursive;
+  font-weight: 700;
 }
 
 .logo-title > a {
@@ -58,7 +55,7 @@ body {
   text-decoration: none;
   font-weight: 500;
   margin: 0 2rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: rgb(175, 175, 175);
 }
 
@@ -112,7 +109,15 @@ body {
 .footer-text {
   color: lightgrey;
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
+}
+
+/* Movie Card */
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 26rem;
+  width: 12rem;
 }
 
 @media screen and (max-width: 1024px) {
