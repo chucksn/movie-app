@@ -1,5 +1,5 @@
 function TvSeries() {
-  return <></>;
+  return <div className="outlet-bg"></div>;
 }
 
 export default TvSeries;

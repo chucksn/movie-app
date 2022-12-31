@@ -1,12 +1,15 @@
 body {
-  margin: 0;
   font-family: "Ubuntu", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
 }
 
 /* SharedLayout */
 .bg {
   width: 100vw;
-  height: 100vh;
   background: linear-gradient(rgba(65, 65, 65, 0.7), rgba(65, 65, 65, 0.7))
       no-repeat fixed center center/cover,
     url(../src/images/william-daigneault-ju3eqN0gl6Y-unsplash.jpg) no-repeat
@@ -23,13 +26,14 @@ body {
 }
 
 .nav-bar {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgb(5, 5, 5);
   justify-content: space-between;
-  padding: 1rem 1.8rem;
+  padding: 1.5rem 2rem;
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
+  box-shadow: 0 1px 4px rgb(44, 44, 44);
 }
 
 .logo-title {
@@ -88,11 +92,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.8);
-  padding: 2rem;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
+  padding: 4rem 2rem 2rem 2rem;
 }
 
 .footer-links {
@@ -112,12 +112,60 @@ body {
   margin-top: 2rem;
 }
 
+/* Outlet */
+.outlet-bg {
+  padding: 6rem 2rem 2rem 2rem;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 /* Movie Card */
-.card {
+.card,
+.type-date {
   display: flex;
+}
+
+.card {
   flex-direction: column;
-  height: 26rem;
+  justify-content: space-between;
+  min-height: 26rem;
   width: 12rem;
+  background-color: rgb(61, 61, 61);
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.poster-container {
+  padding: 2rem 1rem;
+}
+
+.fa-star {
+  color: goldenrod;
+}
+
+.rating,
+.movie-title {
+  color: white;
+}
+
+.rating {
+  font-weight: 400;
+  font-family: "Roboto", sans-serif;
+  margin: 0.6rem;
+}
+
+.movie-title {
+  text-align: center;
+  font-family: "Prosto One", cursive;
+}
+
+.type-date {
+  padding: 0.4rem;
+  margin: 0.6rem;
+  justify-content: space-between;
+  color: rgb(163, 163, 163);
+  background-color: rgb(36, 36, 36);
+  border-radius: 0.7rem;
 }
 
 @media screen and (max-width: 1024px) {
@@ -130,6 +178,10 @@ body {
     width: 100%;
     justify-content: space-around;
   }
+
+  .outlet-bg {
+    padding: 13rem 2rem 2rem 2rem;
+  }
 }
 
 @media screen and (max-width: 680px) {
@@ -139,5 +191,13 @@ body {
 
   .search {
     margin-top: 1.5rem;
+  }
+
+  .logo-title {
+    font-size: 1.8rem;
+  }
+
+  .outlet-bg {
+    padding: 9rem 2rem 2rem 2rem;
   }
 }
