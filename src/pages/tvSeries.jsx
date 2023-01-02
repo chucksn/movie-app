@@ -20,7 +20,6 @@ function TvSeries() {
 
     getMovieInfo();
   }, [currentPage]);
-  console.log(movieInfoList);
   return (
     <div className="outlet-bg">
       <PageContextTv.Provider
