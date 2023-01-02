@@ -1,10 +1,7 @@
-import PosterCard from "../components/posterCard";
 function Movies() {
   return (
     <div className="outlet-bg">
-      <div className="poster-container">
-        <PosterCard />
-      </div>
+      <div className="poster-container"></div>
     </div>
   );
 }

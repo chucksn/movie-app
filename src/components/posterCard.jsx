@@ -1,25 +1,21 @@
-function PosterCard() {
+function PosterCard({ posterImgPath, rating, title, date, type }) {
+  let image = `https://image.tmdb.org/t/p/w500${posterImgPath}`;
   return (
     <div className="card">
-      <img
-        src="https://image.tmdb.org/t/p/w500/uO2yU3QiGHvVp0L5e5IatTVRkYk.jpg"
-        alt="poster"
-        className="poster"
-      />
+      <img src={image} alt="poster" className="poster" />
 
       <span className="rating">
         <span>
           <i className="fa-solid fa-star"></i>
         </span>{" "}
-        8.6
+        {rating}
       </span>
-      <p className="movie-title">Avatar</p>
+      <p className="movie-title">{title}</p>
       <div className="type-date">
-        <p className="type">Movie</p>
-        <span className="date">2022-11-24</span>
+        <p className="type">{type}</p>
+        <span className="date">{date}</span>
       </div>
     </div>
   );
 }
-
 export default PosterCard;

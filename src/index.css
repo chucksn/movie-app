@@ -5,6 +5,7 @@ body {
 * {
   box-sizing: border-box;
   margin: 0;
+  /* border: 1px solid white; */
 }
 
 /* SharedLayout */
@@ -168,6 +169,74 @@ body {
   border-radius: 0.7rem;
 }
 
+.type {
+  color: rgb(255, 255, 128);
+}
+
+/* Paginated Display */
+.card-pagination-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 12rem));
+  padding: 2rem;
+  gap: 3rem;
+  justify-content: center;
+}
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paginationItem {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid #666;
+  padding: 10px 15px;
+  border-radius: 50%;
+  height: 45px;
+  width: 45px;
+  position: relative;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.paginationItem span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 500;
+}
+
+.prev,
+.next {
+  background: #fff;
+  border: none;
+  padding: 10px;
+  color: blue;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.paginationItem.active {
+  border: 1px solid #888;
+  color: #888;
+  pointer-events: none;
+}
+
+.prev.disabled,
+.next.disabled {
+  pointer-events: none;
+  box-shadow: none;
+  color: #999;
+}
+
 @media screen and (max-width: 1024px) {
   .nav-bar {
     flex-direction: column;
@@ -181,6 +250,13 @@ body {
 
   .outlet-bg {
     padding: 13rem 2rem 2rem 2rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .card-container {
+    gap: 2rem;
+    padding: 1rem;
   }
 }
 
@@ -199,5 +275,33 @@ body {
 
   .outlet-bg {
     padding: 9rem 2rem 2rem 2rem;
+  }
+}
+
+@media screen and (max-width: 512px) {
+  .card {
+    min-height: 23rem;
+    width: 9.5rem;
+  }
+
+  .card-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 1.5rem;
+  }
+
+  .type-date {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 374px) {
+  .card-container {
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 12rem));
+  }
+
+  .card {
+    min-height: 26rem;
+    width: 12rem;
   }
 }
