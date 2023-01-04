@@ -22,6 +22,7 @@ function TvSeries() {
   }, [currentPage]);
   return (
     <div className="outlet-bg">
+      <span className="tv-header">DISCOVER TV SERIES</span>
       <PageContextTv.Provider
         value={{
           value1: currentPage,
@@ -33,6 +34,7 @@ function TvSeries() {
           movieData={movieInfoList}
           pgNumDisplayLimit={5}
           pages={returnedPage}
+          activePage="tv"
         />
       </PageContextTv.Provider>
     </div>

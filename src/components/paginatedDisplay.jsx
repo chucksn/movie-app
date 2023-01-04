@@ -1,24 +1,54 @@
 import { useContext } from "react";
 import PosterCard from "./posterCard";
 import { PageContextTv } from "../pages/tvSeries";
+import { PageContextMovie } from "../pages/movies";
+import { PageContextSearch } from "../pages/searchResult";
 
-function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages }) {
+function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
   const tvPageContext = useContext(PageContextTv);
-  let currentPage = tvPageContext.value1;
-  let setCurrentPage = tvPageContext.value2;
-  let tvType = tvPageContext.value3;
+  const moviePageContext = useContext(PageContextMovie);
+  const searchPageContext = useContext(PageContextSearch);
+
+  console.log("lvl:3", searchPageContext);
+
+  if (activePage === "movie") {
+    var currentPage = moviePageContext.value1;
+    var setCurrentPage = moviePageContext.value2;
+    var tvType = moviePageContext.value3;
+    console.log("active movie");
+  }
+
+  if (activePage === "tv") {
+    var currentPage = tvPageContext.value1;
+    var setCurrentPage = tvPageContext.value2;
+    var tvType = tvPageContext.value3;
+    console.log("active tv");
+  }
+
+  if (activePage === "search") {
+    var currentPage = searchPageContext.value1;
+    var setCurrentPage = searchPageContext.value2;
+    console.log("active search");
+  }
+
+  const handleScrollToTop = () => {
+    window.scrollTo(0, 0, "smooth");
+  };
 
   const goToNextPage = () => {
     setCurrentPage(currentPage + 1);
+    handleScrollToTop();
   };
 
   const goToPrevPage = () => {
     setCurrentPage(currentPage - 1);
+    handleScrollToTop();
   };
 
   const changePage = (event) => {
     const pageNumber = Number(event.target.textContent);
     setCurrentPage(pageNumber);
+    handleScrollToTop();
   };
 
   const getPaginationGroup = () => {
@@ -36,9 +66,9 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages }) {
               key={data.id}
               posterImgPath={data.poster_path}
               rating={data.vote_average}
-              title={data.name}
-              date={data.first_air_date}
-              type={tvType}
+              title={data.name || data.title}
+              date={data.first_air_date || data.release_date}
+              type={tvType || data.media_type}
             />
           ))}
         </div>

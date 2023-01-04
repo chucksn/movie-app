@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import SearchForm from "./searchForm";
+
 function NavBar() {
   return (
     <div className="nav-bar">
@@ -19,18 +21,7 @@ function NavBar() {
           <i className="fa-solid fa-tv"></i> TV Series
         </Link>
       </div>
-      <div className="search">
-        <input
-          type="text"
-          placeholder="Search Movie or Series"
-          className="search-area"
-          spellCheck="false"
-          autoFocus
-        />
-        <Link to="/search">
-          <i className="fa-solid fa-magnifying-glass"></i>
-        </Link>
-      </div>
+      <SearchForm />
     </div>
   );
 }
