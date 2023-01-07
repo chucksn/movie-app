@@ -2,33 +2,25 @@ import { useContext } from "react";
 import PosterCard from "./posterCard";
 import { PageContextTv } from "../pages/tvSeries";
 import { PageContextMovie } from "../pages/movies";
-import { PageContextSearch } from "../pages/searchResult";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
   const tvPageContext = useContext(PageContextTv);
   const moviePageContext = useContext(PageContextMovie);
-  const searchPageContext = useContext(PageContextSearch);
-
-  console.log("lvl:3", searchPageContext);
+  const dispatch = useDispatch();
+  const searchCurrentPg = useSelector((state) => state.currentPg);
 
   if (activePage === "movie") {
     var currentPage = moviePageContext.value1;
     var setCurrentPage = moviePageContext.value2;
     var tvType = moviePageContext.value3;
-    console.log("active movie");
   }
 
   if (activePage === "tv") {
     var currentPage = tvPageContext.value1;
     var setCurrentPage = tvPageContext.value2;
     var tvType = tvPageContext.value3;
-    console.log("active tv");
-  }
-
-  if (activePage === "search") {
-    var currentPage = searchPageContext.value1;
-    var setCurrentPage = searchPageContext.value2;
-    console.log("active search");
   }
 
   const handleScrollToTop = () => {
@@ -36,22 +28,31 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
   };
 
   const goToNextPage = () => {
-    setCurrentPage(currentPage + 1);
+    activePage === "search"
+      ? dispatch({ type: "NEXT_PAGE" })
+      : setCurrentPage(currentPage + 1);
     handleScrollToTop();
   };
 
   const goToPrevPage = () => {
-    setCurrentPage(currentPage - 1);
+    activePage === "search"
+      ? dispatch({ type: "PREV_PAGE" })
+      : setCurrentPage(currentPage - 1);
     handleScrollToTop();
   };
 
   const changePage = (event) => {
     const pageNumber = Number(event.target.textContent);
-    setCurrentPage(pageNumber);
+    activePage === "search"
+      ? dispatch({ type: "CHANGE_PAGE", payload: pageNumber })
+      : setCurrentPage(pageNumber);
     handleScrollToTop();
   };
 
   const getPaginationGroup = () => {
+    if (activePage === "search") {
+      currentPage = searchCurrentPg;
+    }
     let start =
       Math.floor((currentPage - 1) / pgNumDisplayLimit) * pgNumDisplayLimit;
     return new Array(pgNumDisplayLimit).fill().map((_, idx) => start + idx + 1);

@@ -21,6 +21,7 @@ function NavBar() {
           <i className="fa-solid fa-tv"></i> TV Series
         </Link>
       </div>
+
       <SearchForm />
     </div>
   );

@@ -1,5 +1,8 @@
 function PosterCard({ posterImgPath, rating, title, date, type }) {
-  let image = `https://image.tmdb.org/t/p/w500${posterImgPath}`;
+  let image =
+    posterImgPath === null
+      ? "./no-poster.jpg"
+      : `https://image.tmdb.org/t/p/w500${posterImgPath}`;
   return (
     <div className="card">
       <img src={image} alt="poster" className="poster" />

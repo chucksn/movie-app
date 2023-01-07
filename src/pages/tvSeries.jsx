@@ -1,5 +1,6 @@
 import PaginatedDisplay from "../components/paginatedDisplay";
 import { useEffect, useState, createContext } from "react";
+import { useDispatch } from "react-redux";
 
 export const PageContextTv = createContext();
 
@@ -7,6 +8,7 @@ function TvSeries() {
   const [currentPage, setCurrentPage] = useState(1);
   const [returnedPage, setReturnedPage] = useState(1);
   const [movieInfoList, setMovieInfoList] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getMovieInfo = async () => {
