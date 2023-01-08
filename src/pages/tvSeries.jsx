@@ -8,7 +8,6 @@ function TvSeries() {
   const [currentPage, setCurrentPage] = useState(1);
   const [returnedPage, setReturnedPage] = useState(1);
   const [movieInfoList, setMovieInfoList] = useState("");
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const getMovieInfo = async () => {
@@ -29,7 +28,7 @@ function TvSeries() {
         value={{
           value1: currentPage,
           value2: setCurrentPage,
-          value3: "TV-series",
+          value3: "Tv-series",
         }}
       >
         <PaginatedDisplay

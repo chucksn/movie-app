@@ -8,7 +8,6 @@ function Movies() {
   const [currentPage, setCurrentPage] = useState(1);
   const [returnedPage, setReturnedPage] = useState(1);
   const [movieInfoList, setMovieInfoList] = useState("");
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const getMovieInfo = async () => {
