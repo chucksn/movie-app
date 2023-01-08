@@ -53,7 +53,7 @@ body {
 }
 
 .fa-clapperboard {
-  color: rgb(212, 175, 55);
+  color: rgb(116, 104, 65);
 }
 
 .nav-link > a {
@@ -114,11 +114,19 @@ body {
 }
 
 /* Outlet (pages component)*/
-.outlet-bg {
-  padding: 6rem 2rem 2rem 2rem;
+.outlet-bg,
+.outlet-bg-empty-search {
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+.outlet-bg {
+  padding: 6rem 2rem 2rem 2rem;
+}
+
+.outlet-bg-empty-search {
+  padding: 13rem 2rem 20rem 2rem;
 }
 
 .tv-header {
@@ -128,6 +136,26 @@ body {
   font-size: 2rem;
   font-weight: 300;
   margin-top: 0.5rem;
+}
+
+.select-movie-tv-search {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0 1rem 0;
+}
+
+.select-movie,
+.select-tv {
+  color: rgb(70, 70, 70);
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin: 0 2rem 0 2rem;
+  cursor: pointer;
+}
+
+.select-movie.active,
+.select-tv.active {
+  color: greenyellow;
 }
 
 /* Movie Card */

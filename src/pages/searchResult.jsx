@@ -7,14 +7,47 @@ function SearchResult() {
   const returnedPage = useSelector((state) => state.returnedPg);
   const searchInfo = useSelector((state) => state.search);
   const dispatch = useDispatch();
+  const toggleState = useSelector((state) => state.toggle);
 
   useEffect(() => {
     dispatch({ type: "RESET" }); //resets searchResult
   }, []);
 
+  const handleMovieToggle = () => {
+    dispatch({ type: "MOVIE_SELECTED" });
+  };
+
+  const handleTvToggle = () => {
+    dispatch({ type: "TV_SELECTED" });
+  };
+
+  if (Object.keys(searchInfo.searchResult).length < 1) {
+    return (
+      <div className="outlet-bg-empty-search">
+        <span className="tv-header">Search Result</span>
+      </div>
+    );
+  }
+
   return (
     <div className="outlet-bg">
       <span className="tv-header">Search Result</span>
+      <div className="select-movie-tv-search">
+        <span
+          onClick={handleMovieToggle}
+          className={`select-movie ${
+            toggleState === "movie" ? "active" : null
+          }`}
+        >
+          Movie
+        </span>
+        <span
+          onClick={handleTvToggle}
+          className={`select-tv ${toggleState === "tv" ? "active" : null}`}
+        >
+          Tv Series
+        </span>
+      </div>
 
       <PaginatedDisplay
         movieData={searchInfo.searchResult}

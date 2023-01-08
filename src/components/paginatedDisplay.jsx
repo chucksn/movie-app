@@ -10,6 +10,7 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
   const moviePageContext = useContext(PageContextMovie);
   const dispatch = useDispatch();
   const searchCurrentPg = useSelector((state) => state.currentPg);
+  const toggleState = useSelector((state) => state.toggle);
 
   if (activePage === "movie") {
     var currentPage = moviePageContext.value1;
@@ -21,6 +22,14 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
     var currentPage = tvPageContext.value1;
     var setCurrentPage = tvPageContext.value2;
     var tvType = tvPageContext.value3;
+  }
+
+  if (activePage === "search") {
+    if (toggleState === "movie") {
+      tvType = "Movie";
+    } else if (toggleState === "tv") {
+      tvType = "Tv series";
+    }
   }
 
   const handleScrollToTop = () => {

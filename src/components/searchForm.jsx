@@ -9,16 +9,18 @@ function SearchForm() {
   const dispatch = useDispatch();
   const reference = useRef();
 
+  const searchToggle = useSelector((state) => state.toggle);
+
   useEffect(() => {
     handleSearch();
-  }, [currentPage]);
+  }, [currentPage, searchToggle]);
 
   const handleSearch = async () => {
     const searchQuery = reference.current.value;
 
     if (searchQuery.length > 0) {
       let response = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US&query=${searchQuery}&page=${currentPage}&include_adult=false`
+        `https://api.themoviedb.org/3/search/${searchToggle}?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US&query=${searchQuery}&page=${currentPage}&include_adult=false`
       );
       let data = await response.json();
       let searchResult = data.results;
@@ -36,7 +38,13 @@ function SearchForm() {
   const handleSearchOnEnterKey = (event) => {
     if (event.key === "Enter") {
       handleSearch();
+      dispatch({ type: "RESET" });
     }
+  };
+
+  const handleOnClick = () => {
+    handleSearch();
+    dispatch({ type: "RESET" });
   };
 
   return (
@@ -52,7 +60,7 @@ function SearchForm() {
         required
       />
 
-      <i onClick={handleSearch} className="fa-solid fa-magnifying-glass"></i>
+      <i onClick={handleOnClick} className="fa-solid fa-magnifying-glass"></i>
     </div>
   );
 }
