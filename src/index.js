@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { legacy_createStore as createStore } from "redux";
 import { Provider } from "react-redux";
 import { rootReducer } from "./redux/reducer/rootReducer";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const myStore = createStore(
   rootReducer,
@@ -18,7 +19,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Provider store={myStore}>
-      <App />
+      <ChakraProvider>
+        <App />
+      </ChakraProvider>
     </Provider>
   </BrowserRouter>
 );
