@@ -171,6 +171,7 @@ body {
   width: 12rem;
   background-color: rgb(61, 61, 61);
   border-radius: 0 0 0.5rem 0.5rem;
+  cursor: pointer;
 }
 
 .poster-container {

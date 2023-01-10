@@ -1,10 +1,10 @@
-function PosterCard({ posterImgPath, rating, title, date, type }) {
+function PosterCard({ posterImgPath, rating, title, date, type, onClick }) {
   let image =
     posterImgPath === null
       ? "./no-poster.jpg"
       : `https://image.tmdb.org/t/p/w500${posterImgPath}`;
   return (
-    <div className="card">
+    <div onClick={onClick} className="card">
       <img src={image} alt="poster" className="poster" />
 
       <span className="rating">

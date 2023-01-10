@@ -4,6 +4,7 @@ import { PageContextTv } from "../pages/tvSeries";
 import { PageContextMovie } from "../pages/movies";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import MovieDetailModal from "./modal";
 
 function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
   const tvPageContext = useContext(PageContextTv);
@@ -11,6 +12,11 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
   const dispatch = useDispatch();
   const searchCurrentPg = useSelector((state) => state.currentPg);
   const toggleState = useSelector((state) => state.toggle);
+  const handleCardClicked = () => {
+    dispatch({ type: "CARD_CLICKED" });
+  };
+
+  const cardClicked = useSelector((state) => state.cardClicked);
 
   if (activePage === "movie") {
     var currentPage = moviePageContext.value1;
@@ -71,16 +77,22 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
     return (
       <div className="card-pagination-container">
         <div className="card-container">
-          {movieData.map((data) => (
-            <PosterCard
-              key={data.id}
-              posterImgPath={data.poster_path}
-              rating={data.vote_average}
-              title={data.name || data.title}
-              date={data.first_air_date || data.release_date}
-              type={tvType || data.media_type}
-            />
-          ))}
+          {movieData.map((data) => {
+            return (
+              <>
+                <PosterCard
+                  onClick={handleCardClicked}
+                  key={data.id}
+                  posterImgPath={data.poster_path}
+                  rating={data.vote_average}
+                  title={data.name || data.title}
+                  date={data.first_air_date || data.release_date}
+                  type={tvType || data.media_type}
+                />
+                {cardClicked && <MovieDetailModal />}
+              </>
+            );
+          })}
         </div>
         <div className="pagination-container">
           <button
