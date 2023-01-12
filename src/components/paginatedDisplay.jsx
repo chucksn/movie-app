@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import PosterCard from "./posterCard";
 import { PageContextTv } from "../pages/tvSeries";
 import { PageContextMovie } from "../pages/movies";
@@ -12,9 +12,7 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
   const dispatch = useDispatch();
   const searchCurrentPg = useSelector((state) => state.currentPg);
   const toggleState = useSelector((state) => state.toggle);
-  const handleCardClicked = () => {
-    dispatch({ type: "CARD_CLICKED" });
-  };
+  const modalData = useSelector((state) => state.modalData);
 
   const cardClicked = useSelector((state) => state.cardClicked);
 
@@ -32,9 +30,9 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
 
   if (activePage === "search") {
     if (toggleState === "movie") {
-      tvType = "Movie";
+      tvType = "movie";
     } else if (toggleState === "tv") {
-      tvType = "Tv series";
+      tvType = "tv";
     }
   }
 
@@ -81,7 +79,18 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
             return (
               <>
                 <PosterCard
-                  onClick={handleCardClicked}
+                  onClick={async () => {
+                    dispatch({ type: "CARD_CLICKED" });
+
+                    let res = await fetch(
+                      `https://api.themoviedb.org/3/${tvType}/${data.id}?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US`
+                    );
+                    let fetchedModalData = await res.json();
+                    dispatch({
+                      type: "UPDATE_MODAL_DATA",
+                      payload: fetchedModalData,
+                    });
+                  }}
                   key={data.id}
                   posterImgPath={data.poster_path}
                   rating={data.vote_average}
@@ -89,7 +98,15 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
                   date={data.first_air_date || data.release_date}
                   type={tvType || data.media_type}
                 />
-                {cardClicked && <MovieDetailModal />}
+                {cardClicked && modalData && (
+                  <MovieDetailModal
+                    modalPosterPath={modalData.poster_path}
+                    movieTitle={modalData.name || modalData.title}
+                    overview={modalData.overview}
+                    tagline={modalData.tagline}
+                    year={modalData.release_date.slice(0, 4)}
+                  />
+                )}
               </>
             );
           })}

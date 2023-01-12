@@ -49,7 +49,7 @@ body {
 
 .title {
   margin-left: 0.5rem;
-  color: rgb(2, 165, 165);
+  color: rgb(116, 104, 65);
 }
 
 .fa-clapperboard {
@@ -277,6 +277,64 @@ body {
   pointer-events: none;
   box-shadow: none;
   color: #999;
+}
+
+/* Cast Card */
+
+.cast-profile {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  text-align: center;
+  min-height: 13rem;
+  max-width: 6.5rem;
+}
+
+.cast-image {
+  margin-bottom: 0.3rem;
+  padding: 0.3rem;
+  border-radius: 1.2rem;
+}
+
+.cast-name {
+  padding: 0.3rem;
+  font-size: 0.7rem;
+}
+
+/* Modal */
+.overview::-webkit-scrollbar {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  display: none;
+}
+.overview {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+@media screen and (min-width: 420px) {
+  .modal-body::-webkit-scrollbar {
+    display: none;
+  }
+  .modal-body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .cast-name {
+    font-size: 0.8rem;
+  }
+
+  /* Swiper */
+  .swiper-nav-left,
+  .swiper-nav-right {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 3rem;
+    cursor: pointer;
+  }
+
+  .swiper-button-disabled {
+    opacity: 0.1;
+  }
 }
 
 @media screen and (max-width: 1024px) {

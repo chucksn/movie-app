@@ -29,7 +29,7 @@ function Movies() {
         value={{
           value1: currentPage,
           value2: setCurrentPage,
-          value3: "Movie",
+          value3: "movie",
         }}
       >
         <PaginatedDisplay

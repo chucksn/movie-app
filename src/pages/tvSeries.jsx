@@ -28,7 +28,7 @@ function TvSeries() {
         value={{
           value1: currentPage,
           value2: setCurrentPage,
-          value3: "Tv-series",
+          value3: "tv",
         }}
       >
         <PaginatedDisplay
