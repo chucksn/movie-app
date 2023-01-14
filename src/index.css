@@ -294,11 +294,17 @@ body {
   margin-bottom: 0.3rem;
   padding: 0.3rem;
   border-radius: 1.2rem;
+  object-fit: contain;
 }
 
 .cast-name {
   padding: 0.3rem;
   font-size: 0.7rem;
+}
+
+.xter {
+  color: yellowgreen;
+  font-size: 0.65rem;
 }
 
 /* Modal */
@@ -326,10 +332,13 @@ body {
 
   /* Swiper */
   .swiper-nav-left,
-  .swiper-nav-right {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 3rem;
+  .swiper-nav-right,
+  .fa-circle-chevron-left,
+  .fa-circle-chevron-right {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.8rem;
     cursor: pointer;
+    margin: 0.2rem;
   }
 
   .swiper-button-disabled {

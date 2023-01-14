@@ -12,15 +12,12 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
-import {
-  AiFillCaretRight,
-  AiFillLeftCircle,
-  AiFillRightCircle,
-} from "react-icons/ai";
+import { AiFillCaretRight } from "react-icons/ai";
 import CastCard from "./castCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
 import { Autoplay, Navigation } from "swiper";
+import { useRef } from "react";
 
 function MovieDetailModal({
   modalPosterPath,
@@ -52,7 +49,12 @@ function MovieDetailModal({
       scrollBehavior="inside"
     >
       <ModalOverlay bgColor="blackAlpha.200" />
-      <ModalContent pt="0.5rem" pb="0.5rem" bgColor="gray.800">
+      <ModalContent
+        pt="0.5rem"
+        pb="0.5rem"
+        bgColor="gray.800"
+        h={{ base: "100vh", sm: "640px" }}
+      >
         <ModalCloseButton color="gray.300" />
         <ModalBody className="modal-body">
           <Flex
@@ -63,6 +65,7 @@ function MovieDetailModal({
               src={image}
               alt="poster"
               maxW={{ base: "60%", sm: "70%", md: "80%", lg: "400px" }}
+              objectFit="contain"
             />
             <Flex direction="column" justify="space-around" w="100%" pl="1rem">
               <Box textAlign="center" w="100%" p="0.6rem">
@@ -78,7 +81,7 @@ function MovieDetailModal({
                   fontFamily='"Ubuntu", sans-serif'
                   color="teal.400"
                 >
-                  {movieTitle} &#40;{year}&#41;
+                  {movieTitle}
                 </Box>
                 <Box
                   as="span"
@@ -92,6 +95,10 @@ function MovieDetailModal({
                   color="yellow.400"
                 >
                   {tagline}
+                  <br />
+                  <span style={{ color: "green", fontSize: "1.2rem" }}>
+                    {year}
+                  </span>
                 </Box>
               </Box>
               <Box
@@ -103,7 +110,7 @@ function MovieDetailModal({
                 fontSize={{ base: "0.9rem", lg: "1rem" }}
                 fontWeight="500"
                 overflowY="scroll"
-                maxHeight="11rem"
+                maxHeight={{ base: "8rem", sm: "11rem" }}
                 className="overview"
               >
                 {overview}
@@ -114,43 +121,42 @@ function MovieDetailModal({
                 mt="0.9rem"
                 position="relative"
                 alignItems="center"
+                maxH="15rem"
               >
-                <AiFillLeftCircle className="swiper-nav-left" />
+                <i className="fa-solid fa-circle-chevron-left"></i>
                 <Swiper
                   spaceBetween={0}
                   modules={[Navigation, Autoplay]}
                   navigation={{
-                    nextEl: ".swiper-nav-right",
-                    prevEl: ".swiper-nav-left",
+                    nextEl: ".fa-circle-chevron-right",
+                    prevEl: ".fa-circle-chevron-left",
                   }}
                   breakpoints={{
-                    1280: { slidesPerView: 7 },
                     500: { slidesPerView: 5 },
                     280: { slidesPerView: 4 },
                   }}
                   autoplay={{
-                    delay: 2500,
-                    disableOnInteraction: false,
+                    delay: 2000,
+                    disableOnInteraction: true,
                   }}
                 >
-                  {/* {castData.map((data) => {
-                    return (
-                      <SwiperSlide>
-                        <CastCard
-                          key={data.id}
-                          castName={data.name}
-                          character={data.character}
-                          castImgPath={data.profile_path}
-                        />
-                      </SwiperSlide>
-                    );
-                  })} */}
+                  {castData.map((data) => (
+                    <SwiperSlide>
+                      <CastCard
+                        key={data.cast_id}
+                        castName={data.name}
+                        character={data.character}
+                        castImgPath={data.profile_path}
+                      />
+                    </SwiperSlide>
+                  ))}
                 </Swiper>
-                <AiFillRightCircle className="swiper-nav-right" />
+
+                <i className="fa-solid fa-circle-chevron-right"></i>
               </Box>
               <Button
                 colorScheme="red"
-                mt="0.6rem"
+                mt="0.8rem"
                 w="100%"
                 leftIcon={<AiFillCaretRight />}
               >

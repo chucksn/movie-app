@@ -1,13 +1,14 @@
-function CastCard(castImgPath, castName, character) {
-  let image =
+function CastCard({ castImgPath, castName, character }) {
+  let castImg =
     castImgPath === null
-      ? "./no-poster.jpg"
-      : `https://image.tmdb.org/t/p/w500${castImgPath}`;
+      ? "./not_available.jpg"
+      : `https://image.tmdb.org/t/p/w185${castImgPath}`;
   return (
     <div className="cast-profile">
-      <img src={image} alt="profile" className="cast-image" />
+      <img src={castImg} alt="profile" className="cast-image" />
       <span className="cast-name">
-        {castName} '{character}'
+        {castName} <br />
+        <span className="xter">'{character}'</span>
       </span>
     </div>
   );

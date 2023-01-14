@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import PosterCard from "./posterCard";
 import { PageContextTv } from "../pages/tvSeries";
 import { PageContextMovie } from "../pages/movies";
@@ -15,6 +15,19 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
   const modalData = useSelector((state) => state.modalData);
 
   const cardClicked = useSelector((state) => state.cardClicked);
+
+  const handleCardClick = async (id) => {
+    dispatch({ type: "CARD_CLICKED" });
+
+    let res = await fetch(
+      `https://api.themoviedb.org/3/${tvType}/${id}?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US&append_to_response=videos,credits`
+    );
+    let fetchedModalData = await res.json();
+    dispatch({
+      type: "UPDATE_MODAL_DATA",
+      payload: fetchedModalData,
+    });
+  };
 
   if (activePage === "movie") {
     var currentPage = moviePageContext.value1;
@@ -79,18 +92,7 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
             return (
               <>
                 <PosterCard
-                  onClick={async () => {
-                    dispatch({ type: "CARD_CLICKED" });
-
-                    let res = await fetch(
-                      `https://api.themoviedb.org/3/${tvType}/${data.id}?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US`
-                    );
-                    let fetchedModalData = await res.json();
-                    dispatch({
-                      type: "UPDATE_MODAL_DATA",
-                      payload: fetchedModalData,
-                    });
-                  }}
+                  onClick={() => handleCardClick(data.id)}
                   key={data.id}
                   posterImgPath={data.poster_path}
                   rating={data.vote_average}
@@ -104,7 +106,12 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
                     movieTitle={modalData.name || modalData.title}
                     overview={modalData.overview}
                     tagline={modalData.tagline}
-                    year={modalData.release_date.slice(0, 4)}
+                    year={
+                      modalData.release_date
+                        ? modalData.release_date.slice(0, 4)
+                        : ""
+                    }
+                    castData={modalData.credits.cast}
                   />
                 )}
               </>
