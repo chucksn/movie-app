@@ -15,6 +15,7 @@ body {
       no-repeat fixed center center/cover,
     url(../src/images/william-daigneault-ju3eqN0gl6Y-unsplash.jpg) no-repeat
       fixed center center/cover;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Navigation */
@@ -28,8 +29,6 @@ body {
 
 .nav-bar {
   background-color: rgb(5, 5, 5);
-  justify-content: space-between;
-  padding: 1.5rem 2rem;
   position: fixed;
   top: 0;
   right: 0;
@@ -121,10 +120,6 @@ body {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-.outlet-bg {
-  padding: 6rem 2rem 2rem 2rem;
-}
-
 .outlet-bg-empty-search {
   padding: 13rem 2rem 20rem 2rem;
 }
@@ -167,8 +162,6 @@ body {
 .card {
   flex-direction: column;
   justify-content: space-between;
-  min-height: 26rem;
-  width: 12rem;
   background-color: rgb(61, 61, 61);
   border-radius: 0 0 0.5rem 0.5rem;
   cursor: pointer;
@@ -220,10 +213,8 @@ body {
 }
 
 .card-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 12rem));
-  padding: 2rem;
-  gap: 3rem;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
@@ -231,6 +222,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0.5rem 1rem;
 }
 
 .paginationItem {
@@ -282,12 +274,13 @@ body {
 /* Cast Card */
 
 .cast-profile {
+  position: relative;
   display: flex;
   flex-direction: column;
   color: white;
   text-align: center;
-  min-height: 13rem;
-  max-width: 6.5rem;
+  /* max-width: 6.5rem; */
+  cursor: pointer;
 }
 
 .cast-image {
@@ -302,12 +295,160 @@ body {
   font-size: 0.7rem;
 }
 
-.xter {
-  color: yellowgreen;
-  font-size: 0.65rem;
+.character-tooltip {
+  position: absolute;
+  font-size: 0.75rem;
+  color: white;
+  background-color: teal;
+  padding: 0.2rem;
+  border-radius: 0.5rem;
+  top: 50%;
+}
+
+.character-txt {
+  color: rgb(235, 235, 0);
+  font-weight: 500;
 }
 
 /* Modal */
+.modal-btn {
+  font-size: 1.2rem;
+  padding: 0.6rem;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.08);
+  z-index: 1;
+  padding-top: 2rem;
+  overflow-y: auto;
+}
+
+.modal-content {
+  width: 80%;
+  background-color: rgb(26, 26, 26);
+  padding: 0.5rem;
+  margin: auto;
+  box-shadow: 0 0 6px rgb(1, 202, 202);
+  border-radius: 0.5rem;
+}
+
+.close-icon {
+  float: right;
+  color: white;
+  font-weight: bolder;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 0.8rem;
+}
+
+.details-ctn span {
+  display: block;
+  margin: 0.3rem 0;
+}
+
+.title-date-ctn {
+  text-align: center;
+}
+
+.modal-title {
+  color: rgb(4, 175, 175);
+  font-weight: 500;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.tagline {
+  color: orange;
+  font-weight: 500;
+  font-family: cursive;
+}
+
+.modal-date {
+  color: green;
+  font-weight: 500;
+}
+
+.overview {
+  background-color: rgb(20, 20, 20);
+  color: rgb(192, 192, 192);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  margin: 1rem 0;
+  border: none;
+  box-shadow: 0 0 6px rgb(1, 202, 202);
+  overflow-y: scroll;
+}
+
+.fa-circle-chevron-left,
+.fa-circle-chevron-right {
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 1rem;
+  font-size: 1.5rem;
+}
+
+.swiper-button-disabled {
+  opacity: 0.15;
+}
+
+.cast-ctn {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  text-align: center;
+  border-radius: 0.5rem;
+  background-color: rgb(20, 20, 20);
+  box-shadow: 0 0 6px rgb(1, 202, 202);
+}
+
+.cast-txt {
+  font-family: "Ubuntu", sans-serif;
+  color: yellow;
+  font-size: 0.8rem;
+}
+
+.outer-swiper-ctn {
+  display: flex;
+  align-items: center;
+}
+
+.details-img-ctn,
+.img-ctn,
+.details-ctn {
+  display: flex;
+}
+
+.img-ctn {
+  justify-content: center;
+}
+
+.details-ctn {
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.play-trailer-btn {
+  background-color: rgb(221, 58, 49);
+  color: white;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.play-trailer-btn:hover {
+  background-color: rgb(211, 64, 56);
+}
+
 .overview::-webkit-scrollbar {
   /* Hide scrollbar for Chrome, Safari and Opera */
   display: none;
@@ -317,7 +458,29 @@ body {
   scrollbar-width: none; /* Firefox */
 }
 
-@media screen and (min-width: 420px) {
+@media screen and (max-width: 480px) {
+  .outlet-bg {
+    padding: 7rem 0.5rem 2rem 0.5rem;
+  }
+
+  .nav-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .nav-link {
+    display: none;
+  }
+
+  .search {
+    margin-top: 0.5rem;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+
   .modal-body::-webkit-scrollbar {
     display: none;
   }
@@ -326,8 +489,58 @@ body {
     scrollbar-width: none;
   }
 
+  .fa-circle-chevron-left,
+  .fa-circle-chevron-right {
+    display: none;
+  }
+
   .cast-name {
     font-size: 0.8rem;
+  }
+
+  .card {
+    min-height: 21rem;
+    width: 8.5rem;
+  }
+
+  .card-container {
+    padding: 0.8rem 0.3rem;
+    gap: 2rem 1.5rem;
+  }
+
+  .type-date {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .movie-title,
+  .type {
+    font-size: 0.8rem;
+  }
+
+  .details-img-ctn {
+    flex-direction: column;
+  }
+
+  .modal-poster {
+    max-width: 50%;
+  }
+
+  .modal-title {
+    font-size: 1.2rem;
+  }
+
+  .overview {
+    max-height: 7rem;
+    font-size: 0.8rem;
+  }
+
+  .title-date-ctn {
+    display: none;
+  }
+
+  .cast-name {
+    font-size: 0.6rem;
   }
 
   /* Swiper */
@@ -346,76 +559,157 @@ body {
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (min-width: 481px) {
+  .outlet-bg {
+    padding: 9.5rem 1rem 2rem 1rem;
+  }
+
   .nav-bar {
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem;
   }
 
   .nav-link {
-    margin: 1.5rem 0 2rem 0;
     width: 100%;
-    justify-content: space-around;
+    justify-content: center;
+    margin-bottom: 1rem;
   }
 
-  .outlet-bg {
-    padding: 13rem 2rem 2rem 2rem;
+  .modal-title {
+    font-size: 1.5rem;
+  }
+
+  .card-container {
+    padding: 0.8rem 0.3rem;
+    gap: 2rem 2.5rem;
+  }
+
+  .card {
+    min-height: 24rem;
+    width: 9.5rem;
+  }
+
+  .details-img-ctn {
+    flex-direction: column;
+  }
+
+  .modal-poster {
+    max-width: 50%;
+  }
+
+  .overview {
+    max-height: 7rem;
+  }
+
+  .title-date-ctn {
+    display: none;
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (min-width: 768px) {
+  .outlet-bg {
+    padding: 9.5rem 1.8rem 2rem 1.8rem;
+  }
+
+  .card {
+    min-height: 25rem;
+    width: 11rem;
+  }
+
   .card-container {
-    gap: 2rem;
+    padding: 1.8rem;
+    gap: 3rem;
+  }
+
+  .modal-title {
+    font-size: 2rem;
+  }
+
+  .tagline,
+  .modal-date {
+    font-size: 1.3rem;
+  }
+
+  .title-date-ctn {
+    display: block;
+  }
+
+  .details-ctn {
     padding: 1rem;
   }
 }
 
-@media screen and (max-width: 680px) {
-  .nav-link {
-    display: none;
-  }
-
-  .search {
-    margin-top: 1.5rem;
-  }
-
-  .logo-title {
-    font-size: 1.8rem;
-  }
-
+@media screen and (min-width: 1024px) {
   .outlet-bg {
-    padding: 9rem 2rem 2rem 2rem;
-  }
-}
-
-@media screen and (max-width: 512px) {
-  .card {
-    min-height: 23rem;
-    width: 9.5rem;
+    padding: 6rem 1.8rem 2rem 1.8rem;
   }
 
-  .card-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem 1.5rem;
+  .nav-bar {
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    flex-wrap: nowrap;
   }
 
-  .type-date {
-    flex-direction: column-reverse;
-    text-align: center;
-  }
-
-  .movie-title,
-  .type {
-    font-size: 0.8rem;
-  }
-}
-
-@media screen and (max-width: 374px) {
-  .card-container {
-    grid-template-columns: repeat(auto-fit, minmax(12rem, 12rem));
+  .nav-link {
+    width: fit-content;
+    margin-bottom: 0;
   }
 
   .card {
     min-height: 26rem;
     width: 12rem;
+  }
+
+  .card-container {
+    padding: 1.7rem;
+    gap: 3rem;
+  }
+
+  .overview {
+    max-height: 6rem;
+  }
+
+  .details-img-ctn {
+    flex-direction: row;
+  }
+
+  .img-ctn {
+    width: 45%;
+  }
+
+  .details-ctn {
+    width: 55%;
+  }
+
+  .modal-poster {
+    max-width: 100%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .card-container {
+    padding: 2rem;
+    gap: 3rem;
+  }
+
+  .cast-ctn {
+    max-height: 15.2rem;
+  }
+
+  .cast-profile {
+    max-width: 6.5rem;
+  }
+
+  .overview {
+    max-height: 7rem;
+  }
+
+  .img-ctn {
+    width: 40%;
+  }
+
+  .details-ctn {
+    width: 60%;
   }
 }
