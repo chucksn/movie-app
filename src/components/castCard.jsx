@@ -1,11 +1,12 @@
-import { TooltipVisibilityContext } from "./modal";
-import { useContext } from "react";
-
-const CastCard = ({ castImgPath, castName, character, onClick, index }) => {
-  const castCardContext = useContext(TooltipVisibilityContext);
-  const tooltipVisibility = castCardContext.tooltipVisibility;
-  const clickedCard = castCardContext.clickedCard;
-
+const CastCard = ({
+  castImgPath,
+  castName,
+  character,
+  onClick,
+  index,
+  clickedCard,
+  tooltipVisibility,
+}) => {
   let castImg =
     castImgPath === null
       ? "./not_available.jpg"

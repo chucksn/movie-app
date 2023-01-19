@@ -1,11 +1,10 @@
-import { useRef, useState, createContext } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import CastCard from "./castCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
 import { Autoplay, Navigation } from "swiper";
-
-export const TooltipVisibilityContext = createContext();
+import VideoWindow from "./videoWindow";
 
 function MovieDetailModal({
   modalPosterPath,
@@ -14,12 +13,30 @@ function MovieDetailModal({
   overview,
   castData,
   year,
+  videosInfoList,
 }) {
   const dispatch = useDispatch();
-  const modal = useRef();
+  const modalRef = useRef();
+  const modalContentRef = useRef();
 
   const [tooltipVisibility, setTooltipVisibility] = useState(false);
   const [clickedCard, setClickedCard] = useState(null);
+  const [trailerBtnClicked, setTrailerBtnClicked] = useState(false);
+
+  const videoInfo = videosInfoList.filter((videoInfo) => {
+    return (
+      videoInfo.name === "Official Trailer" ||
+      videoInfo.name === "official trailer" ||
+      videoInfo.name === "trailer" ||
+      videoInfo.name === "Trailer"
+    );
+  });
+
+  const youtubeKey = videoInfo.length !== 0 ? videoInfo[0].key : null;
+
+  const videoPath = youtubeKey
+    ? `https://www.youtube.com/embed/${youtubeKey}?&autoplay=1`
+    : null;
 
   // When the modal is shown, we want a fixed body
   document.body.style.overflow = "hidden";
@@ -30,15 +47,15 @@ function MovieDetailModal({
   };
 
   const onClose = () => {
-    modal.current.style.display = "none";
+    modalRef.current.style.display = "none";
     dispatch({ type: "CARD_CLICK_RESET" });
     dispatch({ type: "MODAL_DATA_RESET" });
     restoreScroll();
   };
 
   window.onclick = (event) => {
-    if (event.target === modal.current) {
-      modal.current.style.display = "none";
+    if (event.target === modalRef.current) {
+      modalRef.current.style.display = "none";
       dispatch({ type: "CARD_CLICK_RESET" });
       dispatch({ type: "MODAL_DATA_RESET" });
       restoreScroll();
@@ -46,7 +63,7 @@ function MovieDetailModal({
   };
 
   document.onkeydown = (event) => {
-    if (event.key === "Escape") modal.current.style.display = "none";
+    if (event.key === "Escape") modalRef.current.style.display = "none";
     dispatch({ type: "CARD_CLICK_RESET" });
     dispatch({ type: "MODAL_DATA_RESET" });
     restoreScroll();
@@ -62,56 +79,58 @@ function MovieDetailModal({
     setClickedCard(index);
   };
 
+  const handleTrailerBtn = () => {
+    setTrailerBtnClicked(true);
+  };
+
   return (
-    <div ref={modal} className="modal">
-      <div className="modal-content">
-        <span onClick={onClose} className="close-icon">
-          &times;
-        </span>
-        <div className="modal-body">
-          <div className="details-img-ctn">
-            <div className="img-ctn">
-              <img src={image} alt="poster" className="modal-poster" />
-            </div>
-            <div className="details-ctn">
-              <div className="title-date-ctn">
-                <span className="modal-title">{movieTitle}</span>
-                <span className="tagline">{tagline}</span>
-                <span className="modal-date">{year}</span>
+    <>
+      <div ref={modalRef} className="modal">
+        <div ref={modalContentRef} className="modal-content">
+          <span onClick={onClose} className="close-icon">
+            &times;
+          </span>
+          <div className="modal-body">
+            <div className="details-img-ctn">
+              <div className="img-ctn">
+                <img src={image} alt="poster" className="modal-poster" />
               </div>
+              <div className="details-ctn">
+                <div className="title-date-ctn">
+                  <span className="modal-title">{movieTitle}</span>
+                  <span className="tagline">{tagline}</span>
+                  <span className="modal-date">{year}</span>
+                </div>
 
-              <div className="overview">
-                <span className="overview.txt">{overview}</span>
-              </div>
+                <div className="overview">
+                  <span className="overview.txt">{overview}</span>
+                </div>
 
-              <div className="cast-ctn">
-                <span className="cast-txt">Cast</span>
+                <div className="cast-ctn">
+                  <span className="cast-txt">Cast</span>
 
-                <div className="outer-swiper-ctn">
-                  <i className="fa-solid fa-circle-chevron-left"></i>
-                  <Swiper
-                    spaceBetween={0}
-                    modules={[Navigation, Autoplay]}
-                    navigation={{
-                      nextEl: ".fa-circle-chevron-right",
-                      prevEl: ".fa-circle-chevron-left",
-                    }}
-                    breakpoints={{
-                      2300: { slidesPerView: 7 },
-                      1900: { slidesPerView: 6 },
-                      1024: { slidesPerView: 5 },
-                      280: { slidesPerView: 4 },
-                    }}
-                    autoplay={{
-                      delay: 800,
-                      disableOnInteraction: true,
-                    }}
-                  >
-                    {castData.map((data, index) => (
-                      <SwiperSlide>
-                        <TooltipVisibilityContext.Provider
-                          value={{ tooltipVisibility, clickedCard }}
-                        >
+                  <div className="outer-swiper-ctn">
+                    <i className="fa-solid fa-circle-chevron-left"></i>
+                    <Swiper
+                      spaceBetween={0}
+                      modules={[Navigation, Autoplay]}
+                      navigation={{
+                        nextEl: ".fa-circle-chevron-right",
+                        prevEl: ".fa-circle-chevron-left",
+                      }}
+                      breakpoints={{
+                        2300: { slidesPerView: 7 },
+                        1900: { slidesPerView: 6 },
+                        1024: { slidesPerView: 5 },
+                        280: { slidesPerView: 4 },
+                      }}
+                      autoplay={{
+                        delay: 800,
+                        disableOnInteraction: true,
+                      }}
+                    >
+                      {castData.map((data, index) => (
+                        <SwiperSlide>
                           <CastCard
                             onClick={() => handleCastCardClick(index)}
                             key={data.cast_id}
@@ -119,23 +138,36 @@ function MovieDetailModal({
                             castName={data.name}
                             character={data.character}
                             castImgPath={data.profile_path}
+                            clickedCard={clickedCard}
+                            tooltipVisibility={tooltipVisibility}
                           />
-                        </TooltipVisibilityContext.Provider>
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
 
-                  <i className="fa-solid fa-circle-chevron-right"></i>
+                    <i className="fa-solid fa-circle-chevron-right"></i>
+                  </div>
                 </div>
+                {videoInfo.length !== 0 && (
+                  <button
+                    className="play-trailer-btn"
+                    onClick={handleTrailerBtn}
+                  >
+                    <i className="fa-brands fa-youtube"></i> WATCH TRAILER
+                  </button>
+                )}
               </div>
-              <button className="play-trailer-btn">
-                <i class="fa-brands fa-youtube"></i> PLAY TRAILER
-              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      {trailerBtnClicked && videoPath && (
+        <VideoWindow
+          videoUrl={videoPath}
+          setTrailerBtn={setTrailerBtnClicked}
+        />
+      )}
+    </>
   );
 }
 

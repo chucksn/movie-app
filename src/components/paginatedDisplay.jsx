@@ -106,6 +106,7 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
                     movieTitle={modalData.name || modalData.title}
                     overview={modalData.overview}
                     tagline={modalData.tagline}
+                    videosInfoList={modalData.videos.results}
                     year={
                       modalData.release_date
                         ? modalData.release_date.slice(0, 4)
