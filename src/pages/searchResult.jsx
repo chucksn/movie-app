@@ -11,7 +11,7 @@ function SearchResult() {
 
   useEffect(() => {
     dispatch({ type: "RESET" }); //resets searchResult
-  }, []);
+  }, [dispatch]);
 
   const handleMovieToggle = () => {
     dispatch({ type: "MOVIE_SELECTED" });
@@ -21,13 +21,12 @@ function SearchResult() {
     dispatch({ type: "TV_SELECTED" });
   };
 
-  if (Object.keys(searchInfo.searchResult).length < 1) {
+  if (Object.keys(searchInfo.searchResult).length < 1)
     return (
       <div className="outlet-bg-empty-search">
         <span className="tv-header">Search Result</span>
       </div>
     );
-  }
 
   return (
     <div className="outlet-bg">

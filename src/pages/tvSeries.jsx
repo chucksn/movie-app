@@ -1,6 +1,5 @@
 import PaginatedDisplay from "../components/paginatedDisplay";
 import { useEffect, useState, createContext } from "react";
-import { useDispatch } from "react-redux";
 
 export const PageContextTv = createContext();
 
