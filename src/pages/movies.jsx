@@ -21,6 +21,9 @@ function Movies() {
     getMovieInfo();
   }, [currentPage]);
 
+  if (Object.keys(movieInfoList).length < 1)
+    return <div className="outlet-bg-empty-search"></div>;
+
   return (
     <div className="outlet-bg">
       <span className="tv-header">DISCOVER MOVIES</span>
