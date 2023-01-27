@@ -1,10 +1,14 @@
 import { useRef } from "react";
+import { useDispatch } from "react-redux";
 
-function VideoWindow({ videoUrl, setTrailerBtn }) {
+function VideoWindow({ videoUrl }) {
   const videoWindowRef = useRef();
+  const dispatch = useDispatch();
+
   const handleClose = () => {
     videoWindowRef.current.style.display = "none";
-    setTrailerBtn(false);
+    dispatch({ type: "TRAILER_BTN_CLICK_RESET" });
+    dispatch({ type: "MAIN_SLIDE_CARD_CLICK_RESET" });
   };
   return (
     <div ref={videoWindowRef} className="video-window-bg">

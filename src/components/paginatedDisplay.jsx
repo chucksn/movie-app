@@ -84,13 +84,13 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
     return new Array(pgNumDisplayLimit).fill().map((_, idx) => start + idx + 1);
   };
 
-  if (movieData) {
-    return (
-      <div className="card-pagination-container">
-        <div className="card-container">
-          {movieData.map((data) => {
-            return (
-              <>
+  return (
+    <div className="card-pagination-container">
+      <div className="card-container">
+        {movieData.map((data) => {
+          return (
+            <>
+              {movieData && (
                 <PosterCard
                   onClick={() => handleCardClick(data.id)}
                   key={data.id}
@@ -100,55 +100,56 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
                   date={data.first_air_date || data.release_date}
                   type={tvType || data.media_type}
                 />
-                {cardClicked && modalData && (
-                  <MovieDetailModal
-                    modalPosterPath={modalData.poster_path}
-                    movieTitle={modalData.name || modalData.title}
-                    overview={modalData.overview}
-                    tagline={modalData.tagline}
-                    videosInfoList={modalData.videos.results}
-                    year={
-                      modalData.release_date
-                        ? modalData.release_date.slice(0, 4)
-                        : ""
-                    }
-                    castData={modalData.credits.cast}
-                  />
-                )}
-              </>
-            );
-          })}
-        </div>
-        <div className="pagination-container">
-          <button
-            onClick={goToPrevPage}
-            className={`prev ${currentPage === 1 ? "disabled" : ""}`}
-          >
-            prev
-          </button>
-
-          {getPaginationGroup().map((item, index) => (
-            <button
-              key={index}
-              onClick={changePage}
-              className={`paginationItem ${
-                currentPage === item ? "active" : null
-              }`}
-            >
-              <span>{item}</span>
-            </button>
-          ))}
-
-          <button
-            onClick={goToNextPage}
-            className={`next ${currentPage === pages ? "disabled" : ""}`}
-          >
-            next
-          </button>
-        </div>
+              )}
+              {cardClicked && modalData && (
+                <MovieDetailModal
+                  key={modalData.id}
+                  modalPosterPath={modalData.poster_path}
+                  movieTitle={modalData.name || modalData.title}
+                  overview={modalData.overview}
+                  tagline={modalData.tagline}
+                  videosInfoList={modalData.videos.results}
+                  year={
+                    modalData.release_date
+                      ? modalData.release_date.slice(0, 4)
+                      : ""
+                  }
+                  castData={modalData.credits.cast}
+                />
+              )}
+            </>
+          );
+        })}
       </div>
-    );
-  }
+      <div className="pagination-container">
+        <button
+          onClick={goToPrevPage}
+          className={`prev ${currentPage === 1 ? "disabled" : ""}`}
+        >
+          prev
+        </button>
+
+        {getPaginationGroup().map((item, index) => (
+          <button
+            key={index}
+            onClick={changePage}
+            className={`paginationItem ${
+              currentPage === item ? "active" : null
+            }`}
+          >
+            <span>{item}</span>
+          </button>
+        ))}
+
+        <button
+          onClick={goToNextPage}
+          className={`next ${currentPage === pages ? "disabled" : ""}`}
+        >
+          next
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default PaginatedDisplay;

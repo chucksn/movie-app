@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CastCard from "./castCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
@@ -18,15 +18,16 @@ function MovieDetailModal({
   const dispatch = useDispatch();
   const modalRef = useRef();
   const modalContentRef = useRef();
-
+  const trailerBtnClicked = useSelector((state) => state.trailerBtnClicked);
   const [tooltipVisibility, setTooltipVisibility] = useState(false);
   const [clickedCard, setClickedCard] = useState(null);
-  const [trailerBtnClicked, setTrailerBtnClicked] = useState(false);
 
   const videoInfo = videosInfoList.filter((videoInfo) => {
     return (
       videoInfo.name === "Official Trailer" ||
+      videoInfo.name === "Official Trailer 2" ||
       videoInfo.name === "official trailer" ||
+      videoInfo.name === "official trailer 2" ||
       videoInfo.name === "trailer" ||
       videoInfo.name === "Trailer"
     );
@@ -80,7 +81,7 @@ function MovieDetailModal({
   };
 
   const handleTrailerBtn = () => {
-    setTrailerBtnClicked(true);
+    dispatch({ type: "TRAILER_BTN_CLICKED" });
   };
 
   return (
@@ -161,12 +162,7 @@ function MovieDetailModal({
           </div>
         </div>
       </div>
-      {trailerBtnClicked && videoPath && (
-        <VideoWindow
-          videoUrl={videoPath}
-          setTrailerBtn={setTrailerBtnClicked}
-        />
-      )}
+      {trailerBtnClicked && videoPath && <VideoWindow videoUrl={videoPath} />}
     </>
   );
 }

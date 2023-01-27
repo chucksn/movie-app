@@ -1,10 +1,16 @@
-import { currentPageReducer } from "./currentPageReducer";
-import { searchInfoReducer } from "./searchInfoReducer";
-import { returnedPageReducer } from "./returnedPageReducer";
-import { searchToggleReducer } from "./searchToggleReducer";
+import {
+  currentPageReducer,
+  searchInfoReducer,
+  returnedPageReducer,
+  searchToggleReducer,
+  cardClickedReducer,
+  modalDataReducer,
+  mainSlideVideoListReducer,
+  mainSlideCardClickedReducer,
+  trailerBtnClickedReducer,
+} from "./reducers";
+
 import { combineReducers } from "redux";
-import { cardClickedReducer } from "./cardClickedreducer";
-import { modalDataReducer } from "./modalDataReducer";
 
 export const rootReducer = combineReducers({
   currentPg: currentPageReducer,
@@ -13,4 +19,7 @@ export const rootReducer = combineReducers({
   toggle: searchToggleReducer,
   cardClicked: cardClickedReducer,
   modalData: modalDataReducer,
+  mainSlideVideoList: mainSlideVideoListReducer,
+  mainSlideCardClicked: mainSlideCardClickedReducer,
+  trailerBtnClicked: trailerBtnClickedReducer,
 });

@@ -34,7 +34,7 @@ body {
   right: 0;
   left: 0;
   box-shadow: 0 1px 4px rgb(44, 44, 44);
-  z-index: 1;
+  z-index: 5;
   width: 100%;
 }
 
@@ -127,10 +127,9 @@ body {
 }
 
 .tv-header {
-  color: white;
+  color: yellowgreen;
   text-align: center;
   display: block;
-  font-size: 2rem;
   font-weight: 200;
   margin-top: 0.5rem;
   font-family: "Roboto Mono", monospace;
@@ -158,7 +157,7 @@ body {
 
 /* Home page */
 .main-slide-card {
-  background-color: black;
+  background-color: rgb(5, 5, 5);
   padding: 1rem 0;
   display: flex;
   flex-direction: column;
@@ -180,26 +179,59 @@ body {
 }
 
 .home-main {
-  width: 90%;
+  width: 100%;
   flex-direction: column;
-  background-color: black;
+  background-color: rgb(5, 5, 5);
   margin: auto;
 }
 
 .main-slide-ctn {
-  width: 65%;
+  position: relative;
 }
 
 .next-slide-ctn {
-  width: 35%;
-  padding: 0.6rem;
-  display: flex;
-  flex-direction: column;
+  padding: 1.5rem;
 }
 
-.fa-circle-play {
-  font-size: 3rem;
-  margin-right: 2rem;
+.fa-caret-right,
+.fa-caret-left {
+  display: none;
+  position: absolute;
+}
+
+.fa-caret-right,
+.fa-caret-left,
+.fa-angle-right,
+.fa-angle-left,
+.fa-chevron-right,
+.fa-chevron-left {
+  color: rgb(202, 202, 202);
+  font-size: 2rem;
+  z-index: 2;
+  background-color: rgba(0, 9, 0, 0.4);
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+.fa-angle-right,
+.fa-angle-left,
+.fa-chevron-right,
+.fa-chevron-left {
+  margin: 1rem;
+}
+
+.fa-caret-right {
+  right: 0;
+  top: 50%;
+  margin-right: 0.5rem;
+}
+
+.fa-caret-left {
+  left: 0;
+  top: 50%;
+  margin-left: 0.5rem;
 }
 
 .up-next-txt {
@@ -207,12 +239,14 @@ body {
   font-family: "Roboto Mono", monospace;
   font-size: 1.2rem;
   font-weight: 600;
+  padding-left: 0.9rem;
 }
 
 .next-slide-swiper-ctn {
-  margin-top: 1rem;
-  background-color: rgb(20, 20, 20);
   padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.6rem;
 }
 
 .main-slide-detail {
@@ -222,7 +256,7 @@ body {
   left: 50%;
   transform: translate(-50%, -100%);
   width: 100.05%;
-  background: linear-gradient(to top, black 80%, transparent 100%);
+  background: linear-gradient(to top, rgb(5, 5, 5) 80%, transparent 100%);
   padding-top: 0.6rem;
 }
 
@@ -230,21 +264,20 @@ body {
   display: flex;
   flex-direction: column;
   text-align: center;
-  line-height: 1.8rem;
 }
 
 .main-slide-title {
   color: rgb(2, 207, 207);
   font-family: "Roboto Mono", monospace;
   font-weight: 400;
-  font-size: 1.6rem;
 }
 
 .next-slide-card {
   display: flex;
   color: white;
   align-items: center;
-  cursor: pointer;
+  box-shadow: 0 0 3px black;
+  background-color: rgb(20, 20, 20);
 }
 
 .next-slide-details {
@@ -253,7 +286,17 @@ body {
   padding-left: 1rem;
   line-height: 1.6rem;
   font-weight: 400;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
+}
+
+.trending-ctn {
+  margin: 2rem 0;
+}
+
+.trending-inner-ctn,
+.top-rated-inner-ctn {
+  display: flex;
+  align-items: center;
 }
 
 /* Movie Card */
@@ -272,7 +315,7 @@ body {
 }
 
 .card:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .poster-container {
@@ -432,7 +475,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.08);
-  z-index: 1;
+  z-index: 6;
   padding-top: 2rem;
   overflow-y: auto;
 }
@@ -441,7 +484,6 @@ body {
   width: 70%;
   background-color: rgb(26, 26, 26);
   padding: 0.5rem;
-  margin: auto;
   box-shadow: 0 0 6px rgb(1, 202, 202);
   border-radius: 0.5rem;
 }
@@ -551,6 +593,7 @@ body {
   padding: 0.5rem;
   border-radius: 0.5rem;
   width: 100%;
+  cursor: pointer;
 }
 
 .play-trailer-btn:hover {
@@ -571,7 +614,7 @@ body {
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 2;
+  z-index: 7;
   width: 100%;
   height: 100%;
 }
@@ -664,6 +707,10 @@ iframe {
     font-size: 1.2rem;
   }
 
+  .modal-content {
+    margin: 2rem auto;
+  }
+
   .overview {
     max-height: 7rem;
     font-size: 0.8rem;
@@ -675,6 +722,44 @@ iframe {
 
   .cast-name {
     font-size: 0.6rem;
+  }
+
+  .next-slide-ctn {
+    display: none;
+  }
+
+  .main-slide-ctn {
+    width: 100%;
+  }
+
+  .main-slide-title {
+    font-size: 1rem;
+  }
+
+  .main-slide-info {
+    font-size: 0.8rem;
+    line-height: 1rem;
+  }
+
+  .fa-circle-play {
+    font-size: 2rem;
+    margin-right: 1rem;
+  }
+
+  .tv-header {
+    font-size: 1.5rem;
+  }
+
+  .trending-ctn,
+  .top-rated-ctn {
+    padding: 0 2rem;
+  }
+
+  .fa-angle-right,
+  .fa-angle-left,
+  .fa-chevron-right,
+  .fa-chevron-left {
+    display: none;
   }
 
   /* Swiper */
@@ -732,11 +817,49 @@ iframe {
     max-width: 50%;
   }
 
+  .modal-content {
+    margin: 2rem auto;
+  }
+
   .overview {
     max-height: 7rem;
   }
 
   .title-date-ctn {
+    display: none;
+  }
+
+  .next-slide-ctn {
+    display: none;
+  }
+
+  .main-slide-ctn {
+    width: 100%;
+  }
+
+  .main-slide-title {
+    font-size: 1.1rem;
+  }
+
+  .main-slide-info {
+    font-size: 1rem;
+    line-height: 1.2rem;
+  }
+
+  .fa-circle-play {
+    font-size: 2rem;
+    margin-right: 1.5rem;
+  }
+
+  .trending-ctn,
+  .top-rated-ctn {
+    padding: 0 3rem;
+  }
+
+  .fa-angle-right,
+  .fa-angle-left,
+  .fa-chevron-right,
+  .fa-chevron-left {
     display: none;
   }
 }
@@ -760,6 +883,10 @@ iframe {
     font-size: 2rem;
   }
 
+  .modal-content {
+    margin: 8rem auto;
+  }
+
   .tagline,
   .modal-date {
     font-size: 1.3rem;
@@ -775,6 +902,36 @@ iframe {
 
   .video-window {
     padding-top: 0;
+  }
+
+  .main-slide-title {
+    font-size: 1.5rem;
+  }
+
+  .main-slide-info {
+    font-size: 1rem;
+    line-height: 1.8rem;
+  }
+
+  .fa-circle-play {
+    font-size: 3rem;
+    margin-right: 2rem;
+  }
+
+  .tv-header {
+    font-size: 1.8rem;
+  }
+
+  .trending-ctn,
+  .top-rated-ctn {
+    padding: 0;
+  }
+
+  .fa-angle-right,
+  .fa-angle-left,
+  .fa-chevron-right,
+  .fa-chevron-left {
+    display: block;
   }
 }
 
@@ -831,6 +988,24 @@ iframe {
   .modal-poster {
     max-width: 100%;
   }
+
+  .modal-content {
+    margin: 5rem auto;
+  }
+
+  .next-slide-poster {
+    max-width: 4rem;
+  }
+
+  .next-slide-ctn {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-slide-ctn {
+    width: 65%;
+  }
 }
 
 @media screen and (min-width: 1200px) {
@@ -865,5 +1040,9 @@ iframe {
 
   .details-ctn {
     width: 60%;
+  }
+
+  .next-slide-poster {
+    max-width: 5.75rem;
   }
 }

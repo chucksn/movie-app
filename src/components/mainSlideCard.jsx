@@ -4,15 +4,26 @@ export const NextSlideCard = () => {
   return <div className="next-slide-card"></div>;
 };
 
-function MainSlideCard({ posterImgPath, title, type, year }) {
+function MainSlideCard({
+  posterImgPath,
+  title,
+  year,
+  leftNavRef,
+  rightNavRef,
+  onClick,
+}) {
   const playBtnRef = useRef();
 
   const handleMouseEnter = () => {
     playBtnRef.current.style.color = "orange";
+    leftNavRef.current.style.display = "block";
+    rightNavRef.current.style.display = "block";
   };
 
   const handleMouseLeave = () => {
     playBtnRef.current.style.color = "unset";
+    leftNavRef.current.style.display = "none";
+    rightNavRef.current.style.display = "none";
   };
 
   let image =
@@ -24,6 +35,7 @@ function MainSlideCard({ posterImgPath, title, type, year }) {
     <div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={onClick}
       className="main-slide-card"
     >
       <img className="main-slide-image" src={image} alt="movie" />
@@ -34,7 +46,7 @@ function MainSlideCard({ posterImgPath, title, type, year }) {
         <div className="main-slide-info">
           <span className="main-slide-title">{title}</span>
           <span style={{ color: "gray" }} className="main-slide-year">
-            {type} {year}
+            {year}
           </span>
           <span>Watch The Trailer</span>
         </div>
