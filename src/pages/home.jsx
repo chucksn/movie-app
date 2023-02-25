@@ -7,6 +7,7 @@ import NextSlideCard from "../components/nextSlideCard";
 import PosterCard from "../components/posterCard";
 import { useDispatch, useSelector } from "react-redux";
 import VideoWindow from "../components/videoWindow";
+import MovieDetailModal from "../components/modal";
 
 function Home() {
   const [nowPlayingList, setNowPlayingList] = useState(null);
@@ -20,6 +21,8 @@ function Home() {
   const dispatch = useDispatch();
   const mainSlideVideoList = useSelector((state) => state.mainSlideVideoList);
   const mainSlideClicked = useSelector((state) => state.mainSlideCardClicked);
+  const cardClicked = useSelector((state) => state.cardClicked);
+  const modalData = useSelector((state) => state.modalData);
 
   const videoInfo =
     mainSlideClicked &&
@@ -99,8 +102,19 @@ function Home() {
     dispatch({
       type: "MAIN_SLIDE_CARD_CLICKED",
     });
-    leftNavRef.current.style.display = "none";
-    rightNavRef.current.style.display = "none";
+  };
+
+  const handleCardClick = async (tvType, id) => {
+    dispatch({ type: "CARD_CLICKED" });
+
+    let res = await fetch(
+      `https://api.themoviedb.org/3/${tvType}/${id}?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US&append_to_response=videos,credits`
+    );
+    let fetchedModalData = await res.json();
+    dispatch({
+      type: "UPDATE_MODAL_DATA",
+      payload: fetchedModalData,
+    });
   };
 
   const swiperStyle = {
@@ -108,186 +122,227 @@ function Home() {
     justifyContent: "center",
   };
 
+  const emptyOutletStyle = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "teal",
+    fontSize: "5rem",
+  };
+
   return (
-    <div className="outlet-bg">
-      <div className="home-main">
-        <span className="tv-header">Now Playing</span>
-        <div className="home-slideshow">
-          <div className="main-slide-ctn">
-            {nowPlayingList && (
-              <>
-                <i
-                  onMouseEnter={handleNav}
-                  ref={rightNavRef}
-                  className="fa-solid fa-caret-right"
-                ></i>
-                <i
-                  onMouseEnter={handleNav}
-                  ref={leftNavRef}
-                  className="fa-solid fa-caret-left"
-                ></i>
-                <Swiper
-                  onSlideChange={handleSlideChange}
-                  spaceBetween={0}
-                  centeredSlides={true}
-                  navigation={{
-                    nextEl: ".fa-caret-right",
-                    prevEl: ".fa-caret-left",
-                  }}
-                  loop={true}
-                  autoplay={{
-                    delay: 3000,
-                    disableOnInteraction: true,
-                  }}
-                  modules={[Autoplay, Navigation]}
-                  className="mySwiper"
-                >
-                  {nowPlayingList.map((data) => (
-                    <SwiperSlide>
-                      <MainSlideCard
-                        onClick={() => handleClickMainSlide(data.id)}
-                        key={data.id}
-                        posterImgPath={data.backdrop_path}
-                        title={data.title}
-                        year={data.release_date}
-                        leftNavRef={leftNavRef}
-                        rightNavRef={rightNavRef}
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-                {videoPath && mainSlideClicked && (
-                  <VideoWindow videoUrl={videoPath} />
+    <>
+      {!nowPlayingList && !trendingList && !topRatedList && (
+        <div style={emptyOutletStyle} className="outlet-bg-empty-search">
+          <i className="fa-solid fa-circle-notch fa-spin"></i>
+        </div>
+      )}
+
+      {nowPlayingList && trendingList && topRatedList && (
+        <div className="outlet-bg">
+          <div className="home-main">
+            <span className="tv-header">Now Playing</span>
+            <div className="home-slideshow">
+              <div className="main-slide-ctn">
+                {nowPlayingList && (
+                  <>
+                    <i
+                      onMouseEnter={handleNav}
+                      ref={rightNavRef}
+                      className="fa-solid fa-caret-right"
+                    ></i>
+                    <i
+                      onMouseEnter={handleNav}
+                      ref={leftNavRef}
+                      className="fa-solid fa-caret-left"
+                    ></i>
+                    <Swiper
+                      onSlideChange={handleSlideChange}
+                      spaceBetween={30}
+                      centeredSlides={true}
+                      navigation={{
+                        nextEl: ".fa-caret-right",
+                        prevEl: ".fa-caret-left",
+                      }}
+                      loop={true}
+                      autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: true,
+                      }}
+                      modules={[Autoplay, Navigation]}
+                      className="mySwiper"
+                    >
+                      {nowPlayingList.map((data) => (
+                        <SwiperSlide>
+                          <MainSlideCard
+                            onClick={() => handleClickMainSlide(data.id)}
+                            key={data.id}
+                            posterImgPath={data.backdrop_path}
+                            title={data.title}
+                            year={data.release_date}
+                            leftNavRef={leftNavRef}
+                            rightNavRef={rightNavRef}
+                          />
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                    {videoPath && mainSlideClicked && (
+                      <VideoWindow videoUrl={videoPath} />
+                    )}
+                  </>
                 )}
-              </>
-            )}
+              </div>
+              <div className="next-slide-ctn">
+                <span className="up-next-txt">UP NEXT</span>
+                <div className="next-slide-swiper-ctn">
+                  {nowPlayingList && (
+                    <>
+                      {nextSlideList.map((data, index) => (
+                        <NextSlideCard
+                          posterImgPath={data.poster_path}
+                          key={index}
+                          title={data.title}
+                          year={data.release_date}
+                        />
+                      ))}
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="next-slide-ctn">
-            <span className="up-next-txt">UP NEXT</span>
-            <div className="next-slide-swiper-ctn">
-              {nowPlayingList && (
+          <div className="trending-ctn">
+            <span style={{ marginBottom: "1rem" }} className="tv-header">
+              TRENDING
+            </span>
+            <div className="trending-inner-ctn">
+              {trendingList && (
                 <>
-                  {nextSlideList.map((data, index) => (
-                    <NextSlideCard
-                      posterImgPath={data.poster_path}
-                      key={index}
-                      title={data.title}
-                      year={data.release_date}
-                    />
-                  ))}
+                  <i className="fa-solid fa-chevron-left"></i>
+                  <Swiper
+                    spaceBetween={30}
+                    navigation={{
+                      nextEl: ".fa-chevron-right",
+                      prevEl: ".fa-chevron-left",
+                    }}
+                    breakpoints={{
+                      360: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                      },
+                      640: {
+                        slidesPerView: 3,
+                      },
+                      1024: {
+                        slidesPerView: 4,
+                      },
+                      1200: {
+                        slidesPerView: 5,
+                      },
+                      1440: {
+                        slidesPerView: 6,
+                      },
+                      1800: {
+                        slidesPerView: 7,
+                      },
+                    }}
+                    modules={[Navigation]}
+                  >
+                    {trendingList.map((data) => (
+                      <SwiperSlide style={swiperStyle}>
+                        <PosterCard
+                          onClick={() =>
+                            handleCardClick(data.media_type, data.id)
+                          }
+                          key={data.id}
+                          posterImgPath={data.poster_path}
+                          date={data.release_date || data.first_air_date}
+                          rating={data.vote_average}
+                          title={data.title || data.name}
+                          type={data.media_type}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                  <i className="fa-solid fa-chevron-right"></i>
                 </>
               )}
             </div>
           </div>
-        </div>
-      </div>
-      <div className="trending-ctn">
-        <span style={{ marginBottom: "1rem" }} className="tv-header">
-          TRENDING
-        </span>
-        <div className="trending-inner-ctn">
-          {trendingList && (
-            <>
-              <i className="fa-solid fa-chevron-left"></i>
-              <Swiper
-                spaceBetween={50}
-                navigation={{
-                  nextEl: ".fa-chevron-right",
-                  prevEl: ".fa-chevron-left",
-                }}
-                breakpoints={{
-                  320: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
-                  },
-                  640: {
-                    slidesPerView: 3,
-                  },
-                  1024: {
-                    slidesPerView: 4,
-                  },
-                  1200: {
-                    slidesPerView: 5,
-                  },
-                  1800: {
-                    slidesPerView: 7,
-                  },
-                }}
-                modules={[Navigation]}
-              >
-                {trendingList.map((data) => (
-                  <SwiperSlide style={swiperStyle}>
-                    <PosterCard
-                      key={data.id}
-                      posterImgPath={data.poster_path}
-                      date={data.release_date || data.first_air_date}
-                      rating={data.vote_average}
-                      title={data.title || data.name}
-                      type={data.media_type}
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-              <i className="fa-solid fa-chevron-right"></i>
-            </>
+          <div className="top-rated-ctn">
+            <span style={{ marginBottom: "1rem" }} className="tv-header">
+              TOP RATED
+            </span>
+            <div className="top-rated-inner-ctn">
+              {topRatedList && (
+                <>
+                  <i className="fa-solid fa-angle-left"></i>
+                  <Swiper
+                    spaceBetween={30}
+                    navigation={{
+                      nextEl: ".fa-angle-right",
+                      prevEl: ".fa-angle-left",
+                    }}
+                    breakpoints={{
+                      360: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                      },
+                      640: {
+                        slidesPerView: 3,
+                      },
+                      1024: {
+                        slidesPerView: 4,
+                        navigation: true,
+                      },
+                      1200: {
+                        slidesPerView: 5,
+                      },
+                      1440: {
+                        slidesPerView: 6,
+                      },
+                      1800: {
+                        slidesPerView: 7,
+                      },
+                    }}
+                    modules={[Navigation]}
+                  >
+                    {topRatedList.map((data) => (
+                      <SwiperSlide style={swiperStyle}>
+                        <PosterCard
+                          onClick={() => handleCardClick("movie", data.id)}
+                          key={data.id}
+                          posterImgPath={data.poster_path}
+                          date={data.release_date || data.first_air_date}
+                          rating={data.vote_average}
+                          title={data.title || data.name}
+                          type={data.media_type}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                  <i className="fa-solid fa-angle-right"></i>
+                </>
+              )}
+            </div>
+          </div>
+          {cardClicked && modalData && (
+            <MovieDetailModal
+              castData={modalData.credits.cast}
+              modalPosterPath={modalData.poster_path}
+              movieTitle={modalData.name || modalData.title}
+              overview={modalData.overview}
+              tagline={modalData.tagline}
+              videosInfoList={modalData.videos.results}
+              year={
+                modalData.release_date ? modalData.release_date.slice(0, 4) : ""
+              }
+              key={modalData.id}
+            />
           )}
         </div>
-      </div>
-      <div className="top-rated-ctn">
-        <span style={{ marginBottom: "1rem" }} className="tv-header">
-          TOP RATED
-        </span>
-        <div className="top-rated-inner-ctn">
-          {topRatedList && (
-            <>
-              <i className="fa-solid fa-angle-left"></i>
-              <Swiper
-                spaceBetween={50}
-                navigation={{
-                  nextEl: ".fa-angle-right",
-                  prevEl: ".fa-angle-left",
-                }}
-                breakpoints={{
-                  320: {
-                    slidesPerView: 2,
-                    navigation: false,
-                    spaceBetween: 20,
-                  },
-                  640: {
-                    slidesPerView: 3,
-                  },
-                  1024: {
-                    slidesPerView: 4,
-                    navigation: true,
-                  },
-                  1200: {
-                    slidesPerView: 5,
-                  },
-                  1800: {
-                    slidesPerView: 7,
-                  },
-                }}
-                modules={[Navigation]}
-              >
-                {topRatedList.map((data) => (
-                  <SwiperSlide style={swiperStyle}>
-                    <PosterCard
-                      key={data.id}
-                      posterImgPath={data.poster_path}
-                      date={data.release_date || data.first_air_date}
-                      rating={data.vote_average}
-                      title={data.title || data.name}
-                      type={data.media_type}
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-              <i className="fa-solid fa-angle-right"></i>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

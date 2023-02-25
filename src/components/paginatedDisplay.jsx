@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import PosterCard from "./posterCard";
 import { PageContextTv } from "../pages/tvSeries";
 import { PageContextMovie } from "../pages/movies";
@@ -13,16 +13,18 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
   const searchCurrentPg = useSelector((state) => state.currentPg);
   const toggleState = useSelector((state) => state.toggle);
   const modalData = useSelector((state) => state.modalData);
-
   const cardClicked = useSelector((state) => state.cardClicked);
+  const [clickedCardIndex, setClickedCardIndex] = useState(null);
 
-  const handleCardClick = async (id) => {
+  const handleCardClick = async (index, id) => {
     dispatch({ type: "CARD_CLICKED" });
+    setClickedCardIndex(index);
 
     let res = await fetch(
       `https://api.themoviedb.org/3/${tvType}/${id}?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US&append_to_response=videos,credits`
     );
     let fetchedModalData = await res.json();
+
     dispatch({
       type: "UPDATE_MODAL_DATA",
       payload: fetchedModalData,
@@ -87,12 +89,12 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
   return (
     <div className="card-pagination-container">
       <div className="card-container">
-        {movieData.map((data) => {
+        {movieData.map((data, index) => {
           return (
             <>
               {movieData && (
                 <PosterCard
-                  onClick={() => handleCardClick(data.id)}
+                  onClick={() => handleCardClick(index, data.id)}
                   key={data.id}
                   posterImgPath={data.poster_path}
                   rating={data.vote_average}
@@ -101,7 +103,7 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
                   type={tvType || data.media_type}
                 />
               )}
-              {cardClicked && modalData && (
+              {cardClicked && modalData && clickedCardIndex === index && (
                 <MovieDetailModal
                   key={modalData.id}
                   modalPosterPath={modalData.poster_path}

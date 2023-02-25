@@ -3,9 +3,6 @@ function Footer() {
   return (
     <div className="footer">
       <div className="footer-links">
-        <a href="https://github.com/chucksn" rel="noreferrer" target="_blank">
-          <i className="fa-brands fa-github"></i>
-        </a>
         <a
           href="https://twitter.com/chuckfugee?t=fDFd4mEuIOOvFJLhSXnFNA&s=09"
           rel="noreferrer"
@@ -13,12 +10,16 @@ function Footer() {
         >
           <i className="fa-brands fa-twitter"></i>
         </a>
+
         <a
           href="https://www.tiktok.com/@chuckx892?_t=8YbFb8cvrSI&_r=1"
           rel="noreferrer"
           target="_blank"
         >
           <i className="fa-brands fa-tiktok"></i>
+        </a>
+        <a href="#facebook" rel="noreferrer" target="_blank">
+          <i className="fa-brands fa-facebook"></i>
         </a>
       </div>
       <div className="footer-text">

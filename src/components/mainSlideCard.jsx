@@ -1,9 +1,5 @@
 import { useRef } from "react";
 
-export const NextSlideCard = () => {
-  return <div className="next-slide-card"></div>;
-};
-
 function MainSlideCard({
   posterImgPath,
   title,
@@ -21,7 +17,7 @@ function MainSlideCard({
   };
 
   const handleMouseLeave = () => {
-    playBtnRef.current.style.color = "unset";
+    playBtnRef.current.style.color = "rgba(255, 255, 255, 0.4)";
     leftNavRef.current.style.display = "none";
     rightNavRef.current.style.display = "none";
   };
@@ -41,7 +37,7 @@ function MainSlideCard({
       <img className="main-slide-image" src={image} alt="movie" />
 
       <div className="main-slide-detail">
-        <i ref={playBtnRef} className="fa-regular fa-circle-play"></i>
+        <i ref={playBtnRef} className="fa-solid fa-circle-play"></i>
 
         <div className="main-slide-info">
           <span className="main-slide-title">{title}</span>

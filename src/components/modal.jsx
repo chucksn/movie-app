@@ -22,18 +22,13 @@ function MovieDetailModal({
   const [tooltipVisibility, setTooltipVisibility] = useState(false);
   const [clickedCard, setClickedCard] = useState(null);
 
-  const videoInfo = videosInfoList.filter((videoInfo) => {
-    return (
-      videoInfo.name === "Official Trailer" ||
-      videoInfo.name === "Official Trailer 2" ||
-      videoInfo.name === "official trailer" ||
-      videoInfo.name === "official trailer 2" ||
-      videoInfo.name === "trailer" ||
-      videoInfo.name === "Trailer"
-    );
-  });
+  const videoInfo =
+    trailerBtnClicked &&
+    videosInfoList.filter((videoInfo) => {
+      return videoInfo.type === "Trailer";
+    });
 
-  const youtubeKey = videoInfo.length !== 0 ? videoInfo[0].key : null;
+  const youtubeKey = videoInfo.length > 0 ? videoInfo[0].key : null;
 
   const videoPath = youtubeKey
     ? `https://www.youtube.com/embed/${youtubeKey}?&autoplay=1`
@@ -149,7 +144,7 @@ function MovieDetailModal({
                     <i className="fa-solid fa-circle-chevron-right"></i>
                   </div>
                 </div>
-                {videoInfo.length !== 0 && (
+                {videosInfoList.length > 0 && (
                   <button
                     className="play-trailer-btn"
                     onClick={handleTrailerBtn}
