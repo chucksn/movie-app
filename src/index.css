@@ -42,19 +42,25 @@ body {
   font-size: 2rem;
   font-family: "Prosto One", cursive;
   font-weight: 700;
+  padding: 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 6px rgb(182, 148, 61);
+  background-color: rgb(19, 0, 19);
 }
 
 .logo-title > a {
   text-decoration: none;
+  text-shadow: 0 0 1px rgb(182, 148, 61);
 }
 
 .title {
   margin-left: 0.5rem;
-  color: rgb(116, 104, 65);
+  color: rgb(170, 152, 94);
+  text-shadow: 0 0 1px rgb(182, 148, 61);
 }
 
 .fa-clapperboard {
-  color: rgb(116, 104, 65);
+  color: rgb(170, 152, 94);
 }
 
 .nav-link > a {
@@ -87,6 +93,14 @@ body {
 .fa-magnifying-glass:hover {
   cursor: pointer;
   color: lightgrey;
+}
+
+.menu-container {
+  color: white;
+  position: fixed;
+  top: 4rem;
+  right: 1rem;
+  font-size: 1.8rem;
 }
 
 /* Footer */
@@ -296,6 +310,40 @@ body {
 
 .trending-ctn {
   margin: 2rem 0;
+}
+
+.select-toggle-ctn {
+  color: green;
+  cursor: pointer;
+}
+
+.select-options {
+  color: rgb(192, 192, 192);
+  position: absolute;
+  left: 55%;
+  font-size: 1.1rem;
+  line-height: 2rem;
+  z-index: 40;
+  color: rgb(184, 184, 184);
+  background-color: rgb(27, 27, 27);
+  padding: 0.5rem;
+  border-radius: 0.6rem;
+}
+
+.today,
+.this-week,
+.select-options {
+  display: block;
+}
+
+.today,
+.this-week {
+  cursor: pointer;
+}
+
+.today:hover,
+.this-week:hover {
+  color: yellow;
 }
 
 .trending-inner-ctn,
@@ -638,16 +686,28 @@ iframe {
 
 @media screen and (max-width: 480px) {
   .outlet-bg {
-    padding: 7rem 0.5rem 2rem 0.5rem;
+    padding: 9rem 0.5rem 2rem 0.5rem;
   }
 
   .nav-bar {
     flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
     padding: 1rem;
   }
 
   .nav-link {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 8rem;
+  }
+
+  .nav-link.visible {
+    display: flex;
+  }
+
+  .nav-link.hidden {
     display: none;
   }
 
@@ -760,6 +820,10 @@ iframe {
     padding: 0 2rem;
   }
 
+  .logo-title {
+    margin-bottom: 1rem;
+  }
+
   .fa-angle-right,
   .fa-angle-left,
   .fa-chevron-right,
@@ -785,7 +849,7 @@ iframe {
 
 @media screen and (min-width: 481px) {
   .outlet-bg {
-    padding: 9.5rem 1rem 2rem 1rem;
+    padding: 10.5rem 1rem 2rem 1rem;
   }
 
   .nav-bar {
@@ -798,6 +862,10 @@ iframe {
     width: 100%;
     justify-content: center;
     margin-bottom: 1rem;
+  }
+
+  .menu-container {
+    display: none;
   }
 
   .modal-title {
@@ -871,11 +939,14 @@ iframe {
   .fa-chevron-left {
     display: none;
   }
+  .logo-title {
+    margin-bottom: 1rem;
+  }
 }
 
 @media screen and (min-width: 768px) {
   .outlet-bg {
-    padding: 9.5rem 1.8rem 2rem 1.8rem;
+    padding: 11rem 1.8rem 2rem 1.8rem;
   }
 
   .card {
@@ -946,7 +1017,7 @@ iframe {
 
 @media screen and (min-width: 1024px) {
   .outlet-bg {
-    padding: 6rem 0.5rem 2rem 0.5rem;
+    padding: 6.5rem 0.5rem 2rem 0.5rem;
   }
 
   .nav-bar {
@@ -1014,6 +1085,10 @@ iframe {
 
   .main-slide-ctn {
     width: 65%;
+  }
+
+  .logo-title {
+    margin-bottom: 0;
   }
 }
 

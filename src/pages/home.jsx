@@ -13,7 +13,8 @@ function Home() {
   const [nowPlayingList, setNowPlayingList] = useState(null);
   const [trendingList, setTrendingList] = useState(null);
   const [topRatedList, setTopRatedList] = useState(null);
-  const [trendingTimeWindow, setTrendingTimeWindow] = useState("day");
+  const [trendingPeriod, setTrendingPeriod] = useState("day");
+  const [selectOpened, setOpenStatus] = useState(false);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [nextSlideList, setNextSlideList] = useState([]);
   const leftNavRef = useRef();
@@ -43,31 +44,31 @@ function Home() {
       );
       let data = await response.json();
       setNowPlayingList(data.results);
-      setNextSlideList(
-        data.results.slice(currentSlideIndex + 1, currentSlideIndex + 4)
-      );
     };
 
     getNowPlaying();
   }, []);
 
   useEffect(() => {
-    nowPlayingList &&
-      setNextSlideList(
-        nowPlayingList.slice(currentSlideIndex + 1, currentSlideIndex + 4)
-      );
-  }, [currentSlideIndex]);
+    if (nowPlayingList && nowPlayingList.length > 0) {
+      const reorderedList = [
+        ...nowPlayingList.slice(currentSlideIndex + 1),
+        ...nowPlayingList.slice(0, currentSlideIndex + 1),
+      ];
+      setNextSlideList(reorderedList.slice(0, 3));
+    }
+  }, [currentSlideIndex, nowPlayingList]);
 
   useEffect(() => {
     const getTrending = async () => {
       let response = await fetch(
-        `https://api.themoviedb.org/3/trending/all/${trendingTimeWindow}?api_key=5267b00cdf764bc75046eff3d46be3e2`
+        `https://api.themoviedb.org/3/trending/all/${trendingPeriod}?api_key=5267b00cdf764bc75046eff3d46be3e2`
       );
       let data = await response.json();
       setTrendingList(data.results);
     };
     getTrending();
-  }, [trendingTimeWindow]);
+  }, [trendingPeriod]);
 
   useEffect(() => {
     const getTopRated = async () => {
@@ -115,6 +116,10 @@ function Home() {
       type: "UPDATE_MODAL_DATA",
       payload: fetchedModalData,
     });
+  };
+
+  const handleSelectTrending = () => {
+    setOpenStatus(!selectOpened);
   };
 
   const swiperStyle = {
@@ -212,9 +217,29 @@ function Home() {
             </div>
           </div>
           <div className="trending-ctn">
-            <span style={{ marginBottom: "1rem" }} className="tv-header">
-              TRENDING
+            <span
+              style={{ marginBottom: "1rem", position: "relative" }}
+              className="tv-header"
+            >
+              TRENDING {trendingPeriod === "day" && "TODAY"}
+              {trendingPeriod === "week" && "THIS WEEK"}{" "}
+              <span
+                className="select-toggle-ctn"
+                onClick={handleSelectTrending}
+              >
+                {!selectOpened && (
+                  <i className="closed-select fa-solid fa-chevron-down"></i>
+                )}
+                {selectOpened && (
+                  <i className="opened-select fa-solid fa-chevron-up"></i>
+                )}
+              </span>
+              <span className="select-options">
+                <span className="today">Today</span>
+                <span className="this-week">This Week</span>
+              </span>
             </span>
+
             <div className="trending-inner-ctn">
               {trendingList && (
                 <>

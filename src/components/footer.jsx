@@ -18,7 +18,7 @@ function Footer() {
         >
           <i className="fa-brands fa-tiktok"></i>
         </a>
-        <a href="#facebook" rel="noreferrer" target="_blank">
+        <a href="#facebook" rel="noreferrer" target="_self">
           <i className="fa-brands fa-facebook"></i>
         </a>
       </div>
