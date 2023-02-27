@@ -328,11 +328,11 @@ body {
   background-color: rgb(27, 27, 27);
   padding: 0.5rem;
   border-radius: 0.6rem;
+  display: none;
 }
 
 .today,
-.this-week,
-.select-options {
+.this-week {
   display: block;
 }
 

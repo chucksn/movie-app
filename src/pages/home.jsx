@@ -8,6 +8,7 @@ import PosterCard from "../components/posterCard";
 import { useDispatch, useSelector } from "react-redux";
 import VideoWindow from "../components/videoWindow";
 import MovieDetailModal from "../components/modal";
+import tailSpinLoader from "../images/tail-spin.svg";
 
 function Home() {
   const [nowPlayingList, setNowPlayingList] = useState(null);
@@ -24,6 +25,7 @@ function Home() {
   const mainSlideClicked = useSelector((state) => state.mainSlideCardClicked);
   const cardClicked = useSelector((state) => state.cardClicked);
   const modalData = useSelector((state) => state.modalData);
+  const selectRef = useRef();
 
   const videoInfo =
     mainSlideClicked &&
@@ -120,6 +122,23 @@ function Home() {
 
   const handleSelectTrending = () => {
     setOpenStatus(!selectOpened);
+    if (!selectOpened) {
+      selectRef.current.style.display = "block";
+    } else {
+      selectRef.current.style.display = "none";
+    }
+  };
+
+  const handleDayTrend = () => {
+    setTrendingPeriod("day");
+    setOpenStatus(false);
+    selectRef.current.style.display = "none";
+  };
+
+  const handleWeekTrend = () => {
+    setTrendingPeriod("week");
+    setOpenStatus(false);
+    selectRef.current.style.display = "none";
   };
 
   const swiperStyle = {
@@ -139,7 +158,7 @@ function Home() {
     <>
       {!nowPlayingList && !trendingList && !topRatedList && (
         <div style={emptyOutletStyle} className="outlet-bg-empty-search">
-          <i className="fa-solid fa-circle-notch fa-spin"></i>
+          <img src={tailSpinLoader} alt="loading" />
         </div>
       )}
 
@@ -234,9 +253,13 @@ function Home() {
                   <i className="opened-select fa-solid fa-chevron-up"></i>
                 )}
               </span>
-              <span className="select-options">
-                <span className="today">Today</span>
-                <span className="this-week">This Week</span>
+              <span className="select-options" ref={selectRef}>
+                <span className="today" onClick={handleDayTrend}>
+                  Today
+                </span>
+                <span className="this-week" onClick={handleWeekTrend}>
+                  This Week
+                </span>
               </span>
             </span>
 
