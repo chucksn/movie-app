@@ -168,6 +168,7 @@ function Home() {
             <span className="tv-header">Now Playing</span>
             <div className="home-slideshow">
               <div className="main-slide-ctn">
+                {!nowPlayingList && <img src={tailSpinLoader} alt="loading" />}
                 {nowPlayingList && (
                   <>
                     <i
