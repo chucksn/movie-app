@@ -392,6 +392,7 @@ body {
 
 .movie-title {
   text-align: center;
+  padding: 0 0.25rem;
   font-size: 0.9rem;
   font-family: "Prosto One", cursive;
 }

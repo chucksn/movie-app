@@ -46,6 +46,7 @@ function MovieDetailModal({
     modalRef.current.style.display = "none";
     dispatch({ type: "CARD_CLICK_RESET" });
     dispatch({ type: "MODAL_DATA_RESET" });
+    dispatch({ type: "TRAILER_BTN_CLICK_RESET" });
     restoreScroll();
   };
 
