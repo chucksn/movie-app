@@ -14,6 +14,7 @@ function Home() {
   const [nowPlayingList, setNowPlayingList] = useState(null);
   const [trendingList, setTrendingList] = useState(null);
   const [topRatedList, setTopRatedList] = useState(null);
+  const [pageLoadDelay, setPageLoadDelay] = useState(true);
   const [trendingPeriod, setTrendingPeriod] = useState("day");
   const [selectOpened, setOpenStatus] = useState(false);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -81,6 +82,12 @@ function Home() {
       setTopRatedList(data.results);
     };
     getTopRated();
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setPageLoadDelay(false);
+    }, 300);
   }, []);
 
   const handleSlideChange = (swiper) => {
@@ -156,13 +163,13 @@ function Home() {
 
   return (
     <>
-      {(!nowPlayingList || nowPlayingList.length < 1) && (
+      {(!nowPlayingList || pageLoadDelay) && (
         <div style={emptyOutletStyle} className="outlet-bg-empty-search">
           <img src={tailSpinLoader} alt="loading" />
         </div>
       )}
 
-      {nowPlayingList && trendingList && topRatedList && (
+      {nowPlayingList && trendingList && topRatedList && !pageLoadDelay && (
         <div className="outlet-bg">
           <div className="home-main">
             <span className="tv-header">Now Playing</span>
