@@ -1,12 +1,13 @@
 import PaginatedDisplay from "../components/paginatedDisplay";
 import { useEffect, useState, createContext } from "react";
+import tailSpinLoader from "../images/tail-spin.svg";
 
 export const PageContextTv = createContext();
 
 function TvSeries() {
   const [currentPage, setCurrentPage] = useState(1);
   const [returnedPage, setReturnedPage] = useState(1);
-  const [movieInfoList, setMovieInfoList] = useState("");
+  const [movieInfoList, setMovieInfoList] = useState(null);
 
   useEffect(() => {
     const getMovieInfo = async () => {
@@ -21,27 +22,33 @@ function TvSeries() {
     getMovieInfo();
   }, [currentPage]);
 
-  if (Object.keys(movieInfoList).length < 1)
-    return <div className="outlet-bg-empty-search"></div>;
-
   return (
-    <div className="outlet-bg">
-      <span className="tv-header">DISCOVER TV SERIES</span>
-      <PageContextTv.Provider
-        value={{
-          value1: currentPage,
-          value2: setCurrentPage,
-          value3: "tv",
-        }}
-      >
-        <PaginatedDisplay
-          movieData={movieInfoList}
-          pgNumDisplayLimit={5}
-          pages={returnedPage}
-          activePage="tv"
-        />
-      </PageContextTv.Provider>
-    </div>
+    <>
+      {(!movieInfoList || movieInfoList.length < 1) && (
+        <div className="outlet-bg-empty-search">
+          <img src={tailSpinLoader} alt="loading" />
+        </div>
+      )}
+      {movieInfoList && (
+        <div className="outlet-bg">
+          <span className="tv-header">DISCOVER TV SERIES</span>
+          <PageContextTv.Provider
+            value={{
+              value1: currentPage,
+              value2: setCurrentPage,
+              value3: "tv",
+            }}
+          >
+            <PaginatedDisplay
+              movieData={movieInfoList}
+              pgNumDisplayLimit={5}
+              pages={returnedPage}
+              activePage="tv"
+            />
+          </PageContextTv.Provider>
+        </div>
+      )}
+    </>
   );
 }
 

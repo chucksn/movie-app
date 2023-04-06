@@ -5,7 +5,7 @@ function NoPage() {
     fontWeight: "300",
   };
   return (
-    <div className="outlet-bg">
+    <div className="outlet-bg-empty-search">
       <h2 style={style}>page Not Found</h2>
     </div>
   );

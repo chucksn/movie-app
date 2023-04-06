@@ -156,7 +156,7 @@ function Home() {
 
   return (
     <>
-      {!nowPlayingList && (
+      {(!nowPlayingList || nowPlayingList.length < 1) && (
         <div style={emptyOutletStyle} className="outlet-bg-empty-search">
           <img src={tailSpinLoader} alt="loading" />
         </div>

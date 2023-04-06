@@ -21,40 +21,49 @@ function SearchResult() {
     dispatch({ type: "TV_SELECTED" });
   };
 
-  if (Object.keys(searchInfo.searchResult).length < 1)
-    return (
-      <div className="outlet-bg-empty-search">
-        <span className="tv-header">Search Result</span>
-      </div>
-    );
+  // if (Object.keys(searchInfo.searchResult).length < 1)
+  //   return (
+  //     <div className="outlet-bg-empty-search">
+  //       <span className="tv-header">Search Result</span>
+  //     </div>
+  //   );
 
   return (
-    <div className="outlet-bg">
-      <span className="tv-header">Search Result</span>
-      <div className="select-movie-tv-search">
-        <span
-          onClick={handleMovieToggle}
-          className={`select-movie ${
-            toggleState === "movie" ? "active" : null
-          }`}
-        >
-          Movie
-        </span>
-        <span
-          onClick={handleTvToggle}
-          className={`select-tv ${toggleState === "tv" ? "active" : null}`}
-        >
-          Tv Series
-        </span>
-      </div>
+    <>
+      {Object.keys(searchInfo.searchResult).length < 1 && (
+        <div className="outlet-bg-empty-search">
+          <span className="tv-header">No Search Result</span>
+        </div>
+      )}
+      {Object.keys(searchInfo.searchResult).length >= 1 && (
+        <div className="outlet-bg">
+          <span className="tv-header">Search Result</span>
+          <div className="select-movie-tv-search">
+            <span
+              onClick={handleMovieToggle}
+              className={`select-movie ${
+                toggleState === "movie" ? "active" : null
+              }`}
+            >
+              Movie
+            </span>
+            <span
+              onClick={handleTvToggle}
+              className={`select-tv ${toggleState === "tv" ? "active" : null}`}
+            >
+              Tv Series
+            </span>
+          </div>
 
-      <PaginatedDisplay
-        movieData={searchInfo.searchResult}
-        pgNumDisplayLimit={5}
-        pages={returnedPage}
-        activePage="search"
-      />
-    </div>
+          <PaginatedDisplay
+            movieData={searchInfo.searchResult}
+            pgNumDisplayLimit={5}
+            pages={returnedPage}
+            activePage="search"
+          />
+        </div>
+      )}
+    </>
   );
 }
 
