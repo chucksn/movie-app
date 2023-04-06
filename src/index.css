@@ -138,6 +138,7 @@ body {
 
 .outlet-bg-empty-search {
   padding: 13rem 2rem 2rem 2rem;
+  min-height: 100vh;
 }
 
 .tv-header {
