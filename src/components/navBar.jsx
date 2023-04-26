@@ -16,7 +16,7 @@ function NavBar() {
     setMenuToggle(false);
   };
   return (
-    <div className="nav-bar">
+    <div className="nav-bar flex items-center bg-black fixed top-0 left-0 w-full z-10 border-b border-zinc-800 flex-col flex-wrap justify-center p-4 lg:flex-row lg:justify-between lg:py-4 lg:px-5 lg:flex-nowrap">
       <div className="logo-title">
         <Link to="/">
           <i className="fa-solid fa-clapperboard"></i>
@@ -24,17 +24,29 @@ function NavBar() {
         </Link>
       </div>
       <div
-        className={`nav-link ${menuToggle ? "visible" : ""} ${
+        className={`nav-link flex items-center ${menuToggle ? "visible" : ""} ${
           linkClicked ? "hidden" : ""
         }`}
       >
-        <Link to="/" onClick={handleLinkClick}>
-          <i className="fa-solid fa-house"></i> Home
+        <Link
+          to="/"
+          onClick={handleLinkClick}
+          className="no-underline font-medium mx-8 text-zinc-400 lg:text-lg"
+        >
+          <i className="fa-solid fa-house "></i> Home
         </Link>
-        <Link to="/movies" onClick={handleLinkClick}>
+        <Link
+          to="/movies"
+          onClick={handleLinkClick}
+          className="no-underline font-medium mx-8 text-zinc-400 lg:text-lg"
+        >
           <i className="fa-solid fa-film"></i> Movies
         </Link>
-        <Link to="/tvSeries" onClick={handleLinkClick}>
+        <Link
+          to="/tvSeries"
+          onClick={handleLinkClick}
+          className="no-underline font-medium mx-8 text-zinc-400 lg:text-lg"
+        >
           <i className="fa-solid fa-tv"></i> TV Series
         </Link>
       </div>

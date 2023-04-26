@@ -25,12 +25,12 @@ function TvSeries() {
   return (
     <>
       {(!movieInfoList || movieInfoList.length < 1) && (
-        <div className="outlet-bg-empty-search">
+        <div className="outlet-bg-empty-search min-h-screen w-full bg-black/80">
           <img src={tailSpinLoader} alt="loading" />
         </div>
       )}
       {movieInfoList && (
-        <div className="outlet-bg">
+        <div className="outlet-bg min-h-screen w-full bg-black/80">
           <span className="tv-header">DISCOVER TV SERIES</span>
           <PageContextTv.Provider
             value={{

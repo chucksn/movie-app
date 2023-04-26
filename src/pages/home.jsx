@@ -164,13 +164,16 @@ function Home() {
   return (
     <>
       {(!nowPlayingList || pageLoadDelay) && (
-        <div style={emptyOutletStyle} className="outlet-bg-empty-search">
+        <div
+          style={emptyOutletStyle}
+          className="outlet-bg-empty-search  min-h-screen w-full bg-black/80"
+        >
           <img src={tailSpinLoader} alt="loading" />
         </div>
       )}
 
       {nowPlayingList && trendingList && topRatedList && !pageLoadDelay && (
-        <div className="outlet-bg">
+        <div className="outlet-bg min-h-screen w-full bg-black/80 py-40 px-2 sm:py-48 sm:px-4 md:py-48 md:px-7 lg:py-28 lg:px-2">
           <div className="home-main">
             <span className="tv-header">Now Playing</span>
             <div className="home-slideshow">

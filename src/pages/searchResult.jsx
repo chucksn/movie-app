@@ -24,12 +24,12 @@ function SearchResult() {
   return (
     <>
       {Object.keys(searchInfo.searchResult).length < 1 && (
-        <div className="outlet-bg-empty-search">
+        <div className="outlet-bg-empty-search flex justify-center items-center min-h-screen w-full bg-black/80">
           <span className="tv-header">No Search Result</span>
         </div>
       )}
       {Object.keys(searchInfo.searchResult).length >= 1 && (
-        <div className="outlet-bg">
+        <div className="outlet-bg min-h-screen w-full bg-black/80">
           <span className="tv-header">Search Result</span>
           <div className="select-movie-tv-search">
             <span
