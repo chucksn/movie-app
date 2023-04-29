@@ -196,6 +196,7 @@ function Home() {
                       delay: 3000,
                       disableOnInteraction: false,
                     }}
+                    onAutoplayPause={() => console.log("paused")}
                     modules={[Autoplay, Navigation]}
                     className="mySwiper"
                   >
