@@ -8,13 +8,12 @@ import PosterCard from "../components/posterCard";
 import { useDispatch, useSelector } from "react-redux";
 import VideoWindow from "../components/videoWindow";
 import MovieDetailModal from "../components/modal";
-import tailSpinLoader from "../images/tail-spin.svg";
+import loading from "../images/loading2.svg";
 
 function Home() {
   const [nowPlayingList, setNowPlayingList] = useState(null);
   const [trendingList, setTrendingList] = useState(null);
   const [topRatedList, setTopRatedList] = useState(null);
-  const [pageLoadDelay, setPageLoadDelay] = useState(true);
   const [trendingPeriod, setTrendingPeriod] = useState("day");
   const [selectOpened, setOpenStatus] = useState(false);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -84,12 +83,6 @@ function Home() {
     getTopRated();
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setPageLoadDelay(false);
-    }, 300);
-  }, []);
-
   const handleSlideChange = (swiper) => {
     setCurrentSlideIndex(swiper.realIndex);
   };
@@ -153,33 +146,27 @@ function Home() {
     justifyContent: "center",
   };
 
-  const emptyOutletStyle = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    color: "teal",
-    fontSize: "5rem",
-  };
-
   return (
     <>
-      {(!nowPlayingList || pageLoadDelay) && (
-        <div
-          style={emptyOutletStyle}
-          className="outlet-bg-empty-search  min-h-screen w-full bg-black/90"
-        >
-          <img src={tailSpinLoader} alt="loading" />
-        </div>
-      )}
-
-      {nowPlayingList && trendingList && topRatedList && !pageLoadDelay && (
-        <div className="outlet-bg min-h-screen w-full bg-black/90 py-40 px-2 sm:py-48 sm:px-4 md:py-48 md:px-7 lg:py-28 lg:px-2">
-          <div className="home-main flex w-full flex-col m-auto">
-            <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]">
-              Now Playing
-            </span>
-            <div className="home-slideshow flex justify-between">
-              <div className="main-slide-ctn relative w-full lg:w-[65%] lg:ml-4">
+      <div className="outlet-bg min-h-screen w-full bg-black/90 py-40 px-2 sm:py-48 sm:px-4 md:py-48 md:px-7 lg:py-28 lg:px-2">
+        <div className="home-main flex w-full flex-col m-auto">
+          <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]">
+            Now Playing
+          </span>
+          <div className="home-slideshow flex justify-between">
+            <div
+              className={`main-slide-ctn flex relative w-full lg:w-[65%] lg:ml-4 `}
+            >
+              <>
+                {!nowPlayingList && (
+                  <div className="flex justify-center items-center w-full h-[230px] md:h-[400px] lg:w-[780px] lg:h-[438.75px]">
+                    <img
+                      src={loading}
+                      alt="loading"
+                      className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
+                    />
+                  </div>
+                )}
                 {nowPlayingList && (
                   <>
                     <i
@@ -192,6 +179,7 @@ function Home() {
                       ref={leftNavRef}
                       className="fa-solid fa-caret-left hidden absolute left-0 top-[50%] ml-2 text-[rgb(202,202,202)] text-4xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"
                     ></i>
+
                     <Swiper
                       onSlideChange={handleSlideChange}
                       spaceBetween={30}
@@ -222,76 +210,97 @@ function Home() {
                         </SwiperSlide>
                       ))}
                     </Swiper>
-                    {videoPath && mainSlideClicked && (
-                      <VideoWindow videoUrl={videoPath} />
-                    )}
+                  </>
+                )}
+                {videoPath && mainSlideClicked && (
+                  <VideoWindow videoUrl={videoPath} />
+                )}
+              </>
+            </div>
+            <div className="next-slide-ctn p-2 hidden lg:flex lg:w-[35%] lg:flex-col">
+              <span className="up-next-txt text-[yellow] font-robotoMono text-xl font-semibold pl-4">
+                UP NEXT
+              </span>
+              <div className="next-slide-swiper-ctn p-4 flex flex-col gap-y-[0.6rem]">
+                {!nowPlayingList && (
+                  <div className=" flex justify-center items-center w-full h-[368px] ">
+                    <img
+                      src={loading}
+                      alt="loading"
+                      className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
+                    />
+                  </div>
+                )}
+                {nowPlayingList && (
+                  <>
+                    {nextSlideList.map((data, index) => (
+                      <NextSlideCard
+                        posterImgPath={data.poster_path}
+                        key={index}
+                        title={data.title}
+                        year={data.release_date}
+                      />
+                    ))}
                   </>
                 )}
               </div>
-              <div className="next-slide-ctn p-2 hidden lg:flex lg:w-[35%] lg:flex-col">
-                <span className="up-next-txt text-[yellow] font-robotoMono text-xl font-semibold pl-4">
-                  UP NEXT
-                </span>
-                <div className="next-slide-swiper-ctn p-4 flex flex-col gap-y-[0.6rem]">
-                  {nowPlayingList && (
-                    <>
-                      {nextSlideList.map((data, index) => (
-                        <NextSlideCard
-                          posterImgPath={data.poster_path}
-                          key={index}
-                          title={data.title}
-                          year={data.release_date}
-                        />
-                      ))}
-                    </>
-                  )}
-                </div>
-              </div>
             </div>
           </div>
-          <div className="trending-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
+        </div>
+        <div className="trending-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
+          <span
+            style={{ marginBottom: "1rem", position: "relative" }}
+            className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
+          >
+            TRENDING {trendingPeriod === "day" && "TODAY"}
+            {trendingPeriod === "week" && "THIS WEEK"}{" "}
             <span
-              style={{ marginBottom: "1rem", position: "relative" }}
-              className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
+              className="select-toggle-ctn text-[green] cursor-pointer"
+              onClick={handleSelectTrending}
             >
-              TRENDING {trendingPeriod === "day" && "TODAY"}
-              {trendingPeriod === "week" && "THIS WEEK"}{" "}
+              {!selectOpened && (
+                <i className="closed-select fa-solid fa-chevron-down"></i>
+              )}
+              {selectOpened && (
+                <i className="opened-select fa-solid fa-chevron-up"></i>
+              )}
+            </span>
+            <span
+              className="select-options text-[rgb(192,192,192)] absolute left-[55%] text-[1.1rem] leading-[2rem] z-40 bg-[rgb(27,27,27)] p-2 rounded-lg hidden"
+              ref={selectRef}
+            >
               <span
-                className="select-toggle-ctn text-[green] cursor-pointer"
-                onClick={handleSelectTrending}
+                className="today block cursor-pointer hover:text-[yellow]"
+                onClick={handleDayTrend}
               >
-                {!selectOpened && (
-                  <i className="closed-select fa-solid fa-chevron-down"></i>
-                )}
-                {selectOpened && (
-                  <i className="opened-select fa-solid fa-chevron-up"></i>
-                )}
+                Today
               </span>
               <span
-                className="select-options text-[rgb(192,192,192)] absolute left-[55%] text-[1.1rem] leading-[2rem] z-40 bg-[rgb(27,27,27)] p-2 rounded-lg hidden"
-                ref={selectRef}
+                className="this-week block cursor-pointer hover:text-[yellow]"
+                onClick={handleWeekTrend}
               >
-                <span
-                  className="today block cursor-pointer hover:text-[yellow]"
-                  onClick={handleDayTrend}
-                >
-                  Today
-                </span>
-                <span
-                  className="this-week block cursor-pointer hover:text-[yellow]"
-                  onClick={handleWeekTrend}
-                >
-                  This Week
-                </span>
+                This Week
               </span>
             </span>
+          </span>
 
-            <div className="trending-inner-ctn flex ">
-              <>
-                <div className="flex items-center">
-                  <i className="fa-solid fa-angle-left hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+          <div className="trending-inner-ctn flex ">
+            <>
+              {!trendingList && (
+                <div className="flex justify-center items-center w-full h-[432.5px]">
+                  <img
+                    src={loading}
+                    alt="loading"
+                    className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
+                  />
                 </div>
-                {trendingList && (
+              )}
+              {trendingList && (
+                <>
+                  <div className="flex items-center">
+                    <i className="fa-solid fa-angle-left hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                  </div>
+
                   <Swiper
                     spaceBetween={30}
                     navigation={{
@@ -337,26 +346,39 @@ function Home() {
                       </SwiperSlide>
                     ))}
                   </Swiper>
-                )}
-                <div className="flex items-center">
-                  <i className="fa-solid fa-angle-right hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
-                </div>
-              </>
-            </div>
+
+                  <div className="flex items-center">
+                    <i className="fa-solid fa-angle-right hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                  </div>
+                </>
+              )}
+            </>
           </div>
-          <div className="top-rated-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
-            <span
-              style={{ marginBottom: "1rem" }}
-              className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
-            >
-              TOP RATED
-            </span>
-            <div className="top-rated-inner-ctn flex">
-              <>
-                <div className="flex items-center">
-                  <i className="fa-solid fa-chevron-left hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+        </div>
+        <div className="top-rated-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
+          <span
+            style={{ marginBottom: "1rem" }}
+            className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
+          >
+            TOP RATED
+          </span>
+          <div className="top-rated-inner-ctn flex">
+            <>
+              {!topRatedList && (
+                <div className="flex justify-center items-center w-full h-[432.5px]">
+                  <img
+                    src={loading}
+                    alt="loading"
+                    className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
+                  />
                 </div>
-                {topRatedList && (
+              )}
+              {topRatedList && (
+                <>
+                  <div className="flex items-center">
+                    <i className="fa-solid fa-chevron-left hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                  </div>
+
                   <Swiper
                     spaceBetween={30}
                     navigation={{
@@ -401,29 +423,30 @@ function Home() {
                       </SwiperSlide>
                     ))}
                   </Swiper>
-                )}
-                <div className="flex items-center">
-                  <i className="fa-solid fa-chevron-right hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
-                </div>
-              </>
-            </div>
+
+                  <div className="flex items-center">
+                    <i className="fa-solid fa-chevron-right hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                  </div>
+                </>
+              )}
+            </>
           </div>
-          {cardClicked && modalData && (
-            <MovieDetailModal
-              castData={modalData.credits.cast}
-              modalPosterPath={modalData.poster_path}
-              movieTitle={modalData.name || modalData.title}
-              overview={modalData.overview}
-              tagline={modalData.tagline}
-              videosInfoList={modalData.videos.results}
-              year={
-                modalData.release_date ? modalData.release_date.slice(0, 4) : ""
-              }
-              key={modalData.id}
-            />
-          )}
         </div>
-      )}
+        {cardClicked && modalData && (
+          <MovieDetailModal
+            castData={modalData.credits.cast}
+            modalPosterPath={modalData.poster_path}
+            movieTitle={modalData.name || modalData.title}
+            overview={modalData.overview}
+            tagline={modalData.tagline}
+            videosInfoList={modalData.videos.results}
+            year={
+              modalData.release_date ? modalData.release_date.slice(0, 4) : ""
+            }
+            key={modalData.id}
+          />
+        )}
+      </div>
     </>
   );
 }

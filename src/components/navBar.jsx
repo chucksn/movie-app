@@ -30,7 +30,7 @@ function NavBar() {
         <Link
           to="/"
           onClick={handleLinkClick}
-          className={`no-underline font-medium my-2 sm:my-0 mx-8 lg:text-lg hover:text-sky-400 ${
+          className={`no-underline font-medium my-2 sm:my-0 mx-8 lg:text-[1.1rem] hover:text-sky-400 ${
             activeRoute === "/" ? "text-sky-400" : "text-zinc-300"
           }`}
         >
@@ -39,7 +39,7 @@ function NavBar() {
         <Link
           to="/movies"
           onClick={handleLinkClick}
-          className={`no-underline font-medium my-2 sm:my-0 mx-8 lg:text-lg hover:text-sky-400 ${
+          className={`no-underline font-medium my-2 sm:my-0 mx-8 lg:text-[1.1rem] hover:text-sky-400 ${
             activeRoute === "/movies" ? "text-sky-400" : "text-zinc-300"
           }`}
         >
@@ -48,7 +48,7 @@ function NavBar() {
         <Link
           to="/tvSeries"
           onClick={handleLinkClick}
-          className={`no-underline font-medium my-2 sm:my-0 mx-8 lg:text-lg hover:text-sky-400 ${
+          className={`no-underline font-medium my-2 sm:my-0 mx-8 lg:text-[1.1rem] hover:text-sky-400 ${
             activeRoute === "/tvSeries" ? "text-sky-400" : "text-zinc-300"
           }`}
         >
