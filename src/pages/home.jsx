@@ -199,19 +199,20 @@ function Home() {
                   modules={[Autoplay, Navigation]}
                   className="mySwiper"
                 >
-                  {nowPlayingList.map((data) => (
-                    <SwiperSlide>
-                      <MainSlideCard
-                        onClick={() => handleClickMainSlide(data.id)}
-                        key={data.id}
-                        posterImgPath={data.backdrop_path}
-                        title={data.title}
-                        year={data.release_date}
-                        leftNavRef={leftNavRef}
-                        rightNavRef={rightNavRef}
-                      />
-                    </SwiperSlide>
-                  ))}
+                  {nowPlayingList &&
+                    nowPlayingList.map((data) => (
+                      <SwiperSlide>
+                        <MainSlideCard
+                          onClick={() => handleClickMainSlide(data.id)}
+                          key={data.id}
+                          posterImgPath={data.backdrop_path}
+                          title={data.title}
+                          year={data.release_date}
+                          leftNavRef={leftNavRef}
+                          rightNavRef={rightNavRef}
+                        />
+                      </SwiperSlide>
+                    ))}
                 </Swiper>
 
                 {videoPath && mainSlideClicked && (
