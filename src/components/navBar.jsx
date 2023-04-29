@@ -23,7 +23,7 @@ function NavBar() {
         </Link>
       </div>
       <div
-        className={`nav-link items-center sm:flex sm:flex-row flex-col justify-around sm:w-full sm:justify-center sm:mb-4 lg:w-fit mb-0 ${
+        className={`nav-link items-center sm:flex sm:flex-row flex-col justify-around sm:w-full sm:justify-center sm:mb-4 lg:mb-0 lg:w-fit mb-0 ${
           menuToggle ? "flex" : "hidden"
         } `}
       >
