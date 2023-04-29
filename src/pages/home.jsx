@@ -179,7 +179,7 @@ function Home() {
               Now Playing
             </span>
             <div className="home-slideshow flex justify-between">
-              <div className="main-slide-ctn relative w-full lg:w-[65%]">
+              <div className="main-slide-ctn relative w-full lg:w-[65%] lg:ml-4">
                 {nowPlayingList && (
                   <>
                     <i
@@ -228,7 +228,7 @@ function Home() {
                   </>
                 )}
               </div>
-              <div className="next-slide-ctn p-6 hidden lg:flex lg:w-[35%] lg:flex-col">
+              <div className="next-slide-ctn p-2 hidden lg:flex lg:w-[35%] lg:flex-col">
                 <span className="up-next-txt text-[yellow] font-robotoMono text-xl font-semibold pl-4">
                   UP NEXT
                 </span>
@@ -249,7 +249,7 @@ function Home() {
               </div>
             </div>
           </div>
-          <div className="trending-ctn my-8 px-8 sm:px-12 md:p-0">
+          <div className="trending-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
             <span
               style={{ marginBottom: "1rem", position: "relative" }}
               className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
@@ -344,7 +344,7 @@ function Home() {
               </>
             </div>
           </div>
-          <div className="top-rated-ctn px-8 sm:px-12 md:p-0">
+          <div className="top-rated-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
             <span
               style={{ marginBottom: "1rem" }}
               className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
