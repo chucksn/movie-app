@@ -195,7 +195,7 @@ function Home() {
                       loop={true}
                       autoplay={{
                         delay: 3000,
-                        disableOnInteraction: true,
+                        disableOnInteraction: false,
                       }}
                       modules={[Autoplay, Navigation]}
                       className="mySwiper"
