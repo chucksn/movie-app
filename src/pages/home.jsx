@@ -167,6 +167,7 @@ function Home() {
                     />
                   </div>
                 )}
+
                 {nowPlayingList && (
                   <>
                     <i
@@ -179,7 +180,10 @@ function Home() {
                       ref={leftNavRef}
                       className="fa-solid fa-caret-left hidden absolute left-0 top-[50%] ml-2 text-[rgb(202,202,202)] text-4xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"
                     ></i>
-
+                  </>
+                )}
+                {nowPlayingList && (
+                  <>
                     <Swiper
                       onSlideChange={handleSlideChange}
                       spaceBetween={30}
