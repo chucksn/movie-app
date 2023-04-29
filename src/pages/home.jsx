@@ -287,7 +287,7 @@ function Home() {
           <div className="trending-inner-ctn flex ">
             <>
               {!trendingList && (
-                <div className="flex justify-center items-center w-full h-[432.5px]">
+                <div className="flex justify-center items-center w-full h-[370px] md:h-[432.5px]">
                   <img
                     src={loading}
                     alt="loading"
@@ -365,7 +365,7 @@ function Home() {
           <div className="top-rated-inner-ctn flex">
             <>
               {!topRatedList && (
-                <div className="flex justify-center items-center w-full h-[432.5px]">
+                <div className="flex justify-center items-center w-full h-[370px] md:h-[432.5px]">
                   <img
                     src={loading}
                     alt="loading"
