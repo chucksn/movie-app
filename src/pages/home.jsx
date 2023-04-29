@@ -182,25 +182,24 @@ function Home() {
                     ></i>
                   </>
                 )}
-
-                <Swiper
-                  onSlideChange={handleSlideChange}
-                  spaceBetween={30}
-                  centeredSlides={true}
-                  navigation={{
-                    nextEl: ".fa-caret-right",
-                    prevEl: ".fa-caret-left",
-                  }}
-                  loop={true}
-                  autoplay={{
-                    delay: 3000,
-                    disableOnInteraction: false,
-                  }}
-                  modules={[Autoplay, Navigation]}
-                  className="mySwiper"
-                >
-                  {nowPlayingList &&
-                    nowPlayingList.map((data) => (
+                {nowPlayingList && (
+                  <Swiper
+                    onSlideChange={handleSlideChange}
+                    spaceBetween={30}
+                    centeredSlides={true}
+                    navigation={{
+                      nextEl: ".fa-caret-right",
+                      prevEl: ".fa-caret-left",
+                    }}
+                    loop={true}
+                    autoplay={{
+                      delay: 3000,
+                      disableOnInteraction: false,
+                    }}
+                    modules={[Autoplay, Navigation]}
+                    className="mySwiper"
+                  >
+                    {nowPlayingList.map((data) => (
                       <SwiperSlide>
                         <MainSlideCard
                           onClick={() => handleClickMainSlide(data.id)}
@@ -213,8 +212,8 @@ function Home() {
                         />
                       </SwiperSlide>
                     ))}
-                </Swiper>
-
+                  </Swiper>
+                )}
                 {videoPath && mainSlideClicked && (
                   <VideoWindow videoUrl={videoPath} />
                 )}
