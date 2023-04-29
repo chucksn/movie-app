@@ -166,29 +166,31 @@ function Home() {
       {(!nowPlayingList || pageLoadDelay) && (
         <div
           style={emptyOutletStyle}
-          className="outlet-bg-empty-search  min-h-screen w-full bg-black/80"
+          className="outlet-bg-empty-search  min-h-screen w-full bg-black/90"
         >
           <img src={tailSpinLoader} alt="loading" />
         </div>
       )}
 
       {nowPlayingList && trendingList && topRatedList && !pageLoadDelay && (
-        <div className="outlet-bg min-h-screen w-full bg-black/80 py-40 px-2 sm:py-48 sm:px-4 md:py-48 md:px-7 lg:py-28 lg:px-2">
-          <div className="home-main">
-            <span className="tv-header">Now Playing</span>
-            <div className="home-slideshow">
-              <div className="main-slide-ctn">
+        <div className="outlet-bg min-h-screen w-full bg-black/90 py-40 px-2 sm:py-48 sm:px-4 md:py-48 md:px-7 lg:py-28 lg:px-2">
+          <div className="home-main flex w-full flex-col m-auto">
+            <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]">
+              Now Playing
+            </span>
+            <div className="home-slideshow flex justify-between">
+              <div className="main-slide-ctn relative w-full lg:w-[65%]">
                 {nowPlayingList && (
                   <>
                     <i
                       onMouseEnter={handleNav}
                       ref={rightNavRef}
-                      className="fa-solid fa-caret-right"
+                      className="fa-solid fa-caret-right hidden absolute right-0 top-[50%] mr-2 text-[rgb(202,202,202)] text-4xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"
                     ></i>
                     <i
                       onMouseEnter={handleNav}
                       ref={leftNavRef}
-                      className="fa-solid fa-caret-left"
+                      className="fa-solid fa-caret-left hidden absolute left-0 top-[50%] ml-2 text-[rgb(202,202,202)] text-4xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"
                     ></i>
                     <Swiper
                       onSlideChange={handleSlideChange}
@@ -226,9 +228,11 @@ function Home() {
                   </>
                 )}
               </div>
-              <div className="next-slide-ctn">
-                <span className="up-next-txt">UP NEXT</span>
-                <div className="next-slide-swiper-ctn">
+              <div className="next-slide-ctn p-6 hidden lg:flex lg:w-[35%] lg:flex-col">
+                <span className="up-next-txt text-[yellow] font-robotoMono text-xl font-semibold pl-4">
+                  UP NEXT
+                </span>
+                <div className="next-slide-swiper-ctn p-4 flex flex-col gap-y-[0.6rem]">
                   {nowPlayingList && (
                     <>
                       {nextSlideList.map((data, index) => (
@@ -245,15 +249,15 @@ function Home() {
               </div>
             </div>
           </div>
-          <div className="trending-ctn">
+          <div className="trending-ctn my-8 px-8 sm:px-12 md:p-0">
             <span
               style={{ marginBottom: "1rem", position: "relative" }}
-              className="tv-header"
+              className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
             >
               TRENDING {trendingPeriod === "day" && "TODAY"}
               {trendingPeriod === "week" && "THIS WEEK"}{" "}
               <span
-                className="select-toggle-ctn"
+                className="select-toggle-ctn text-[green] cursor-pointer"
                 onClick={handleSelectTrending}
               >
                 {!selectOpened && (
@@ -263,25 +267,36 @@ function Home() {
                   <i className="opened-select fa-solid fa-chevron-up"></i>
                 )}
               </span>
-              <span className="select-options" ref={selectRef}>
-                <span className="today" onClick={handleDayTrend}>
+              <span
+                className="select-options text-[rgb(192,192,192)] absolute left-[55%] text-[1.1rem] leading-[2rem] z-40 bg-[rgb(27,27,27)] p-2 rounded-lg hidden"
+                ref={selectRef}
+              >
+                <span
+                  className="today block cursor-pointer hover:text-[yellow]"
+                  onClick={handleDayTrend}
+                >
                   Today
                 </span>
-                <span className="this-week" onClick={handleWeekTrend}>
+                <span
+                  className="this-week block cursor-pointer hover:text-[yellow]"
+                  onClick={handleWeekTrend}
+                >
                   This Week
                 </span>
               </span>
             </span>
 
-            <div className="trending-inner-ctn">
-              {trendingList && (
-                <>
-                  <i className="fa-solid fa-chevron-left"></i>
+            <div className="trending-inner-ctn flex ">
+              <>
+                <div className="flex items-center">
+                  <i className="fa-solid fa-angle-left hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                </div>
+                {trendingList && (
                   <Swiper
                     spaceBetween={30}
                     navigation={{
-                      nextEl: ".fa-chevron-right",
-                      prevEl: ".fa-chevron-left",
+                      nextEl: ".fa-angle-right",
+                      prevEl: ".fa-angle-left",
                     }}
                     breakpoints={{
                       360: {
@@ -322,24 +337,31 @@ function Home() {
                       </SwiperSlide>
                     ))}
                   </Swiper>
-                  <i className="fa-solid fa-chevron-right"></i>
-                </>
-              )}
+                )}
+                <div className="flex items-center">
+                  <i className="fa-solid fa-angle-right hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                </div>
+              </>
             </div>
           </div>
-          <div className="top-rated-ctn">
-            <span style={{ marginBottom: "1rem" }} className="tv-header">
+          <div className="top-rated-ctn px-8 sm:px-12 md:p-0">
+            <span
+              style={{ marginBottom: "1rem" }}
+              className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
+            >
               TOP RATED
             </span>
-            <div className="top-rated-inner-ctn">
-              {topRatedList && (
-                <>
-                  <i className="fa-solid fa-angle-left"></i>
+            <div className="top-rated-inner-ctn flex">
+              <>
+                <div className="flex items-center">
+                  <i className="fa-solid fa-chevron-left hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                </div>
+                {topRatedList && (
                   <Swiper
                     spaceBetween={30}
                     navigation={{
-                      nextEl: ".fa-angle-right",
-                      prevEl: ".fa-angle-left",
+                      nextEl: ".fa-chevron-right",
+                      prevEl: ".fa-chevron-left",
                     }}
                     breakpoints={{
                       360: {
@@ -379,9 +401,11 @@ function Home() {
                       </SwiperSlide>
                     ))}
                   </Swiper>
-                  <i className="fa-solid fa-angle-right"></i>
-                </>
-              )}
+                )}
+                <div className="flex items-center">
+                  <i className="fa-solid fa-chevron-right hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                </div>
+              </>
             </div>
           </div>
           {cardClicked && modalData && (

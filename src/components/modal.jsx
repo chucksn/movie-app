@@ -82,32 +82,55 @@ function MovieDetailModal({
 
   return (
     <>
-      <div ref={modalRef} className="modal">
-        <div ref={modalContentRef} className="modal-content">
-          <span onClick={onClose} className="close-icon">
+      <div
+        ref={modalRef}
+        className="modal fixed left-0 top-0 w-full h-full bg-black/80 z-[7] pt-8 overflow-y-auto"
+      >
+        <div
+          ref={modalContentRef}
+          className="modal-content w-[80%] sm:w-[70%] bg-[rgb(26,26,26)] p-2 shadow-[0_0_6px_rgb(1,202,202)] rounded-lg my-32 sm:my-44 lg:my-20 mx-auto"
+        >
+          <span
+            onClick={onClose}
+            className="close-icon float-right text-white font-extrabold text-[1.8rem] cursor-pointer"
+          >
             &times;
           </span>
-          <div className="modal-body">
-            <div className="details-img-ctn">
-              <div className="img-ctn">
-                <img src={image} alt="poster" className="modal-poster" />
+          <div className="modal-body p-[0.8rem] ">
+            <div className="details-img-ctn flex flex-col lg:flex-row">
+              <div className="img-ctn flex justify-center lg:w-[45%] xl:w-[40%]">
+                <img
+                  src={image}
+                  alt="poster"
+                  className="modal-poster max-w-[50%] lg:max-w-[100%]"
+                />
               </div>
-              <div className="details-ctn">
-                <div className="title-date-ctn">
-                  <span className="modal-title">{movieTitle}</span>
-                  <span className="tagline">{tagline}</span>
-                  <span className="modal-date">{year}</span>
+              <div className="details-ctn flex flex-col justify-between md:p-4 lg:w-[55%] xl:w-[60%]">
+                <div className="title-date-ctn text-center hidden md:block">
+                  <span className="modal-title block my-[0.3rem] text-[rgb(4,175,175)] font-medium font-ubuntu text-[1.2rem] sm:text-[1.5rem] md:text-[2rem]">
+                    {movieTitle}
+                  </span>
+                  <span className="tagline block my-[0.3rem] text-[orange] font-medium font-[cursive] md:text-[1.3rem]">
+                    {tagline}
+                  </span>
+                  <span className="modal-date block my-[0.3rem] md:text-[1.3rem] text-[green] font-medium">
+                    {year}
+                  </span>
                 </div>
 
-                <div className="overview">
-                  <span className="overview.txt">{overview}</span>
+                <div className="overview bg-[rgb(20,20,20)] text-[rgb(192,192,192)] p-2 rounded-lg font-medium my-4 border-none shadow-[0_0_6px_rgb(1,202,202)] overflow-y-scroll max-h-[7rem] text-[0.8rem] sm:max-h-[7rem] lg:max-h-[6rem] xl:max-h-[7rem]">
+                  <span className="overview.txt block my-[0.3rem]">
+                    {overview}
+                  </span>
                 </div>
 
-                <div className="cast-ctn">
-                  <span className="cast-txt">Cast</span>
+                <div className="cast-ctn flex flex-col text-white text-center rounded-lg bg-[rgb(20,20,20)] shadow-[0_0_6px_rgb(1,202,202)] xl:max-h-[15.2rem]">
+                  <span className="cast-txt block my-[0.3rem] font-ubuntu text-[yellow] text-[0.8rem]">
+                    Cast
+                  </span>
 
-                  <div className="outer-swiper-ctn">
-                    <i className="fa-solid fa-circle-chevron-left"></i>
+                  <div className="outer-swiper-ctn flex items-center">
+                    <i className="fa-solid fa-circle-chevron-left text-white/40 cursor-pointer p-4 text-2xl hidden sm:block"></i>
                     <Swiper
                       spaceBetween={0}
                       modules={[Navigation, Autoplay]}
@@ -142,12 +165,12 @@ function MovieDetailModal({
                       ))}
                     </Swiper>
 
-                    <i className="fa-solid fa-circle-chevron-right"></i>
+                    <i className="fa-solid fa-circle-chevron-right text-white/40 cursor-pointer p-4 text-2xl hidden sm:block"></i>
                   </div>
                 </div>
                 {videosInfoList.length > 0 && (
                   <button
-                    className="play-trailer-btn"
+                    className="play-trailer-btn bg-[rgb(221,58,49)] text-white my-4 p-2 rounded-lg w-full cursor-pointer hover:bg-[rgb(221,64,56)] "
                     onClick={handleTrailerBtn}
                   >
                     <i className="fa-brands fa-youtube"></i> WATCH TRAILER

@@ -24,25 +24,31 @@ function SearchResult() {
   return (
     <>
       {Object.keys(searchInfo.searchResult).length < 1 && (
-        <div className="outlet-bg-empty-search flex justify-center items-center min-h-screen w-full bg-black/80">
-          <span className="tv-header">No Search Result</span>
+        <div className="outlet-bg-empty-search flex justify-center items-center min-h-screen w-full bg-black/90">
+          <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]">
+            No Search Result
+          </span>
         </div>
       )}
       {Object.keys(searchInfo.searchResult).length >= 1 && (
-        <div className="outlet-bg min-h-screen w-full bg-black/80">
-          <span className="tv-header">Search Result</span>
-          <div className="select-movie-tv-search">
+        <div className="outlet-bg min-h-screen w-full bg-black/90 py-40 px-2 sm:py-48 sm:px-4 md:py-48 md:px-7 lg:py-28 lg:px-2">
+          <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]">
+            Search Result
+          </span>
+          <div className="select-movie-tv-search flex justify-center m-[1.5rem_0_1rem_0] text-xl cursor-pointer">
             <span
               onClick={handleMovieToggle}
-              className={`select-movie ${
-                toggleState === "movie" ? "active" : null
+              className={`select-movie mx-8 ${
+                toggleState === "movie" ? "text-white" : "text-[rgb(70,70,70)]"
               }`}
             >
               Movie
             </span>
             <span
               onClick={handleTvToggle}
-              className={`select-tv ${toggleState === "tv" ? "active" : null}`}
+              className={`select-tv mx-8 ${
+                toggleState === "tv" ? "text-white" : "text-[rgb(70,70,70)]"
+              }`}
             >
               Tv Series
             </span>

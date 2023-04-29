@@ -19,12 +19,19 @@ function VideoWindow({ videoUrl }) {
     dispatch({ type: "MAIN_SLIDE_CARD_CLICK_RESET" });
   };
   return (
-    <div ref={videoWindowRef} className="video-window-bg">
-      <div className="video-window">
-        <span onClick={handleClose} className="close-icon">
+    <div
+      ref={videoWindowRef}
+      className="video-window-bg fixed left-0 top-0 w-full h-full z-[8] "
+    >
+      <div className="video-window w-full sm:w-[80%] h-full bg-black my-32 sm:my-44 lg:my-20 mx-auto p-4 md:pt-0">
+        <span
+          onClick={handleClose}
+          className="close-icon float-right text-white font-extrabold text-[1.8rem] cursor-pointer"
+        >
           &times;
         </span>
         <iframe
+          className="iframe aspect-video"
           title="trailer"
           src={videoUrl}
           width="100%"

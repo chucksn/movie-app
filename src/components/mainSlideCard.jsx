@@ -32,18 +32,21 @@ function MainSlideCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
-      className="main-slide-card"
+      className="main-slide-card bg-[rgb(5,5,5)] py-4 flex flex-col text-white text-center cursor-pointer text-lg relative"
     >
       <img className="main-slide-image" src={image} alt="movie" />
 
-      <div className="main-slide-detail">
-        <i ref={playBtnRef} className="fa-solid fa-circle-play"></i>
+      <div className="main-slide-detail flex justify-center items-center absolute top-[100%] left-[50%] -translate-x-1/2 -translate-y-full w-full ">
+        <i
+          ref={playBtnRef}
+          className="fa-solid fa-circle-play text-white/40 text-8 mr-4 sm:text-3xl sm:mr-6 md:text-5xl md:mr-8"
+        ></i>
 
-        <div className="main-slide-info">
-          <span className="main-slide-title">{title}</span>
-          <span style={{ color: "gray" }} className="main-slide-year">
-            {year}
+        <div className="main-slide-info flex flex-col text-center text-[0.8rem] leading-4 sm:text-base sm:leading-5 md:leading-7">
+          <span className="main-slide-title text-[rgb(182,148,61)] font-ubuntu font-medium sm:text-lg md:text-2xl">
+            {title}
           </span>
+          <span className="main-slide-year text-gray-400">{year}</span>
           <span>Watch The Trailer</span>
         </div>
       </div>

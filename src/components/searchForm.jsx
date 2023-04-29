@@ -48,19 +48,22 @@ function SearchForm() {
   };
 
   return (
-    <div className="search">
+    <div className="search flex items-center mt-2 lg:mt-0">
       <input
         onKeyDown={handleSearchOnEnterKey}
         ref={reference}
         type="text"
         placeholder="Search Movie or Series"
-        className="search-area"
+        className="search-area p-1 md:text-lg rounded-lg outline-none indent-2 text-white bg-[rgb(40,40,40)]"
         spellCheck="false"
         autoFocus
         required
       />
 
-      <i onClick={handleOnClick} className="fa-solid fa-magnifying-glass"></i>
+      <i
+        onClick={handleOnClick}
+        className="fa-solid fa-magnifying-glass text-white ml-2 text-xl p-1 rounded-md hover:cursor-pointer hover:text-slate-400"
+      ></i>
     </div>
   );
 }

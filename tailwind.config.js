@@ -27,7 +27,8 @@ module.exports = {
       },
 
       boxShadow: {
-        "shadow-c1": "0 0 6px 1px  rgb(190, 190, 190)", //black glow
+        "c-black-glow": "0 0 6px  rgb(190, 190, 190)", //black glow
+        "c-gold-glow": "0 0 6px  rgb(182, 148, 61)", //black glow
       },
 
       minHeight: (theme) => ({
