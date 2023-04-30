@@ -26,6 +26,7 @@ function Home() {
   const cardClicked = useSelector((state) => state.cardClicked);
   const modalData = useSelector((state) => state.modalData);
   const selectRef = useRef();
+  const [loadDelay, setLoadDelay] = useState(true);
 
   const videoInfo =
     mainSlideClicked &&
@@ -146,6 +147,10 @@ function Home() {
     justifyContent: "center",
   };
 
+  useEffect(() => {
+    setTimeout(() => setLoadDelay(false), 500);
+  }, []);
+
   return (
     <>
       <div className="outlet-bg min-h-screen w-full bg-black/90 py-40 px-2 sm:py-48 sm:px-4 md:py-48 md:px-7 lg:py-28 lg:px-2">
@@ -158,7 +163,7 @@ function Home() {
               className={`main-slide-ctn flex relative w-full lg:w-[65%] lg:ml-4 `}
             >
               <>
-                {!nowPlayingList && (
+                {(!nowPlayingList || loadDelay) && (
                   <div className="flex justify-center items-center w-full h-[230px] md:h-[400px] lg:w-[780px] lg:h-[438.75px]">
                     <img
                       src={loading}
@@ -168,7 +173,7 @@ function Home() {
                   </div>
                 )}
 
-                {nowPlayingList && (
+                {nowPlayingList && !loadDelay && (
                   <>
                     <i
                       onMouseEnter={handleNav}
@@ -182,7 +187,7 @@ function Home() {
                     ></i>
                   </>
                 )}
-                {nowPlayingList && (
+                {nowPlayingList && !loadDelay && (
                   <Swiper
                     onSlideChange={handleSlideChange}
                     spaceBetween={30}
