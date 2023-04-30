@@ -193,7 +193,6 @@ function Home() {
                     }}
                     loop={true}
                     autoplay={{
-                      delay: 3000,
                       disableOnInteraction: false,
                     }}
                     modules={[Autoplay, Navigation]}
