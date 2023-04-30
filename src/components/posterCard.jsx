@@ -6,7 +6,7 @@ function PosterCard({ posterImgPath, rating, title, date, type, onClick }) {
   return (
     <div
       onClick={onClick}
-      className="card flex flex-col justify-between border border-zinc-800 bg-zinc-800 rounded-[0_0_5px_5px] cursor-pointer transition duration-[0.1s] hover:scale-[0.97] min-h-[21rem] w-[8rem] sm:min-h-[24rem] sm:w-[9.5rem] md:min-h-[25rem] md:w-[11rem] lg:min-h-[26rem] lg:w-[12rem]"
+      className="card flex flex-col justify-between border border-zinc-800 bg-zinc-800 rounded-[0_0_5px_5px] cursor-pointer transition duration-[0.1s] hover:scale-[0.97] min-h-[21rem] w-[10.5rem] sm:min-h-[24rem] md:min-h-[25rem] md:w-[12rem] lg:min-h-[26rem] "
     >
       <img src={image} alt="poster" className="poster" />
 

@@ -88,7 +88,7 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
 
   return (
     <div className="card-pagination-container flex flex-col">
-      <div className="card-container flex flex-wrap justify-center p-[0.8rem_0.3rem] gap-[2rem_1.5rem] sm:gap-[2rem_2.5rem] md:p-[1.8rem] md:gap-12 lg:p-[1.8rem] xl:p-8">
+      <div className="card-container flex flex-wrap justify-center p-[0.8rem_0.3rem] gap-[2rem_1.5rem] sm:gap-[2rem_2.5rem] md:p-[1.8rem_0.5rem] md:gap-12 lg:p-[1.8rem] xl:p-8">
         {movieData.map((data, index) => {
           return (
             <>

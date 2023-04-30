@@ -27,6 +27,22 @@ function Home() {
   const modalData = useSelector((state) => state.modalData);
   const selectRef = useRef();
 
+  const [swiper, setSwiper] = useState(null);
+
+  useEffect(() => {
+    const initSwiper = () => {
+      if (swiper) {
+        swiper.autoplay.start();
+      }
+    };
+
+    initSwiper();
+  }, [swiper]);
+
+  const handleSwiperInit = (swiper) => {
+    setSwiper(swiper);
+  };
+
   const videoInfo =
     mainSlideClicked &&
     mainSlideVideoList.filter((videoInfo) => {
@@ -193,6 +209,7 @@ function Home() {
                         prevEl: ".fa-caret-left",
                       }}
                       loop={true}
+                      onSwiper={handleSwiperInit}
                       autoplay={{
                         disableOnInteraction: false,
                       }}
