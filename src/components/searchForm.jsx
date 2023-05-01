@@ -20,7 +20,7 @@ function SearchForm() {
 
     if (searchQuery.length > 0) {
       let response = await fetch(
-        `https://api.themoviedb.org/3/search/${searchToggle}?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US&query=${searchQuery}&page=${currentPage}&include_adult=false`
+        `https://api.themoviedb.org/3/search/${searchToggle}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${searchQuery}&page=${currentPage}&include_adult=false`
       );
       let data = await response.json();
       let searchResult = data.results;

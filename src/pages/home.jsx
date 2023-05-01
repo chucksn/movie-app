@@ -42,7 +42,7 @@ function Home() {
   useEffect(() => {
     const getNowPlaying = async () => {
       let response = await fetch(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US&page=1`
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
       );
       let data = await response.json();
       setNowPlayingList(data.results);
@@ -64,7 +64,7 @@ function Home() {
   useEffect(() => {
     const getTrending = async () => {
       let response = await fetch(
-        `https://api.themoviedb.org/3/trending/all/${trendingPeriod}?api_key=5267b00cdf764bc75046eff3d46be3e2`
+        `https://api.themoviedb.org/3/trending/all/${trendingPeriod}?api_key=${process.env.REACT_APP_API_KEY}`
       );
       let data = await response.json();
       setTrendingList(data.results);
@@ -75,7 +75,7 @@ function Home() {
   useEffect(() => {
     const getTopRated = async () => {
       let response = await fetch(
-        `https://api.themoviedb.org/3/movie/top_rated?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US&page=1`
+        `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
       );
       let data = await response.json();
       setTopRatedList(data.results);
@@ -87,6 +87,10 @@ function Home() {
     setCurrentSlideIndex(swiper.realIndex);
   };
 
+  const handleSwiperUpdate = (swiper) => {
+    swiper.autoplay.start();
+  };
+
   const handleNav = () => {
     leftNavRef.current.style.display = "block";
     rightNavRef.current.style.display = "block";
@@ -94,7 +98,7 @@ function Home() {
 
   const handleClickMainSlide = async (id) => {
     let response = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US&append_to_response=videos`
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=videos`
     );
     let data = await response.json();
     dispatch({
@@ -111,7 +115,7 @@ function Home() {
     dispatch({ type: "CARD_CLICKED" });
 
     let res = await fetch(
-      `https://api.themoviedb.org/3/${tvType}/${id}?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US&append_to_response=videos,credits`
+      `https://api.themoviedb.org/3/${tvType}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=videos,credits`
     );
     let fetchedModalData = await res.json();
     dispatch({
@@ -185,6 +189,7 @@ function Home() {
                 {nowPlayingList && (
                   <Swiper
                     onSlideChange={handleSlideChange}
+                    onUpdate={handleSwiperUpdate}
                     spaceBetween={30}
                     centeredSlides={true}
                     navigation={{
@@ -224,27 +229,16 @@ function Home() {
                 UP NEXT
               </span>
               <div className="next-slide-swiper-ctn p-4 flex flex-col gap-y-[0.6rem]">
-                {!nowPlayingList && (
-                  <div className=" flex justify-center items-center w-full h-[368px] ">
-                    <img
-                      src={loading}
-                      alt="loading"
-                      className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
+                <>
+                  {nextSlideList.map((data, index) => (
+                    <NextSlideCard
+                      posterImgPath={data.poster_path}
+                      key={index}
+                      title={data.title}
+                      year={data.release_date}
                     />
-                  </div>
-                )}
-                {nowPlayingList && (
-                  <>
-                    {nextSlideList.map((data, index) => (
-                      <NextSlideCard
-                        posterImgPath={data.poster_path}
-                        key={index}
-                        title={data.title}
-                        year={data.release_date}
-                      />
-                    ))}
-                  </>
-                )}
+                  ))}
+                </>
               </div>
             </div>
           </div>
