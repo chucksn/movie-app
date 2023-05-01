@@ -148,42 +148,44 @@ function Home() {
 
   return (
     <>
-      <div className="outlet-bg min-h-screen w-full bg-black/90 py-40 px-2 sm:py-48 sm:px-4 md:py-48 md:px-7 lg:py-28 lg:px-2">
-        <div className="home-main flex w-full flex-col m-auto">
-          <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]">
-            Now Playing
-          </span>
-          <div className="home-slideshow flex justify-between">
-            <div
-              className={`main-slide-ctn flex relative w-full lg:w-[65%] lg:ml-4 `}
-            >
-              <>
-                {!nowPlayingList && (
-                  <div className="flex justify-center items-center w-full h-[230px] md:h-[400px] lg:w-[780px] lg:h-[438.75px]">
-                    <img
-                      src={loading}
-                      alt="loading"
-                      className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
-                    />
-                  </div>
-                )}
+      {nowPlayingList && trendingList && topRatedList && (
+        <>
+          {" "}
+          <div className="outlet-bg min-h-screen w-full bg-black/90 py-40 px-2 sm:py-48 sm:px-4 md:py-48 md:px-7 lg:py-28 lg:px-2">
+            <div className="home-main flex w-full flex-col m-auto">
+              <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]">
+                Now Playing
+              </span>
+              <div className="home-slideshow flex justify-between">
+                <div
+                  className={`main-slide-ctn flex relative w-full lg:w-[65%] lg:ml-4 `}
+                >
+                  <>
+                    {/* {!nowPlayingList && (
+                      <div className="flex justify-center items-center w-full h-[230px] md:h-[400px] lg:w-[780px] lg:h-[438.75px]">
+                        <img
+                          src={loading}
+                          alt="loading"
+                          className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
+                        />
+                      </div>
+                    )} */}
 
-                {nowPlayingList && (
-                  <>
-                    <i
-                      onMouseEnter={handleNav}
-                      ref={rightNavRef}
-                      className="fa-solid fa-caret-right hidden absolute right-0 top-[50%] mr-2 text-[rgb(202,202,202)] text-4xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"
-                    ></i>
-                    <i
-                      onMouseEnter={handleNav}
-                      ref={leftNavRef}
-                      className="fa-solid fa-caret-left hidden absolute left-0 top-[50%] ml-2 text-[rgb(202,202,202)] text-4xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"
-                    ></i>
-                  </>
-                )}
-                {nowPlayingList && (
-                  <>
+                    {nowPlayingList && (
+                      <>
+                        <i
+                          onMouseEnter={handleNav}
+                          ref={rightNavRef}
+                          className="fa-solid fa-caret-right hidden absolute right-0 top-[50%] mr-2 text-[rgb(202,202,202)] text-4xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"
+                        ></i>
+                        <i
+                          onMouseEnter={handleNav}
+                          ref={leftNavRef}
+                          className="fa-solid fa-caret-left hidden absolute left-0 top-[50%] ml-2 text-[rgb(202,202,202)] text-4xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"
+                        ></i>
+                      </>
+                    )}
+
                     <Swiper
                       onSlideChange={handleSlideChange}
                       spaceBetween={30}
@@ -194,7 +196,7 @@ function Home() {
                       }}
                       loop={true}
                       autoplay={{
-                        delay: 1000,
+                        delay: 3000,
                         disableOnInteraction: false,
                       }}
                       modules={[Autoplay, Navigation]}
@@ -214,243 +216,246 @@ function Home() {
                         </SwiperSlide>
                       ))}
                     </Swiper>
+
+                    {videoPath && mainSlideClicked && (
+                      <VideoWindow videoUrl={videoPath} />
+                    )}
                   </>
-                )}
-                {videoPath && mainSlideClicked && (
-                  <VideoWindow videoUrl={videoPath} />
-                )}
-              </>
-            </div>
-            <div className="next-slide-ctn p-2 hidden lg:flex lg:w-[35%] lg:flex-col">
-              <span className="up-next-txt text-[yellow] font-robotoMono text-xl font-semibold pl-4">
-                UP NEXT
-              </span>
-              <div className="next-slide-swiper-ctn p-4 flex flex-col gap-y-[0.6rem]">
-                {!nowPlayingList && (
-                  <div className=" flex justify-center items-center w-full h-[368px] ">
-                    <img
-                      src={loading}
-                      alt="loading"
-                      className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
-                    />
+                </div>
+                <div className="next-slide-ctn p-2 hidden lg:flex lg:w-[35%] lg:flex-col">
+                  <span className="up-next-txt text-[yellow] font-robotoMono text-xl font-semibold pl-4">
+                    UP NEXT
+                  </span>
+                  <div className="next-slide-swiper-ctn p-4 flex flex-col gap-y-[0.6rem]">
+                    {/* {!nowPlayingList && (
+                      <div className=" flex justify-center items-center w-full h-[368px] ">
+                        <img
+                          src={loading}
+                          alt="loading"
+                          className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
+                        />
+                      </div>
+                    )} */}
+                    {nowPlayingList && (
+                      <>
+                        {nextSlideList.map((data, index) => (
+                          <NextSlideCard
+                            posterImgPath={data.poster_path}
+                            key={index}
+                            title={data.title}
+                            year={data.release_date}
+                          />
+                        ))}
+                      </>
+                    )}
                   </div>
-                )}
-                {nowPlayingList && (
-                  <>
-                    {nextSlideList.map((data, index) => (
-                      <NextSlideCard
-                        posterImgPath={data.poster_path}
-                        key={index}
-                        title={data.title}
-                        year={data.release_date}
-                      />
-                    ))}
-                  </>
-                )}
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="trending-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
-          <span
-            style={{ marginBottom: "1rem", position: "relative" }}
-            className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
-          >
-            TRENDING {trendingPeriod === "day" && "TODAY"}
-            {trendingPeriod === "week" && "THIS WEEK"}{" "}
-            <span
-              className="select-toggle-ctn text-[green] cursor-pointer"
-              onClick={handleSelectTrending}
-            >
-              {!selectOpened && (
-                <i className="closed-select fa-solid fa-chevron-down"></i>
-              )}
-              {selectOpened && (
-                <i className="opened-select fa-solid fa-chevron-up"></i>
-              )}
-            </span>
-            <span
-              className="select-options text-[rgb(192,192,192)] absolute left-[55%] text-[1.1rem] leading-[2rem] z-40 bg-[rgb(27,27,27)] p-2 rounded-lg hidden"
-              ref={selectRef}
-            >
+            <div className="trending-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
               <span
-                className="today block cursor-pointer hover:text-[yellow]"
-                onClick={handleDayTrend}
+                style={{ marginBottom: "1rem", position: "relative" }}
+                className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
               >
-                Today
+                TRENDING {trendingPeriod === "day" && "TODAY"}
+                {trendingPeriod === "week" && "THIS WEEK"}{" "}
+                <span
+                  className="select-toggle-ctn text-[green] cursor-pointer"
+                  onClick={handleSelectTrending}
+                >
+                  {!selectOpened && (
+                    <i className="closed-select fa-solid fa-chevron-down"></i>
+                  )}
+                  {selectOpened && (
+                    <i className="opened-select fa-solid fa-chevron-up"></i>
+                  )}
+                </span>
+                <span
+                  className="select-options text-[rgb(192,192,192)] absolute left-[55%] text-[1.1rem] leading-[2rem] z-40 bg-[rgb(27,27,27)] p-2 rounded-lg hidden"
+                  ref={selectRef}
+                >
+                  <span
+                    className="today block cursor-pointer hover:text-[yellow]"
+                    onClick={handleDayTrend}
+                  >
+                    Today
+                  </span>
+                  <span
+                    className="this-week block cursor-pointer hover:text-[yellow]"
+                    onClick={handleWeekTrend}
+                  >
+                    This Week
+                  </span>
+                </span>
               </span>
+
+              <div className="trending-inner-ctn flex ">
+                <>
+                  {/* {!trendingList && (
+                    <div className="flex justify-center items-center w-full h-[370px] md:h-[432.5px]">
+                      <img
+                        src={loading}
+                        alt="loading"
+                        className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
+                      />
+                    </div>
+                  )} */}
+                  {trendingList && (
+                    <>
+                      <div className="flex items-center">
+                        <i className="fa-solid fa-angle-left hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                      </div>
+
+                      <Swiper
+                        spaceBetween={30}
+                        navigation={{
+                          nextEl: ".fa-angle-right",
+                          prevEl: ".fa-angle-left",
+                        }}
+                        breakpoints={{
+                          360: {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                          },
+                          640: {
+                            slidesPerView: 3,
+                          },
+                          1024: {
+                            slidesPerView: 4,
+                          },
+                          1200: {
+                            slidesPerView: 5,
+                          },
+                          1440: {
+                            slidesPerView: 6,
+                          },
+                          1800: {
+                            slidesPerView: 7,
+                          },
+                        }}
+                        modules={[Navigation]}
+                      >
+                        {trendingList.map((data) => (
+                          <SwiperSlide style={swiperStyle}>
+                            <PosterCard
+                              onClick={() =>
+                                handleCardClick(data.media_type, data.id)
+                              }
+                              key={data.id}
+                              posterImgPath={data.poster_path}
+                              date={data.release_date || data.first_air_date}
+                              rating={data.vote_average}
+                              title={data.title || data.name}
+                              type={data.media_type}
+                            />
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+
+                      <div className="flex items-center">
+                        <i className="fa-solid fa-angle-right hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                      </div>
+                    </>
+                  )}
+                </>
+              </div>
+            </div>
+            <div className="top-rated-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
               <span
-                className="this-week block cursor-pointer hover:text-[yellow]"
-                onClick={handleWeekTrend}
+                style={{ marginBottom: "1rem" }}
+                className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
               >
-                This Week
+                TOP RATED
               </span>
-            </span>
-          </span>
-
-          <div className="trending-inner-ctn flex ">
-            <>
-              {!trendingList && (
-                <div className="flex justify-center items-center w-full h-[370px] md:h-[432.5px]">
-                  <img
-                    src={loading}
-                    alt="loading"
-                    className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
-                  />
-                </div>
-              )}
-              {trendingList && (
+              <div className="top-rated-inner-ctn flex">
                 <>
-                  <div className="flex items-center">
-                    <i className="fa-solid fa-angle-left hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
-                  </div>
+                  {/* {!topRatedList && (
+                    <div className="flex justify-center items-center w-full h-[370px] md:h-[432.5px]">
+                      <img
+                        src={loading}
+                        alt="loading"
+                        className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
+                      />
+                    </div>
+                  )} */}
+                  {topRatedList && (
+                    <>
+                      <div className="flex items-center">
+                        <i className="fa-solid fa-chevron-left hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                      </div>
 
-                  <Swiper
-                    spaceBetween={30}
-                    navigation={{
-                      nextEl: ".fa-angle-right",
-                      prevEl: ".fa-angle-left",
-                    }}
-                    breakpoints={{
-                      360: {
-                        slidesPerView: 2,
-                        spaceBetween: 20,
-                      },
-                      640: {
-                        slidesPerView: 3,
-                      },
-                      1024: {
-                        slidesPerView: 4,
-                      },
-                      1200: {
-                        slidesPerView: 5,
-                      },
-                      1440: {
-                        slidesPerView: 6,
-                      },
-                      1800: {
-                        slidesPerView: 7,
-                      },
-                    }}
-                    modules={[Navigation]}
-                  >
-                    {trendingList.map((data) => (
-                      <SwiperSlide style={swiperStyle}>
-                        <PosterCard
-                          onClick={() =>
-                            handleCardClick(data.media_type, data.id)
-                          }
-                          key={data.id}
-                          posterImgPath={data.poster_path}
-                          date={data.release_date || data.first_air_date}
-                          rating={data.vote_average}
-                          title={data.title || data.name}
-                          type={data.media_type}
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
+                      <Swiper
+                        spaceBetween={30}
+                        navigation={{
+                          nextEl: ".fa-chevron-right",
+                          prevEl: ".fa-chevron-left",
+                        }}
+                        breakpoints={{
+                          360: {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                          },
+                          640: {
+                            slidesPerView: 3,
+                          },
+                          1024: {
+                            slidesPerView: 4,
+                            navigation: true,
+                          },
+                          1200: {
+                            slidesPerView: 5,
+                          },
+                          1440: {
+                            slidesPerView: 6,
+                          },
+                          1800: {
+                            slidesPerView: 7,
+                          },
+                        }}
+                        modules={[Navigation]}
+                      >
+                        {topRatedList.map((data) => (
+                          <SwiperSlide style={swiperStyle}>
+                            <PosterCard
+                              onClick={() => handleCardClick("movie", data.id)}
+                              key={data.id}
+                              posterImgPath={data.poster_path}
+                              date={data.release_date || data.first_air_date}
+                              rating={data.vote_average}
+                              title={data.title || data.name}
+                              type={data.media_type}
+                            />
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
 
-                  <div className="flex items-center">
-                    <i className="fa-solid fa-angle-right hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
-                  </div>
+                      <div className="flex items-center">
+                        <i className="fa-solid fa-chevron-right hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                      </div>
+                    </>
+                  )}
                 </>
-              )}
-            </>
+              </div>
+            </div>
+            {cardClicked && modalData && (
+              <MovieDetailModal
+                castData={modalData.credits.cast}
+                modalPosterPath={modalData.poster_path}
+                movieTitle={modalData.name || modalData.title}
+                overview={modalData.overview}
+                tagline={modalData.tagline}
+                videosInfoList={modalData.videos.results}
+                year={
+                  modalData.release_date
+                    ? modalData.release_date.slice(0, 4)
+                    : ""
+                }
+                key={modalData.id}
+              />
+            )}
           </div>
-        </div>
-        <div className="top-rated-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
-          <span
-            style={{ marginBottom: "1rem" }}
-            className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
-          >
-            TOP RATED
-          </span>
-          <div className="top-rated-inner-ctn flex">
-            <>
-              {!topRatedList && (
-                <div className="flex justify-center items-center w-full h-[370px] md:h-[432.5px]">
-                  <img
-                    src={loading}
-                    alt="loading"
-                    className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
-                  />
-                </div>
-              )}
-              {topRatedList && (
-                <>
-                  <div className="flex items-center">
-                    <i className="fa-solid fa-chevron-left hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
-                  </div>
-
-                  <Swiper
-                    spaceBetween={30}
-                    navigation={{
-                      nextEl: ".fa-chevron-right",
-                      prevEl: ".fa-chevron-left",
-                    }}
-                    breakpoints={{
-                      360: {
-                        slidesPerView: 2,
-                        spaceBetween: 20,
-                      },
-                      640: {
-                        slidesPerView: 3,
-                      },
-                      1024: {
-                        slidesPerView: 4,
-                        navigation: true,
-                      },
-                      1200: {
-                        slidesPerView: 5,
-                      },
-                      1440: {
-                        slidesPerView: 6,
-                      },
-                      1800: {
-                        slidesPerView: 7,
-                      },
-                    }}
-                    modules={[Navigation]}
-                  >
-                    {topRatedList.map((data) => (
-                      <SwiperSlide style={swiperStyle}>
-                        <PosterCard
-                          onClick={() => handleCardClick("movie", data.id)}
-                          key={data.id}
-                          posterImgPath={data.poster_path}
-                          date={data.release_date || data.first_air_date}
-                          rating={data.vote_average}
-                          title={data.title || data.name}
-                          type={data.media_type}
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-
-                  <div className="flex items-center">
-                    <i className="fa-solid fa-chevron-right hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
-                  </div>
-                </>
-              )}
-            </>
-          </div>
-        </div>
-        {cardClicked && modalData && (
-          <MovieDetailModal
-            castData={modalData.credits.cast}
-            modalPosterPath={modalData.poster_path}
-            movieTitle={modalData.name || modalData.title}
-            overview={modalData.overview}
-            tagline={modalData.tagline}
-            videosInfoList={modalData.videos.results}
-            year={
-              modalData.release_date ? modalData.release_date.slice(0, 4) : ""
-            }
-            key={modalData.id}
-          />
-        )}
-      </div>
+        </>
+      )}
     </>
   );
 }
