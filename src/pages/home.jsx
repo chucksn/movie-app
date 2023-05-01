@@ -183,38 +183,36 @@ function Home() {
                   </>
                 )}
                 {nowPlayingList && (
-                  <>
-                    <Swiper
-                      onSlideChange={handleSlideChange}
-                      spaceBetween={30}
-                      centeredSlides={true}
-                      navigation={{
-                        nextEl: ".fa-caret-right",
-                        prevEl: ".fa-caret-left",
-                      }}
-                      loop={true}
-                      autoplay={{
-                        delay: 3000,
-                        disableOnInteraction: false,
-                      }}
-                      modules={[Autoplay, Navigation]}
-                      className="mySwiper"
-                    >
-                      {nowPlayingList.map((data) => (
-                        <SwiperSlide>
-                          <MainSlideCard
-                            onClick={() => handleClickMainSlide(data.id)}
-                            key={data.id}
-                            posterImgPath={data.backdrop_path}
-                            title={data.title}
-                            year={data.release_date}
-                            leftNavRef={leftNavRef}
-                            rightNavRef={rightNavRef}
-                          />
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
-                  </>
+                  <Swiper
+                    onSlideChange={handleSlideChange}
+                    spaceBetween={30}
+                    centeredSlides={true}
+                    navigation={{
+                      nextEl: ".fa-caret-right",
+                      prevEl: ".fa-caret-left",
+                    }}
+                    loop={true}
+                    autoplay={{
+                      delay: 3000,
+                      disableOnInteraction: false,
+                    }}
+                    modules={[Autoplay, Navigation]}
+                    className="mySwiper"
+                  >
+                    {nowPlayingList.map((data) => (
+                      <SwiperSlide>
+                        <MainSlideCard
+                          onClick={() => handleClickMainSlide(data.id)}
+                          key={data.id}
+                          posterImgPath={data.backdrop_path}
+                          title={data.title}
+                          year={data.release_date}
+                          leftNavRef={leftNavRef}
+                          rightNavRef={rightNavRef}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
                 )}
                 {videoPath && mainSlideClicked && (
                   <VideoWindow videoUrl={videoPath} />
