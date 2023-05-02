@@ -15,8 +15,8 @@ import { combineReducers } from "redux";
 export const rootReducer = combineReducers({
   currentPg: currentPageReducer,
   search: searchInfoReducer,
-  returnedPg: returnedPageReducer,
-  toggle: searchToggleReducer,
+  search_returnedPg: returnedPageReducer,
+  searchToggleState: searchToggleReducer,
   cardClicked: cardClickedReducer,
   modalData: modalDataReducer,
   mainSlideVideoList: mainSlideVideoListReducer,

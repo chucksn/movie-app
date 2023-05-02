@@ -1,86 +1,62 @@
-import { useContext, useState } from "react";
+import { useState, useEffect } from "react";
 import PosterCard from "./posterCard";
-import { PageContextTv } from "../pages/tvSeries";
-import { PageContextMovie } from "../pages/movies";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import MovieDetailModal from "./modal";
 
-function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
-  const tvPageContext = useContext(PageContextTv);
-  const moviePageContext = useContext(PageContextMovie);
+function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, tag }) {
   const dispatch = useDispatch();
-  const searchCurrentPg = useSelector((state) => state.currentPg);
-  const toggleState = useSelector((state) => state.toggle);
+  const currentPage = useSelector((state) => state.currentPg);
   const modalData = useSelector((state) => state.modalData);
   const cardClicked = useSelector((state) => state.cardClicked);
   const [clickedCardIndex, setClickedCardIndex] = useState(null);
+  const location = useLocation();
+
+  const handleScrollToTop = () => {
+    window.scrollTo(0, 0, "smooth");
+  };
 
   const handleCardClick = async (index, id) => {
     dispatch({ type: "CARD_CLICKED" });
     setClickedCardIndex(index);
 
     let res = await fetch(
-      `https://api.themoviedb.org/3/${tvType}/${id}?api_key=5267b00cdf764bc75046eff3d46be3e2&language=en-US&append_to_response=videos,credits`
+      `https://api.themoviedb.org/3/${tag}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=videos,credits`
     );
-    let fetchedModalData = await res.json();
+    let modal_data = await res.json();
 
     dispatch({
       type: "UPDATE_MODAL_DATA",
-      payload: fetchedModalData,
+      payload: modal_data,
     });
   };
 
-  if (activePage === "movie") {
-    var currentPage = moviePageContext.value1;
-    var setCurrentPage = moviePageContext.value2;
-    var tvType = moviePageContext.value3;
-  }
-
-  if (activePage === "tv") {
-    var currentPage = tvPageContext.value1;
-    var setCurrentPage = tvPageContext.value2;
-    var tvType = tvPageContext.value3;
-  }
-
-  if (activePage === "search") {
-    if (toggleState === "movie") {
-      tvType = "movie";
-    } else if (toggleState === "tv") {
-      tvType = "tv";
-    }
-  }
-
-  const handleScrollToTop = () => {
-    window.scrollTo(0, 0, "smooth");
-  };
+  useEffect(() => {
+    dispatch({ type: "RESET_CURRENT_PAGE" });
+    dispatch({ type: "MODAL_DATA_RESET" });
+    handleScrollToTop();
+  }, [location.pathname]);
 
   const goToNextPage = () => {
-    activePage === "search"
-      ? dispatch({ type: "NEXT_PAGE" })
-      : setCurrentPage(currentPage + 1);
+    dispatch({ type: "NEXT_PAGE" });
+
     handleScrollToTop();
   };
 
   const goToPrevPage = () => {
-    activePage === "search"
-      ? dispatch({ type: "PREV_PAGE" })
-      : setCurrentPage(currentPage - 1);
+    dispatch({ type: "PREV_PAGE" });
+
     handleScrollToTop();
   };
 
   const changePage = (event) => {
     const pageNumber = Number(event.target.textContent);
-    activePage === "search"
-      ? dispatch({ type: "CHANGE_PAGE", payload: pageNumber })
-      : setCurrentPage(pageNumber);
+    dispatch({ type: "CHANGE_PAGE", payload: pageNumber });
+
     handleScrollToTop();
   };
 
   const getPaginationGroup = () => {
-    if (activePage === "search") {
-      currentPage = searchCurrentPg;
-    }
     let start =
       Math.floor((currentPage - 1) / pgNumDisplayLimit) * pgNumDisplayLimit;
     return new Array(pgNumDisplayLimit).fill().map((_, idx) => start + idx + 1);
@@ -100,7 +76,7 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, activePage }) {
                   rating={data.vote_average}
                   title={data.name || data.title}
                   date={data.first_air_date || data.release_date}
-                  type={tvType || data.media_type}
+                  type={tag}
                 />
               )}
               {cardClicked && modalData && clickedCardIndex === index && (

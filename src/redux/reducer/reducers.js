@@ -28,7 +28,7 @@ export function currentPageReducer(state = 1, action) {
       return state - 1;
     case "CHANGE_PAGE":
       return action.payload;
-    case "RESET":
+    case "RESET_CURRENT_PAGE":
       return (state = 1);
     default:
       return state;
@@ -70,7 +70,7 @@ export function modalDataReducer(state = null, action) {
 
 export function returnedPageReducer(state = 1, action) {
   switch (action.type) {
-    case "UPDATE_RETURNED_PAGE":
+    case "SEARCH_RETURNED_PAGES":
       return action.payload;
     default:
       return state;
@@ -91,6 +91,8 @@ export function searchToggleReducer(state = "movie", action) {
     case "TV_SELECTED":
       return "tv";
     case "MOVIE_SELECTED":
+      return "movie";
+    case "SEARCH_TOGGLE_RESET":
       return "movie";
     default:
       return state;

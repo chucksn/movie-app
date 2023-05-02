@@ -6,6 +6,7 @@ import MainSlideCard from "../components/mainSlideCard";
 import NextSlideCard from "../components/nextSlideCard";
 import PosterCard from "../components/posterCard";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import VideoWindow from "../components/videoWindow";
 import MovieDetailModal from "../components/modal";
 import loading from "../images/loading2.svg";
@@ -25,6 +26,7 @@ function Home() {
   const mainSlideClicked = useSelector((state) => state.mainSlideCardClicked);
   const cardClicked = useSelector((state) => state.cardClicked);
   const modalData = useSelector((state) => state.modalData);
+  const location = useLocation();
   const selectRef = useRef();
 
   const videoInfo =
@@ -82,6 +84,10 @@ function Home() {
     };
     getTopRated();
   }, []);
+
+  useEffect(() => {
+    dispatch({ type: "MODAL_DATA_RESET" });
+  }, [location.pathname]);
 
   const handleSlideChange = (swiper) => {
     setCurrentSlideIndex(swiper.realIndex);
@@ -414,7 +420,7 @@ function Home() {
                           date={data.release_date || data.first_air_date}
                           rating={data.vote_average}
                           title={data.title || data.name}
-                          type={data.media_type}
+                          type="movie"
                         />
                       </SwiperSlide>
                     ))}
@@ -436,9 +442,7 @@ function Home() {
             overview={modalData.overview}
             tagline={modalData.tagline}
             videosInfoList={modalData.videos.results}
-            year={
-              modalData.release_date ? modalData.release_date.slice(0, 4) : ""
-            }
+            year={modalData.release_date && modalData.release_date.slice(0, 4)}
             key={modalData.id}
           />
         )}

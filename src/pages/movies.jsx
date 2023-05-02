@@ -1,11 +1,10 @@
 import PaginatedDisplay from "../components/paginatedDisplay";
-import { useEffect, useState, createContext } from "react";
-import tailSpinLoader from "../images/tail-spin.svg";
-
-export const PageContextMovie = createContext();
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import loading from "../images/loading2.svg";
 
 function Movies() {
-  const [currentPage, setCurrentPage] = useState(1);
+  const currentPage = useSelector((state) => state.currentPg);
   const [returnedPage, setReturnedPage] = useState(1);
   const [movieInfoList, setMovieInfoList] = useState(null);
 
@@ -26,7 +25,13 @@ function Movies() {
     <>
       {(!movieInfoList || movieInfoList.length < 1) && (
         <div className="outlet-bg-empty-search min-h-screen w-full bg-black/90">
-          <img src={tailSpinLoader} alt="loading" />
+          <div className="flex justify-center items-center w-full h-screen">
+            <img
+              src={loading}
+              alt="loading"
+              className="w-[40px] h-[40px] lg:w-[50px] lg:h-[60px] animate-spin-slow"
+            />
+          </div>
         </div>
       )}
       {movieInfoList && (
@@ -34,20 +39,14 @@ function Movies() {
           <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]">
             DISCOVER MOVIES
           </span>
-          <PageContextMovie.Provider
-            value={{
-              value1: currentPage,
-              value2: setCurrentPage,
-              value3: "movie",
-            }}
-          >
-            <PaginatedDisplay
-              movieData={movieInfoList}
-              pgNumDisplayLimit={5}
-              pages={returnedPage}
-              activePage="movie"
-            />
-          </PageContextMovie.Provider>
+
+          <PaginatedDisplay
+            key="movie-pagination"
+            movieData={movieInfoList}
+            pgNumDisplayLimit={5}
+            pages={returnedPage}
+            tag="movie"
+          />
         </div>
       )}
     </>

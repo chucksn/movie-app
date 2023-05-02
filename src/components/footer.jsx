@@ -25,9 +25,6 @@ function Footer() {
         </a>
       </div>
       <div className="footer-text text-[lightgrey] text-center mt-8">
-        <span className="top-text">Developed with ReactJS</span>
-        <br />
-        <br />
         <small>Designed and Developed By Chucks N &#169;{year}</small>
       </div>
     </div>

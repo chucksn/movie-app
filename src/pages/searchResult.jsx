@@ -1,16 +1,15 @@
 import PaginatedDisplay from "../components/paginatedDisplay";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 function SearchResult() {
-  const returnedPage = useSelector((state) => state.returnedPg);
+  const returnedPage = useSelector((state) => state.search_returnedPg);
   const searchInfo = useSelector((state) => state.search);
   const dispatch = useDispatch();
-  const toggleState = useSelector((state) => state.toggle);
+  const searchToggleState = useSelector((state) => state.searchToggleState);
 
   useEffect(() => {
-    dispatch({ type: "RESET" }); //resets searchResult
+    dispatch({ type: "SEARCH_TOGGLE_RESET" });
   }, [dispatch]);
 
   const handleMovieToggle = () => {
@@ -39,7 +38,9 @@ function SearchResult() {
             <span
               onClick={handleMovieToggle}
               className={`select-movie mx-8 ${
-                toggleState === "movie" ? "text-white" : "text-[rgb(70,70,70)]"
+                searchToggleState === "movie"
+                  ? "text-white"
+                  : "text-[rgb(70,70,70)]"
               }`}
             >
               Movie
@@ -47,7 +48,9 @@ function SearchResult() {
             <span
               onClick={handleTvToggle}
               className={`select-tv mx-8 ${
-                toggleState === "tv" ? "text-white" : "text-[rgb(70,70,70)]"
+                searchToggleState === "tv"
+                  ? "text-white"
+                  : "text-[rgb(70,70,70)]"
               }`}
             >
               Tv Series
@@ -55,10 +58,11 @@ function SearchResult() {
           </div>
 
           <PaginatedDisplay
+            key="search-pagination"
             movieData={searchInfo.searchResult}
             pgNumDisplayLimit={5}
             pages={returnedPage}
-            activePage="search"
+            tag={searchToggleState === "tv" ? "tv" : "movie"}
           />
         </div>
       )}
