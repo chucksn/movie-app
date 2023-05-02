@@ -15,7 +15,7 @@ function NavBar() {
     setMenuToggle(false);
   };
   return (
-    <div className="nav-bar flex items-center bg-black fixed top-0 left-0 w-full z-10 border-b border-zinc-800 flex-col flex-wrap justify-center p-4 lg:flex-row lg:justify-between lg:py-4 lg:px-8 lg:flex-nowrap">
+    <div className="nav-bar flex items-center bg-black fixed top-0 left-0 w-full z-10 border-b border-zinc-800 flex-col flex-wrap justify-center p-4 lg:flex-row lg:justify-between lg:py-4 lg:px-10 lg:flex-nowrap">
       <div className="logo-title flex items-center text-xl mb-4 lg:mb-0 font-prosto font-bold p-2 rounded-lg shadow-[0_0_4px_1px_rgb(182,148,61)] bg-[rgb(30,11,30)]">
         <Link to="/" className="no-underline text-[rgb(170,152,94)]">
           <i className="fa-solid fa-clapperboard "></i>
