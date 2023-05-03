@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import VideoWindow from "../components/videoWindow";
 import MovieDetailModal from "../components/modal";
 import loading from "../images/loading2.svg";
+import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 
 function Home() {
   const [nowPlayingList, setNowPlayingList] = useState(null);
@@ -19,11 +20,10 @@ function Home() {
   const [selectOpened, setOpenStatus] = useState(false);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [nextSlideList, setNextSlideList] = useState([]);
-  const leftNavRef = useRef();
-  const rightNavRef = useRef();
   const dispatch = useDispatch();
   const mainSlideVideoList = useSelector((state) => state.mainSlideVideoList);
   const mainSlideClicked = useSelector((state) => state.mainSlideCardClicked);
+  const mainSlideHover = useSelector((state) => state.mainSlideCardHover);
   const cardClicked = useSelector((state) => state.cardClicked);
   const modalData = useSelector((state) => state.modalData);
   const location = useLocation();
@@ -97,11 +97,6 @@ function Home() {
     swiper.autoplay.start();
   };
 
-  const handleNav = () => {
-    leftNavRef.current.style.display = "block";
-    rightNavRef.current.style.display = "block";
-  };
-
   const handleClickMainSlide = async (id) => {
     let response = await fetch(
       `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=videos`
@@ -158,9 +153,9 @@ function Home() {
 
   return (
     <>
-      <div className="outlet-bg min-h-screen w-full bg-black/90 py-40 px-2 sm:py-48 sm:px-4 md:py-48 md:px-7 lg:py-28 lg:px-2">
+      <div className="outlet-bg min-h-screen w-full bg-black/90 py-[72px] px-2 sm:py-32 sm:px-4 md:px-7 lg:px-2">
         <div className="home-main flex w-full flex-col m-auto">
-          <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]">
+          <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.2rem] md:text-[1.4rem]">
             Now Playing
           </span>
           <div className="home-slideshow flex justify-between">
@@ -180,16 +175,16 @@ function Home() {
 
                 {nowPlayingList && (
                   <>
-                    <i
-                      onMouseEnter={handleNav}
-                      ref={rightNavRef}
-                      className="fa-solid fa-caret-right hidden absolute right-0 top-[50%] mr-2 text-[rgb(202,202,202)] text-4xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"
-                    ></i>
-                    <i
-                      onMouseEnter={handleNav}
-                      ref={leftNavRef}
-                      className="fa-solid fa-caret-left hidden absolute left-0 top-[50%] ml-2 text-[rgb(202,202,202)] text-4xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"
-                    ></i>
+                    <BsChevronRight
+                      className={`main-slide-right-nav absolute right-0 top-[50%] mr-2 text-[rgb(202,202,202)] text-5xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)] ${
+                        mainSlideHover ? "lg:block" : "hidden"
+                      }`}
+                    />
+                    <BsChevronLeft
+                      className={`main-slide-left-nav absolute left-0 top-[50%] ml-2 text-[rgb(202,202,202)] text-5xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)] ${
+                        mainSlideHover ? "lg:block" : "hidden"
+                      }`}
+                    />
                   </>
                 )}
                 {nowPlayingList && (
@@ -218,8 +213,6 @@ function Home() {
                           posterImgPath={data.backdrop_path}
                           title={data.title}
                           year={data.release_date}
-                          leftNavRef={leftNavRef}
-                          rightNavRef={rightNavRef}
                         />
                       </SwiperSlide>
                     ))}
@@ -252,7 +245,7 @@ function Home() {
         <div className="trending-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
           <span
             style={{ marginBottom: "1rem", position: "relative" }}
-            className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
+            className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.2rem] md:text-[1.4rem]"
           >
             TRENDING {trendingPeriod === "day" && "TODAY"}
             {trendingPeriod === "week" && "THIS WEEK"}{" "}
@@ -360,7 +353,7 @@ function Home() {
         <div className="top-rated-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
           <span
             style={{ marginBottom: "1rem" }}
-            className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]"
+            className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.2rem] md:text-[1.4rem]"
           >
             TOP RATED
           </span>

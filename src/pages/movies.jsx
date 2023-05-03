@@ -29,14 +29,14 @@ function Movies() {
             <img
               src={loading}
               alt="loading"
-              className="w-[40px] h-[40px] lg:w-[50px] lg:h-[60px] animate-spin-slow"
+              className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] animate-spin-slow"
             />
           </div>
         </div>
       )}
       {movieInfoList && (
-        <div className="outlet-bg min-h-screen w-full bg-black/90 py-40 px-2 sm:py-48 sm:px-4 md:py-48  lg:py-28 ">
-          <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.3rem] md:text-[1.6rem]">
+        <div className="outlet-bg min-h-screen w-full bg-black/90 py-[72px] px-2 sm:py-32 sm:px-4 md:px-7 lg:px-2 ">
+          <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.2rem] md:text-[1.4rem]">
             DISCOVER MOVIES
           </span>
 

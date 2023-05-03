@@ -46,6 +46,17 @@ export function mainSlideCardClickedReducer(state = false, action) {
   }
 }
 
+export function mainSlideCardHoverReducer(state = false, action) {
+  switch (action.type) {
+    case "MAIN_SLIDE_CARD_MOUSE_ENTER":
+      return (state = true);
+    case "MAIN_SLIDE_CARD_MOUSE_LEAVE":
+      return (state = false);
+    default:
+      return state;
+  }
+}
+
 export function mainSlideVideoListReducer(state = null, action) {
   switch (action.type) {
     case "UPDATE_MAIN_SLIDE_VIDEO_LIST_DATA":

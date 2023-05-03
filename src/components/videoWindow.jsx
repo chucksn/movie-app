@@ -21,9 +21,9 @@ function VideoWindow({ videoUrl }) {
   return (
     <div
       ref={videoWindowRef}
-      className="video-window-bg fixed left-0 top-0 w-full h-full z-[8] "
+      className="video-window-bg fixed left-0 top-0 w-full h-full z-40 "
     >
-      <div className="video-window w-full sm:w-[80%] h-full bg-black my-32 sm:my-44 lg:my-20 mx-auto p-4 md:pt-0">
+      <div className="video-window w-full sm:w-[80%] h-full bg-black my-12 sm:my-24 mx-auto p-4">
         <span
           onClick={handleClose}
           className="close-icon float-right text-white font-extrabold text-[1.8rem] cursor-pointer"

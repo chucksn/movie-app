@@ -84,11 +84,11 @@ function MovieDetailModal({
     <>
       <div
         ref={modalRef}
-        className="modal fixed left-0 top-0 w-full h-full bg-black/80 z-[7] pt-8 overflow-y-auto"
+        className="modal fixed left-0 top-0 w-full h-full bg-black/80 z-30 pt-8 overflow-y-auto"
       >
         <div
           ref={modalContentRef}
-          className="modal-content w-[80%] sm:w-[70%] bg-[rgb(26,26,26)] p-2 shadow-[0_0_6px_rgb(1,202,202)] rounded-lg my-32 sm:my-44 lg:my-20 mx-auto"
+          className="modal-content w-[80%] sm:w-[70%] bg-[rgb(26,26,26)] p-2 shadow-[0_0_6px_rgb(1,202,202)] rounded-lg my-12 sm:my-24  mx-auto"
         >
           <span
             onClick={onClose}

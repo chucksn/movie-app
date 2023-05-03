@@ -1,25 +1,19 @@
-import { useRef } from "react";
+import { useState } from "react";
+import { BsPlayCircle } from "react-icons/bs";
+import { useDispatch } from "react-redux";
 
-function MainSlideCard({
-  posterImgPath,
-  title,
-  year,
-  leftNavRef,
-  rightNavRef,
-  onClick,
-}) {
-  const playBtnRef = useRef();
+function MainSlideCard({ posterImgPath, title, year, onClick }) {
+  const [mouseEnter, setMouseEnter] = useState(false);
+  const dispatch = useDispatch();
 
   const handleMouseEnter = () => {
-    playBtnRef.current.style.color = "orange";
-    leftNavRef.current.style.display = "block";
-    rightNavRef.current.style.display = "block";
+    setMouseEnter(true);
+    dispatch({ type: "MAIN_SLIDE_CARD_MOUSE_ENTER" });
   };
 
   const handleMouseLeave = () => {
-    playBtnRef.current.style.color = "rgba(255, 255, 255, 0.4)";
-    leftNavRef.current.style.display = "none";
-    rightNavRef.current.style.display = "none";
+    setMouseEnter(false);
+    dispatch({ type: "MAIN_SLIDE_CARD_MOUSE_LEAVE" });
   };
 
   let image =
@@ -37,10 +31,11 @@ function MainSlideCard({
       <img className="main-slide-image" src={image} alt="movie" />
 
       <div className="main-slide-detail flex justify-center items-center absolute top-[100%] left-[50%] -translate-x-1/2 -translate-y-full w-[101%] ">
-        <i
-          ref={playBtnRef}
-          className="fa-solid fa-circle-play text-white/40 text-8 mr-4 sm:text-3xl sm:mr-6 md:text-5xl md:mr-8"
-        ></i>
+        <BsPlayCircle
+          className={` text-8 mr-4 sm:text-3xl sm:mr-6 md:text-6xl md:mr-8 ${
+            mouseEnter ? "text-[rgb(245,197,24)]" : "text-white/40"
+          }`}
+        />
 
         <div className="main-slide-info flex flex-col text-center text-[0.8rem] leading-4 sm:text-base sm:leading-5 md:leading-7">
           <span className="main-slide-title text-[rgb(182,148,61)] text-shadow-[0_0_4px_2px_rgb(0,0,0)] font-ubuntu font-medium sm:text-lg md:text-2xl">

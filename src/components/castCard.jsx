@@ -27,7 +27,7 @@ const CastCard = ({
       {clickedCard === index && tooltipVisibility && (
         <span className="character-tooltip absolute text-[0.75rem] text-white bg-[rgb(0,87,87)] p-[0.2rem] rounded-lg top-[50%]">
           <span className="character-txt text-[rgb(235,235,0)] font-medium">
-            Character:
+            Character:{" "}
           </span>
           {character}
         </span>

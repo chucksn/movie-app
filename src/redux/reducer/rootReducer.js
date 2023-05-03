@@ -8,6 +8,7 @@ import {
   mainSlideVideoListReducer,
   mainSlideCardClickedReducer,
   trailerBtnClickedReducer,
+  mainSlideCardHoverReducer,
 } from "./reducers";
 
 import { combineReducers } from "redux";
@@ -21,5 +22,6 @@ export const rootReducer = combineReducers({
   modalData: modalDataReducer,
   mainSlideVideoList: mainSlideVideoListReducer,
   mainSlideCardClicked: mainSlideCardClickedReducer,
+  mainSlideCardHover: mainSlideCardHoverReducer,
   trailerBtnClicked: trailerBtnClickedReducer,
 });

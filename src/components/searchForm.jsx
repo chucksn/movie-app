@@ -47,23 +47,26 @@ function SearchForm() {
   };
 
   return (
-    <div className="search flex items-center mt-2 lg:mt-0 rounded-[4px] bg-slate-200 p-1">
-      <input
-        onKeyDown={handleSearchOnEnterKey}
-        ref={inputRef}
-        type="text"
-        placeholder="Search Movie or Series"
-        className="search-area md:text-lg font-medium  outline-none indent-2 text-black bg-slate-200"
-        spellCheck="false"
-        autoFocus
-        required
-      />
+    <>
+      <div className="search hidden sm:flex items-center rounded-[4px] bg-slate-200 p-1 ">
+        <input
+          onKeyDown={handleSearchOnEnterKey}
+          ref={inputRef}
+          type="text"
+          placeholder="Search Movie or Series"
+          className="search-area font-medium w-full outline-none indent-2 text-black bg-slate-200"
+          spellCheck="false"
+          autoFocus
+          required
+        />
 
-      <i
-        onClick={handleOnClick}
-        className="fa-solid fa-magnifying-glass text-zinc-600 mx-2 text-xl   hover:cursor-pointer "
-      ></i>
-    </div>
+        <i
+          onClick={handleOnClick}
+          className="fa-solid fa-magnifying-glass text-zinc-600 mx-2 text-xl hover:cursor-pointer "
+        ></i>
+      </div>
+      <i className="fa-solid fa-magnifying-glass text-slate-200 mx-2 text-xl block sm:hidden hover:cursor-pointer "></i>
+    </>
   );
 }
 
