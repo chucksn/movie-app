@@ -77,6 +77,7 @@ function PaginatedDisplay({ movieData, pgNumDisplayLimit, pages, tag }) {
                   title={data.name || data.title}
                   date={data.first_air_date || data.release_date}
                   type={tag}
+                  posterCardData={movieData}
                 />
               )}
               {cardClicked && modalData && clickedCardIndex === index && (

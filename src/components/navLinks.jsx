@@ -10,7 +10,7 @@ function NavLinks({ menuToggle, onClick, activeRoute }) {
       <Link
         to="/"
         onClick={onClick}
-        className={`no-underline font-medium my-2 sm:my-0 hover:text-sky-400 ${
+        className={`no-underline font-medium my-2 sm:my-0 mx-10 hover:text-sky-400 ${
           activeRoute === "/" ? "text-sky-400" : "text-zinc-300"
         }`}
       >
@@ -19,7 +19,7 @@ function NavLinks({ menuToggle, onClick, activeRoute }) {
       <Link
         to="/movies"
         onClick={onClick}
-        className={`no-underline font-medium my-2 sm:my-0 hover:text-sky-400 ${
+        className={`no-underline font-medium my-2 sm:my-0 mx-10 hover:text-sky-400 ${
           activeRoute === "/movies" ? "text-sky-400" : "text-zinc-300"
         }`}
       >
@@ -28,7 +28,7 @@ function NavLinks({ menuToggle, onClick, activeRoute }) {
       <Link
         to="/tvSeries"
         onClick={onClick}
-        className={`no-underline font-medium my-2 sm:my-0 hover:text-sky-400 ${
+        className={`no-underline font-medium my-2 sm:my-0 mx-10 hover:text-sky-400 ${
           activeRoute === "/tvSeries" ? "text-sky-400" : "text-zinc-300"
         }`}
       >

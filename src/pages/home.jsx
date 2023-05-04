@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 import VideoWindow from "../components/videoWindow";
 import MovieDetailModal from "../components/modal";
 import loading from "../images/loading2.svg";
-import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 
 function Home() {
   const [nowPlayingList, setNowPlayingList] = useState(null);
@@ -146,6 +146,14 @@ function Home() {
     selectRef.current.style.display = "none";
   };
 
+  const handleMouseEnterSlideNav = () => {
+    dispatch({ type: "MAIN_SLIDE_CARD_MOUSE_ENTER" });
+  };
+
+  const handleMouseLeaveSlideNav = () => {
+    dispatch({ type: "MAIN_SLIDE_CARD_MOUSE_LEAVE" });
+  };
+
   const swiperStyle = {
     display: "flex",
     justifyContent: "center",
@@ -175,15 +183,19 @@ function Home() {
 
                 {nowPlayingList && (
                   <>
-                    <BsChevronRight
+                    <FaChevronRight
                       className={`main-slide-right-nav absolute right-0 top-[50%] mr-2 text-[rgb(202,202,202)] text-5xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)] ${
                         mainSlideHover ? "lg:block" : "hidden"
                       }`}
+                      onMouseEnter={handleMouseEnterSlideNav}
+                      onMouseLeave={handleMouseLeaveSlideNav}
                     />
-                    <BsChevronLeft
+                    <FaChevronLeft
                       className={`main-slide-left-nav absolute left-0 top-[50%] ml-2 text-[rgb(202,202,202)] text-5xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)] ${
                         mainSlideHover ? "lg:block" : "hidden"
                       }`}
+                      onMouseEnter={handleMouseEnterSlideNav}
+                      onMouseLeave={handleMouseLeaveSlideNav}
                     />
                   </>
                 )}
@@ -194,8 +206,8 @@ function Home() {
                     spaceBetween={30}
                     centeredSlides={true}
                     navigation={{
-                      nextEl: ".fa-caret-right",
-                      prevEl: ".fa-caret-left",
+                      nextEl: ".main-slide-right-nav",
+                      prevEl: ".main-slide-left-nav",
                     }}
                     loop={true}
                     autoplay={{
@@ -293,14 +305,14 @@ function Home() {
               {trendingList && (
                 <>
                   <div className="flex items-center">
-                    <i className="fa-solid fa-angle-left hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                    <FaChevronLeft className="trending-slide-left-nav hidden md:block m-4 text-[rgb(202,202,202)] text-5xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
                   </div>
 
                   <Swiper
                     spaceBetween={30}
                     navigation={{
-                      nextEl: ".fa-angle-right",
-                      prevEl: ".fa-angle-left",
+                      nextEl: ".trending-slide-right-nav",
+                      prevEl: ".trending-slide-left-nav",
                     }}
                     breakpoints={{
                       360: {
@@ -337,13 +349,14 @@ function Home() {
                           rating={data.vote_average}
                           title={data.title || data.name}
                           type={data.media_type}
+                          posterCardData={trendingList}
                         />
                       </SwiperSlide>
                     ))}
                   </Swiper>
 
                   <div className="flex items-center">
-                    <i className="fa-solid fa-angle-right hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                    <FaChevronRight className="trending-slide-right-nav hidden md:block m-4 text-[rgb(202,202,202)] text-5xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
                   </div>
                 </>
               )}
@@ -371,14 +384,14 @@ function Home() {
               {topRatedList && (
                 <>
                   <div className="flex items-center">
-                    <i className="fa-solid fa-chevron-left hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                    <FaChevronLeft className="top-rated-slide-left-nav hidden md:block m-4 text-[rgb(202,202,202)] text-5xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
                   </div>
 
                   <Swiper
                     spaceBetween={30}
                     navigation={{
-                      nextEl: ".fa-chevron-right",
-                      prevEl: ".fa-chevron-left",
+                      nextEl: ".top-rated-slide-right-nav",
+                      prevEl: ".top-rated-slide-left-nav",
                     }}
                     breakpoints={{
                       360: {
@@ -414,13 +427,14 @@ function Home() {
                           rating={data.vote_average}
                           title={data.title || data.name}
                           type="movie"
+                          posterCardData={topRatedList}
                         />
                       </SwiperSlide>
                     ))}
                   </Swiper>
 
                   <div className="flex items-center">
-                    <i className="fa-solid fa-chevron-right hidden md:block m-4 text-[rgb(202,202,202)] text-4xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]"></i>
+                    <FaChevronRight className="top-rated-slide-right-nav hidden md:block m-4 text-[rgb(202,202,202)] text-5xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
                   </div>
                 </>
               )}

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { BsPlayCircle } from "react-icons/bs";
 import { useDispatch } from "react-redux";
+import loadingSvg from "../images/loading2.svg";
 
 function MainSlideCard({ posterImgPath, title, year, onClick }) {
   const [mouseEnter, setMouseEnter] = useState(false);
   const dispatch = useDispatch();
+  const [loaded, setLoaded] = useState(false);
 
   const handleMouseEnter = () => {
     setMouseEnter(true);
@@ -14,6 +16,10 @@ function MainSlideCard({ posterImgPath, title, year, onClick }) {
   const handleMouseLeave = () => {
     setMouseEnter(false);
     dispatch({ type: "MAIN_SLIDE_CARD_MOUSE_LEAVE" });
+  };
+
+  const handleLoad = () => {
+    setLoaded(true);
   };
 
   let image =
@@ -26,9 +32,24 @@ function MainSlideCard({ posterImgPath, title, year, onClick }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
-      className="main-slide-card bg-[rgb(5,5,5)] py-4  flex flex-col text-white text-center cursor-pointer text-lg relative"
+      className="main-slide-card  py-4 w-full min-h-[234px] sm:min-h-[374.19px] md:min-h-[400.6px] xl:min-h-[553.16px] bg-[rgb(5,5,5)] flex flex-col text-white text-center cursor-pointer text-lg relative"
     >
-      <img className="main-slide-image" src={image} alt="movie" />
+      {!loaded && (
+        <div className="loading-placeholder w-full h-full flex justify-center items-center">
+          <img
+            src={loadingSvg}
+            alt="loading"
+            className="w-[40px] h-[40px] animate-spin-slow"
+          />
+        </div>
+      )}
+      <img
+        className="main-slide-image"
+        src={image}
+        alt="movie"
+        onLoad={handleLoad}
+        style={{ display: loaded ? "inline-block" : "none" }}
+      />
 
       <div className="main-slide-detail flex justify-center items-center absolute top-[100%] left-[50%] -translate-x-1/2 -translate-y-full w-[101%] ">
         <BsPlayCircle
