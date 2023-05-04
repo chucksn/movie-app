@@ -35,7 +35,7 @@ function MainSlideCard({ posterImgPath, title, year, onClick }) {
       className="main-slide-card  py-4 w-full min-h-[234px] sm:min-h-[374.19px] md:min-h-[400.6px] xl:min-h-[553.16px] bg-[rgb(5,5,5)] flex flex-col text-white text-center cursor-pointer text-lg relative"
     >
       {!loaded && (
-        <div className="loading-placeholder w-full h-full flex justify-center items-center">
+        <div className="loading-placeholder w-full min-h-[234px] sm:min-h-[374.19px] md:min-h-[400.6px] xl:min-h-[553.16px] flex justify-center items-center">
           <img
             src={loadingSvg}
             alt="loading"

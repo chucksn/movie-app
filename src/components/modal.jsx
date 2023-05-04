@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
 import { Autoplay, Navigation } from "swiper";
 import VideoWindow from "./videoWindow";
+import loadingSvg from "../images/loading2.svg";
 
 function MovieDetailModal({
   modalPosterPath,
@@ -21,6 +22,7 @@ function MovieDetailModal({
   const trailerBtnClicked = useSelector((state) => state.trailerBtnClicked);
   const [tooltipVisibility, setTooltipVisibility] = useState(false);
   const [clickedCard, setClickedCard] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
   const videoInfo =
     trailerBtnClicked &&
@@ -80,6 +82,10 @@ function MovieDetailModal({
     dispatch({ type: "TRAILER_BTN_CLICKED" });
   };
 
+  const handleLoad = () => {
+    setLoaded(true);
+  };
+
   return (
     <>
       <div
@@ -97,17 +103,28 @@ function MovieDetailModal({
             &times;
           </span>
           <div className="modal-body p-[0.8rem] ">
-            <div className="details-img-ctn flex flex-col lg:flex-row">
-              <div className="img-ctn flex justify-center lg:w-[45%] xl:w-[40%]">
+            <div className="details-img-ctn flex flex-col lg:flex-row lg:items-center">
+              <div className="img-ctn flex justify-center lg:w-[45%] xl:w-[40%] min-h-[187.94px] sm:min-h-[298.94px] md:min-h-[366.14px] lg:h-fit">
+                {!loaded && (
+                  <div className="loading-placeholder w-full min-h-[187.94px] sm:min-h-[298.94px] md:min-h-[366.14px] lg:h-full flex justify-center items-center">
+                    <img
+                      src={loadingSvg}
+                      alt="loading"
+                      className="w-[30px] h-[30px] md:w-[40px] md:h-[40px] animate-spin-slow"
+                    />
+                  </div>
+                )}
                 <img
                   src={image}
                   alt="poster"
                   className="modal-poster max-w-[50%] lg:max-w-[100%]"
+                  onLoad={handleLoad}
+                  style={{ display: loaded ? "inline-block" : "none" }}
                 />
               </div>
-              <div className="details-ctn flex flex-col justify-between md:p-4 lg:w-[55%] xl:w-[60%]">
+              <div className="details-ctn flex flex-col justify-between md:p-4 lg:w-[55%] xl:w-[60%] h-fit">
                 <div className="title-date-ctn text-center hidden md:block">
-                  <span className="modal-title block my-[0.3rem] text-[rgb(4,175,175)] font-medium font-ubuntu text-[1.2rem] sm:text-[1.5rem] md:text-[2rem]">
+                  <span className="modal-title block my-[0.3rem] text-[rgb(4,175,175)] font-medium font-ubuntu text-[1.2rem] sm:text-[1.5rem] lg:text-[1.8rem]">
                     {movieTitle}
                   </span>
                   <span className="tagline block my-[0.3rem] text-[orange] font-medium font-[cursive] md:text-[1.3rem]">
