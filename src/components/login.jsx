@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Login({ setShowSignUp, setShowLogin }) {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const [invalidLogin, setInvalidLogin] = useState("");
@@ -11,14 +11,17 @@ function Login() {
     navigate("/");
   };
 
-  const handleSignUp = () => {};
+  const handleSignUp = () => {
+    setShowSignUp(true);
+    setShowLogin(false);
+  };
 
   const handleLogin = () => {};
 
   return (
     <>
       {
-        <div className="flex flex-col justify-between items-center min-h-64 px-12 py-8 bg-slate-300 rounded-lg relative">
+        <div className="flex flex-col justify-between items-center w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] min-h-64 px-12 py-8 bg-slate-300 rounded-lg relative">
           <span
             className="close absolute text-black/70 right-0 top-0 text-3xl cursor-pointer m-4"
             onClick={handleClose}
@@ -43,7 +46,7 @@ function Login() {
               placeholder="Enter username"
               spellCheck={false}
               className="p-2 rounded-lg outline-none mb-4"
-              size={40}
+              size={30}
             />
             <label htmlFor="password">Password</label>
             <input
@@ -52,7 +55,7 @@ function Login() {
               name="password"
               placeholder="Enter Password"
               className="p-2 rounded-lg outline-none mb-4"
-              size={40}
+              size={30}
             />
             <button
               type="button"
