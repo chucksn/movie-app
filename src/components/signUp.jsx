@@ -36,7 +36,7 @@ function SignUp({ setShowLogin, setShowSignUp }) {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] min-h-64 px-12 py-8 bg-slate-300 rounded-lg relative mt-4">
+    <div className="sign-up flex flex-col justify-center items-center w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] min-h-64 px-12 py-8 bg-slate-300 rounded-lg relative mt-4">
       <span
         className="close absolute text-black/70 right-0 top-0 text-3xl cursor-pointer m-4"
         onClick={handleClose}
@@ -55,7 +55,7 @@ function SignUp({ setShowLogin, setShowSignUp }) {
           placeholder="Enter Name"
           spellCheck={false}
           className="p-2 rounded-lg outline-none mb-4"
-          size={30}
+          size={20}
         />
         <label htmlFor="email">Email</label>
         <input
@@ -65,7 +65,7 @@ function SignUp({ setShowLogin, setShowSignUp }) {
           placeholder="Enter Email"
           spellCheck={false}
           className="p-2 rounded-lg outline-none mb-4"
-          size={30}
+          size={20}
         />
         <label htmlFor="username">Username</label>
         <input
@@ -75,7 +75,7 @@ function SignUp({ setShowLogin, setShowSignUp }) {
           placeholder="Enter Username"
           spellCheck={false}
           className="p-2 rounded-lg outline-none mb-4"
-          size={30}
+          size={20}
         />
         <label htmlFor="password">Password</label>
         <input
@@ -84,7 +84,7 @@ function SignUp({ setShowLogin, setShowSignUp }) {
           name="password"
           placeholder="Enter Password"
           className="p-2 rounded-lg outline-none mb-4"
-          size={30}
+          size={20}
         />
         <button
           type="button"

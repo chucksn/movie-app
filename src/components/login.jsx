@@ -46,7 +46,7 @@ function Login({ setShowSignUp, setShowLogin }) {
               placeholder="Enter username"
               spellCheck={false}
               className="p-2 rounded-lg outline-none mb-4"
-              size={30}
+              size={20}
             />
             <label htmlFor="password">Password</label>
             <input
@@ -55,7 +55,7 @@ function Login({ setShowSignUp, setShowLogin }) {
               name="password"
               placeholder="Enter Password"
               className="p-2 rounded-lg outline-none mb-4"
-              size={30}
+              size={20}
             />
             <button
               type="button"
