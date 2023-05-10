@@ -3,11 +3,13 @@ import SearchForm from "./searchForm";
 import { useState } from "react";
 import NavLinks from "./navLinks";
 import { BsBookmarkPlusFill } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 function NavBar() {
   const [menuToggle, setMenuToggle] = useState(false);
   const location = useLocation();
   const activeRoute = location.pathname;
+  const watchlistCounter = useSelector((state) => state.watchlistCounter);
 
   const handleMenu = () => {
     setMenuToggle(!menuToggle);
@@ -36,7 +38,9 @@ function NavBar() {
           >
             <BsBookmarkPlusFill className="inline-block mr-1 " />{" "}
             <span className="hidden md:inline-block">Watchlist</span>{" "}
-            <span className="inline-block text-[yellow]">2</span>
+            <span className="inline-block text-[yellow]">
+              {watchlistCounter && watchlistCounter > 0 ? watchlistCounter : ""}
+            </span>
           </Link>
           <Link
             to="/sign-in"

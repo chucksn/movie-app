@@ -24,8 +24,6 @@ function Home() {
   const mainSlideVideoList = useSelector((state) => state.mainSlideVideoList);
   const mainSlideClicked = useSelector((state) => state.mainSlideCardClicked);
   const mainSlideHover = useSelector((state) => state.mainSlideCardHover);
-  const cardClicked = useSelector((state) => state.cardClicked);
-  const modalData = useSelector((state) => state.modalData);
   const location = useLocation();
   const selectRef = useRef();
 
@@ -109,19 +107,6 @@ function Home() {
 
     dispatch({
       type: "MAIN_SLIDE_CARD_CLICKED",
-    });
-  };
-
-  const handleCardClick = async (tvType, id) => {
-    dispatch({ type: "CARD_CLICKED" });
-
-    let res = await fetch(
-      `https://api.themoviedb.org/3/${tvType}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=videos,credits`
-    );
-    let fetchedModalData = await res.json();
-    dispatch({
-      type: "UPDATE_MODAL_DATA",
-      payload: fetchedModalData,
     });
   };
 
@@ -337,19 +322,18 @@ function Home() {
                     }}
                     modules={[Navigation]}
                   >
-                    {trendingList.map((data) => (
+                    {trendingList.map((data, index) => (
                       <SwiperSlide style={swiperStyle}>
                         <PosterCard
-                          onClick={() =>
-                            handleCardClick(data.media_type, data.id)
-                          }
                           key={data.id}
                           posterImgPath={data.poster_path}
                           date={data.release_date || data.first_air_date}
                           rating={data.vote_average}
                           title={data.title || data.name}
-                          type={data.media_type}
+                          tag={data.media_type}
                           posterCardData={trendingList}
+                          index={index}
+                          movieId={data.id}
                         />
                       </SwiperSlide>
                     ))}
@@ -417,17 +401,18 @@ function Home() {
                     }}
                     modules={[Navigation]}
                   >
-                    {topRatedList.map((data) => (
+                    {topRatedList.map((data, index) => (
                       <SwiperSlide style={swiperStyle}>
                         <PosterCard
-                          onClick={() => handleCardClick("movie", data.id)}
                           key={data.id}
                           posterImgPath={data.poster_path}
                           date={data.release_date || data.first_air_date}
                           rating={data.vote_average}
                           title={data.title || data.name}
-                          type="movie"
+                          tag="movie"
                           posterCardData={topRatedList}
+                          index={index}
+                          movieId={data.id}
                         />
                       </SwiperSlide>
                     ))}
@@ -441,7 +426,7 @@ function Home() {
             </>
           </div>
         </div>
-        {cardClicked && modalData && (
+        {/* {cardClicked && modalData && (
           <MovieDetailModal
             castData={modalData.credits.cast}
             modalPosterPath={modalData.poster_path}
@@ -452,7 +437,7 @@ function Home() {
             year={modalData.release_date && modalData.release_date.slice(0, 4)}
             key={modalData.id}
           />
-        )}
+        )} */}
       </div>
     </>
   );

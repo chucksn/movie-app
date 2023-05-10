@@ -49,6 +49,8 @@ function MovieDetailModal({
     dispatch({ type: "CARD_CLICK_RESET" });
     dispatch({ type: "MODAL_DATA_RESET" });
     dispatch({ type: "TRAILER_BTN_CLICK_RESET" });
+    dispatch({ type: "RESET_CLICKED_CARD_INDEX" });
+    dispatch({ type: "RESET_REF_CARD_INDEX" });
     restoreScroll();
   };
 
@@ -127,7 +129,7 @@ function MovieDetailModal({
                   <span className="modal-title block my-[0.3rem] text-[rgb(4,175,175)] font-medium font-ubuntu text-[1.2rem] sm:text-[1.5rem] lg:text-[1.8rem]">
                     {movieTitle}
                   </span>
-                  <span className="tagline block my-[0.3rem] text-[orange] font-medium font-[cursive] md:text-[1.3rem]">
+                  <span className="tagline block my-[0.3rem] text-[orange] font-medium font-[cursive] md:text-[1.05rem]">
                     {tagline}
                   </span>
                   <span className="modal-date block my-[0.3rem] md:text-[1.3rem] text-[green] font-medium">

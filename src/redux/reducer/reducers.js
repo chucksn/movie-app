@@ -109,3 +109,45 @@ export function searchToggleReducer(state = "movie", action) {
       return state;
   }
 }
+
+export function loggedReducer(state = false, action) {
+  switch (action.type) {
+    case "LOGGED_IN":
+      return (state = true);
+    case "LOGGED_OUT":
+      return (state = false);
+    default:
+      return state;
+  }
+}
+
+export function watchlistCounterReducer(state = null, action) {
+  switch (action.type) {
+    case "SET_WATCHLIST_COUNTER":
+      return (state = action.payload);
+    default:
+      return state;
+  }
+}
+
+export function clickedCardIndexReducer(state = null, action) {
+  switch (action.type) {
+    case "SET_CLICKED_CARD_INDEX":
+      return (state = action.payload);
+    case "RESET_CLICKED_CARD_INDEX":
+      return (state = null);
+    default:
+      return state;
+  }
+}
+
+export function refCardIndexReducer(state = null, action) {
+  switch (action.type) {
+    case "SET_REF_CARD_INDEX":
+      return (state = action.payload);
+    case "RESET_REF_CARD_INDEX":
+      return (state = null);
+    default:
+      return state;
+  }
+}
