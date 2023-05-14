@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import loadingSvg from "../images/loading2.svg";
-import { ImBookmark } from "react-icons/im";
-import { AiOutlinePlus } from "react-icons/ai";
-import { BsCheck2 } from "react-icons/bs";
+import BookmarkTag from "./bookmarkTag";
 
 function PosterCard({
   posterImgPath,
@@ -16,8 +15,15 @@ function PosterCard({
   posterCardData,
 }) {
   const [loaded, setLoaded] = useState(false);
-  const isBookmarked = useSelector((state) => state.isBookmarked);
+  const user = useSelector((state) => state.user);
+  const isLogged = useSelector((state) => state.isLogged);
+  const watchlist = useSelector((state) => state.watchlist);
+  const [isItemInWatchlist, setIsItemInWatchlist] = useState(false);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const host = process.env.REACT_APP_HOST;
+  const port = process.env.REACT_APP_PORT;
 
   const handleCardClick = async (index, id) => {
     dispatch({ type: "CARD_CLICKED" });
@@ -35,30 +41,93 @@ function PosterCard({
     });
   };
 
+  const updateWatchlist = async (id) => {
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/${tag}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=videos,credits`
+      );
+      let watchlistItem = await response.json();
+      //add tag to watchlistItem posted to backend
+      watchlistItem.tag = tag;
+      const requestOptions = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(watchlistItem),
+      };
+
+      const res =
+        isLogged &&
+        user &&
+        (await fetch(
+          `http://${host}:${port}/api/v1/user/${user.id}/watchlist`,
+          requestOptions
+        ));
+      const update_response = await res.json();
+      console.log(update_response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getWatchlist = async () => {
+    try {
+      const response =
+        isLogged &&
+        user &&
+        (await fetch(
+          `http://${host}:${port}/api/v1/user/${user.id}/watchlist`
+        ));
+      const response_data = await response.json();
+      dispatch({
+        type: "SET_WATCHLIST",
+        payload: response_data.watchlist,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteWatchlist = async (watchlistItemId) => {
+    try {
+      const response =
+        isLogged &&
+        user &&
+        (await fetch(
+          `http://${host}:${port}/api/v1/user/${user.id}/watchlist/${watchlistItemId}`,
+          { method: "DELETE", headers: { "Content-Type": "application/json" } }
+        ));
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleBookmarkClick = async (event, id) => {
     event.stopPropagation();
-
-    const res = await fetch(
-      `https://api.themoviedb.org/3/${tag}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=videos,credits`
-    );
-    const watchlistItem = await res.json();
-
-    const requestOptions = {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(watchlistItem),
-    };
-
-    fetch(
-      "http://localhost:3002/api/v1/user/645748e380e1666087b19b94/watchlist",
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => console.error(error));
+    if (!isLogged) {
+      navigate("/sign-in");
+    }
+    if (!isItemInWatchlist) {
+      await updateWatchlist(id);
+    }
+    if (isItemInWatchlist) {
+      await deleteWatchlist(id);
+    }
+    await getWatchlist();
   };
+
+  useEffect(() => {
+    const isInWatchlist =
+      watchlist &&
+      watchlist.some((watchlistItem) => watchlistItem.id === movieId);
+    if (isInWatchlist) {
+      setIsItemInWatchlist(true);
+    }
+    if (!isInWatchlist) {
+      setIsItemInWatchlist(false);
+    }
+  }, [watchlist]);
 
   const handleLoad = () => {
     setLoaded(true);
@@ -72,7 +141,7 @@ function PosterCard({
     <>
       <div
         onClick={() => handleCardClick(index, movieId)}
-        className="card flex flex-col justify-between border border-zinc-800 bg-zinc-800 rounded-[0_0_5px_5px] cursor-pointer transition duration-[0.1s] hover:scale-[0.97] min-h-[21rem] w-[10rem] sm:w-[11rem] sm:min-h-[24rem] md:min-h-[25rem] md:w-[12rem] lg:min-h-[26rem] "
+        className="card flex flex-col justify-between border border-zinc-800 bg-zinc-800 rounded-[0_0_5px_5px] cursor-pointer transition duration-[0.1s] lg:hover:scale-[0.97] min-h-[21rem] w-[10rem] sm:w-[11rem] sm:min-h-[24rem] md:min-h-[25rem] md:w-[12rem] lg:min-h-[26rem] "
       >
         {!posterCardData && (
           <div className="loading-placeholder w-full h-full flex justify-center items-center">
@@ -86,7 +155,12 @@ function PosterCard({
         {posterCardData && (
           <>
             {!loaded && (
-              <div className="loading-placeholder w-full h-full flex justify-center items-center">
+              <div className="loading-placeholder relative w-full h-full flex justify-center items-center">
+                <BookmarkTag
+                  key="bookmark"
+                  isItemInWatchlist={isItemInWatchlist}
+                  onClick={(event) => handleBookmarkClick(event, movieId)}
+                />
                 <img
                   src={loadingSvg}
                   alt="loading"
@@ -95,22 +169,14 @@ function PosterCard({
               </div>
             )}
             <div className="relative">
-              <div
-                className="bookmark absolute top-0 left-0 w-9 h-9 "
-                onClick={(event) => handleBookmarkClick(event, movieId)}
-              >
-                <ImBookmark
-                  className={`absolute left-0 top-0 text-4xl ${
-                    isBookmarked ? "text-[yellow]" : "text-black/50"
-                  } `}
+              {loaded && (
+                <BookmarkTag
+                  key="bookmark"
+                  isItemInWatchlist={isItemInWatchlist}
+                  onClick={(event) => handleBookmarkClick(event, movieId)}
                 />
-                {!isBookmarked && (
-                  <AiOutlinePlus className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-100" />
-                )}
-                {isBookmarked && (
-                  <BsCheck2 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-zinc-900" />
-                )}
-              </div>
+              )}
+
               <img
                 src={image}
                 alt="poster"

@@ -61,6 +61,7 @@ function SearchResult() {
             pgNumDisplayLimit={5}
             pages={returnedPage}
             tag={searchToggleState === "tv" ? "tv" : "movie"}
+            movieDataList={searchInfo.searchResult}
           />
         </div>
       )}

@@ -10,9 +10,10 @@ import {
   trailerBtnClickedReducer,
   mainSlideCardHoverReducer,
   loggedReducer,
-  watchlistCounterReducer,
+  watchlistReducer,
   clickedCardIndexReducer,
   refCardIndexReducer,
+  userReducer,
 } from "./reducers";
 
 import { combineReducers } from "redux";
@@ -29,7 +30,8 @@ export const rootReducer = combineReducers({
   mainSlideCardHover: mainSlideCardHoverReducer,
   trailerBtnClicked: trailerBtnClickedReducer,
   isLogged: loggedReducer,
-  watchlistCounter: watchlistCounterReducer,
+  watchlist: watchlistReducer,
   clickedCardIndex: clickedCardIndexReducer,
   refCardIndex: refCardIndexReducer,
+  user: userReducer,
 });

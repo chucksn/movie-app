@@ -48,7 +48,7 @@ function PaginatedDisplay({ movieDataList, pgNumDisplayLimit, pages, tag }) {
                   rating={data.vote_average}
                   title={data.name || data.title}
                   date={data.first_air_date || data.release_date}
-                  tag={tag}
+                  tag={tag === "watchlist" ? data.tag : tag}
                   posterCardData={movieDataList}
                   index={index}
                 />

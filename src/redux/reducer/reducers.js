@@ -121,9 +121,9 @@ export function loggedReducer(state = false, action) {
   }
 }
 
-export function watchlistCounterReducer(state = null, action) {
+export function watchlistReducer(state = null, action) {
   switch (action.type) {
-    case "SET_WATCHLIST_COUNTER":
+    case "SET_WATCHLIST":
       return (state = action.payload);
     default:
       return state;
@@ -146,6 +146,17 @@ export function refCardIndexReducer(state = null, action) {
     case "SET_REF_CARD_INDEX":
       return (state = action.payload);
     case "RESET_REF_CARD_INDEX":
+      return (state = null);
+    default:
+      return state;
+  }
+}
+
+export function userReducer(state = null, action) {
+  switch (action.type) {
+    case "SET_USER":
+      return (state = action.payload);
+    case "RESET_USER":
       return (state = null);
     default:
       return state;
