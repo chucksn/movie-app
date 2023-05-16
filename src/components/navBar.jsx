@@ -4,7 +4,8 @@ import { useState } from "react";
 import NavLinks from "./navLinks";
 import { BsBookmarkPlusFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
-import { useSelector } from "react-redux";
+import { AiFillCaretDown } from "react-icons/ai";
+import { useSelector, useDispatch } from "react-redux";
 import logo from "../images/mv-hub-logo.svg";
 
 function NavBar() {
@@ -14,6 +15,17 @@ function NavBar() {
   const watchlist = useSelector((state) => state.watchlist);
   const isLogged = useSelector((state) => state.isLogged);
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const name = user && user.name;
+
+  const capitalizeWords = (str) => {
+    return str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
+  const capitalizedName = user && capitalizeWords(name);
 
   const handleMenu = () => {
     setMenuToggle(!menuToggle);
@@ -22,9 +34,13 @@ function NavBar() {
   const handleLinkClick = () => {
     setMenuToggle(false);
   };
+
+  const handleUserProfileClick = () => {
+    dispatch({ type: "TOGGLE_USER_MENU" });
+  };
   return (
     <div className="nav-bar flex flex-col bg-black fixed top-0 left-0 w-full z-50 p-4 justify-between lg:py-4 lg:px-10">
-      <div className="upper-nav flex justify-between">
+      <div className="upper-nav flex justify-between items-center">
         <Link
           to="/"
           className="logo w-[96px] h-[34.84px] lg:w-[106px] lg:h-[38.46px] bg-sky-950 py-[1px] pl-[2px] rounded-lg"
@@ -58,11 +74,12 @@ function NavBar() {
           )}
           {isLogged && user && (
             <span
-              to="/sign-in"
-              className="sign-in block text-zinc-300 font-medium rounded cursor-pointer lg:hover:bg-zinc-800 py-1 px-[9px] sm:text-[1.05rem]"
+              onClick={handleUserProfileClick}
+              className="sign-in block text-zinc-300 font-medium rounded cursor-pointer lg:hover:bg-zinc-800 py-1 px-[9px] text-[1.3rem] sm:text-[1.05rem]"
             >
               <CgProfile className="inline" />{" "}
-              <span className="hidden sm:inline-block">{user.name}</span>
+              <span className="hidden sm:inline-block">{capitalizedName}</span>{" "}
+              <AiFillCaretDown className="inline" />
             </span>
           )}
         </div>

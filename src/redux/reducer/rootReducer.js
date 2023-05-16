@@ -14,6 +14,7 @@ import {
   clickedCardIndexReducer,
   refCardIndexReducer,
   userReducer,
+  userMenuToggleReducer,
 } from "./reducers";
 
 import { combineReducers } from "redux";
@@ -34,4 +35,5 @@ export const rootReducer = combineReducers({
   clickedCardIndex: clickedCardIndexReducer,
   refCardIndex: refCardIndexReducer,
   user: userReducer,
+  userMenuToggle: userMenuToggleReducer,
 });

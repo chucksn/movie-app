@@ -125,6 +125,8 @@ export function watchlistReducer(state = null, action) {
   switch (action.type) {
     case "SET_WATCHLIST":
       return (state = action.payload);
+    case "RESET_WATCHLIST":
+      return (state = null);
     default:
       return state;
   }
@@ -158,6 +160,17 @@ export function userReducer(state = null, action) {
       return (state = action.payload);
     case "RESET_USER":
       return (state = null);
+    default:
+      return state;
+  }
+}
+
+export function userMenuToggleReducer(state = false, action) {
+  switch (action.type) {
+    case "TOGGLE_USER_MENU":
+      return !state;
+    case "RESET_USER_MENU_TOGGLE":
+      return (state = false);
     default:
       return state;
   }

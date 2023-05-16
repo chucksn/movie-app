@@ -148,7 +148,7 @@ function Home() {
     <>
       <div className="outlet-bg min-h-screen w-full bg-black/90 py-[72px] px-2 sm:py-32 sm:px-4 md:px-7 lg:px-2">
         <div className="home-main flex w-full flex-col m-auto">
-          <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.2rem] md:text-[1.4rem]">
+          <span className="section-header text-[rgb(184,184,187)] text-center block mt-2 text-[1.15rem] sm:text-[1.3rem] md:text-[1.6rem]">
             Now Playing
           </span>
           <div className="home-slideshow flex justify-between">
@@ -242,7 +242,7 @@ function Home() {
         <div className="trending-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
           <span
             style={{ marginBottom: "1rem", position: "relative" }}
-            className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.2rem] md:text-[1.4rem]"
+            className="section-header text-[rgb(184,184,187)] text-center block mt-2 text-[1.15rem] sm:text-[1.3rem] md:text-[1.6rem]"
           >
             TRENDING {trendingPeriod === "day" && "TODAY"}
             {trendingPeriod === "week" && "THIS WEEK"}{" "}
@@ -350,7 +350,7 @@ function Home() {
         <div className="top-rated-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
           <span
             style={{ marginBottom: "1rem" }}
-            className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.2rem] md:text-[1.4rem]"
+            className="section-header text-[rgb(184,184,187)] text-center block mt-2 text-[1.15rem] sm:text-[1.3rem] md:text-[1.6rem]"
           >
             TOP RATED
           </span>

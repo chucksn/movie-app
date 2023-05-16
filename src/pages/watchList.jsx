@@ -24,7 +24,7 @@ function WatchList() {
       <div className="watchlist-ctn w-full ">
         {!isLogged && (
           <div className="watchlist-no-login-ctn w-full flex flex-col items-center mt-24">
-            <span className=" block md:text-[1.07rem] text-[yellow]">
+            <span className=" block md:text-[1.07rem] text-yellow-300/90">
               Sign in to access your watchlist
             </span>
             <button

@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { RiErrorWarningFill } from "react-icons/ri";
 
-function SignUp({ setShowLogin, setShowSignUp }) {
+function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
   const dispatch = useDispatch();
   const usernameRef = useRef();
   const passwordRef = useRef();
@@ -12,7 +12,7 @@ function SignUp({ setShowLogin, setShowSignUp }) {
   const host = process.env.REACT_APP_HOST;
   const port = process.env.REACT_APP_PORT;
 
-  const handleCreateAccount = () => {
+  const handleCreateAccount = async () => {
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
     const name = nameRef.current.value;
@@ -26,16 +26,22 @@ function SignUp({ setShowLogin, setShowSignUp }) {
       body: JSON.stringify(requestBody),
     };
 
-    fetch(`http://${host}:${port}/api/v1/user/auth/sign-up`, requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.code === 201) {
-          setShowLogin(true);
-          setShowSignUp(false);
-        }
-        console.log(data);
-      })
-      .catch((error) => console.error(error));
+    try {
+      const response = await fetch(
+        `http://${host}:${port}/api/v1/user/auth/sign-up`,
+        requestOptions
+      );
+      const data = await response.json();
+      console.log(data);
+      if (response.status === 201) {
+        setShowLogin(true);
+        setShowSignUp(false);
+      }
+
+      if (response.status === 400) throw data.error;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleClose = () => {
@@ -51,8 +57,15 @@ function SignUp({ setShowLogin, setShowSignUp }) {
       >
         &times;
       </span>
-      <span className="block my-6 font-medium text-lg text-black/60">
+
+      <span className="block font-medium text-lg text-black/70">
         Create a user account
+      </span>
+      <span className="block my-4">
+        Already have an account?{" "}
+        <span onClick={handleClose} className="text-sky-600 cursor-pointer">
+          Login
+        </span>
       </span>
       <form className="flex flex-col ">
         <label htmlFor="name">Name</label>

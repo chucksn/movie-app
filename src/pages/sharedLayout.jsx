@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import MovieDetailModal from "../components/modal";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import UserMenu from "../components/userMenu";
 
 function SharedLayout() {
   const modalData = useSelector((state) => state.modalData);
@@ -31,6 +32,7 @@ function SharedLayout() {
     <div className="bg w-full min-h-screen bg-[url('../src/images/william-daigneault-ju3eqN0gl6Y-unsplash.jpg')] bg-no-repeat bg-center bg-cover">
       <div className="overlay bg-zinc-600/60 w-full h-full">
         <NavBar />
+        <UserMenu />
         <Outlet />
         <Footer />
         {clickedCardIndex === refCardIndex && cardClicked && modalData && (
