@@ -22,8 +22,7 @@ function PosterCard({
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const host = process.env.REACT_APP_HOST;
-  const port = process.env.REACT_APP_PORT;
+  const baseUri = process.env.REACT_APP_BASE_URI;
 
   const handleCardClick = async (index, id) => {
     dispatch({ type: "CARD_CLICKED" });
@@ -59,7 +58,7 @@ function PosterCard({
         isLogged &&
         user &&
         (await fetch(
-          `http://${host}:${port}/api/v1/user/${user.id}/watchlist`,
+          `${baseUri}/api/v1/user/${user.id}/watchlist`,
           requestOptions
         ));
       const update_response = await res.json();
@@ -74,9 +73,7 @@ function PosterCard({
       const response =
         isLogged &&
         user &&
-        (await fetch(
-          `http://${host}:${port}/api/v1/user/${user.id}/watchlist`
-        ));
+        (await fetch(`${baseUri}/api/v1/user/${user.id}/watchlist`));
       const response_data = await response.json();
       dispatch({
         type: "SET_WATCHLIST",
@@ -93,7 +90,7 @@ function PosterCard({
         isLogged &&
         user &&
         (await fetch(
-          `http://${host}:${port}/api/v1/user/${user.id}/watchlist/${watchlistItemId}`,
+          `${baseUri}/api/v1/user/${user.id}/watchlist/${watchlistItemId}`,
           { method: "DELETE", headers: { "Content-Type": "application/json" } }
         ));
       const data = await response.json();

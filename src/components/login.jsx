@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { MdError } from "react-icons/md";
 
 function Login({ setShowSignUp, setShowLogin, setLoading }) {
@@ -10,8 +10,7 @@ function Login({ setShowSignUp, setShowLogin, setLoading }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const host = process.env.REACT_APP_HOST;
-  const port = process.env.REACT_APP_PORT;
+  const baseUri = process.env.REACT_APP_BASE_URI;
 
   const handleClose = () => {
     navigate(-1);
@@ -37,7 +36,7 @@ function Login({ setShowSignUp, setShowLogin, setLoading }) {
       };
 
       const response = await fetch(
-        `http://${host}:${port}/api/v1/user/auth/login`,
+        `${baseUri}/api/v1/user/auth/login`,
         requestOptions
       );
       const data = await response.json();
@@ -49,7 +48,7 @@ function Login({ setShowSignUp, setShowLogin, setLoading }) {
         setLoading(false);
 
         const getWatchlist = await fetch(
-          `http://${host}:${port}/api/v1/user/${data.id}/watchlist`
+          `${baseUri}/api/v1/user/${data.id}/watchlist`
         );
         const response_data = await getWatchlist.json();
         dispatch({

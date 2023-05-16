@@ -11,8 +11,7 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
   const [usernameErrorMsg, setUsernameErrorMsg] = useState("");
   const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
 
-  const host = process.env.REACT_APP_HOST;
-  const port = process.env.REACT_APP_PORT;
+  const baseUri = process.env.REACT_APP_BASE_URI;
 
   const handleCreateAccount = async () => {
     const username = usernameRef.current.value;
@@ -36,7 +35,7 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
 
     try {
       const response = await fetch(
-        `http://${host}:${port}/api/v1/user/auth/sign-up`,
+        `${baseUri}/api/v1/user/auth/sign-up`,
         requestOptions
       );
       const data = await response.json();

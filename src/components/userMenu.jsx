@@ -11,8 +11,7 @@ function UserMenu() {
   const email = user && user.email;
   const userMenuRef = useRef();
 
-  const host = process.env.REACT_APP_HOST;
-  const port = process.env.REACT_APP_PORT;
+  const baseUri = process.env.REACT_APP_BASE_URI;
 
   const capitalizeWords = (str) => {
     return str
@@ -40,10 +39,9 @@ function UserMenu() {
 
   const handleProceedDeletePrompt = async () => {
     try {
-      const response = await fetch(
-        `http://${host}:${port}/api/v1/user/${user.id}`,
-        { method: "DELETE" }
-      );
+      const response = await fetch(`${baseUri}/api/v1/user/${user.id}`, {
+        method: "DELETE",
+      });
       const responseData = await response.json();
 
       if (response.status === 200) {
