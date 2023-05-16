@@ -11,6 +11,9 @@ function UserMenu() {
   const email = user && user.email;
   const userMenuRef = useRef();
 
+  const host = process.env.REACT_APP_HOST;
+  const port = process.env.REACT_APP_PORT;
+
   const capitalizeWords = (str) => {
     return str
       .split(" ")
@@ -35,8 +38,26 @@ function UserMenu() {
     setShowDeletePrompt(false);
   };
 
-  const handleProceedDeletePrompt = () => {
-    setShowDeletePrompt(false);
+  const handleProceedDeletePrompt = async () => {
+    try {
+      const response = await fetch(
+        `http://${host}:${port}/api/v1/user/${user.id}`,
+        { method: "DELETE" }
+      );
+      const responseData = await response.json();
+
+      if (response.status === 200) {
+        setShowDeletePrompt(false);
+        dispatch({ type: "LOGGED_OUT" });
+        dispatch({ type: "RESET_WATCHLIST" });
+        dispatch({ type: "RESET_USER" });
+        dispatch({ type: "RESET_USER_MENU_TOGGLE" });
+      }
+
+      if (response.status === 404) throw responseData.error;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   window.onclick = (event) => {
@@ -87,7 +108,10 @@ function UserMenu() {
                       <span className="block">Are you sure?</span>
                     </div>
                     <div className="delete-btn-ctn max-w-52 flex justify-around mt-2">
-                      <button className="bg-red-500 text-white py-1 px-3 rounded-md">
+                      <button
+                        onClick={handleProceedDeletePrompt}
+                        className="bg-red-500 text-white py-1 px-3 rounded-md"
+                      >
                         Proceed
                       </button>
                       <button

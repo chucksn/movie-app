@@ -1,13 +1,15 @@
-import { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useRef, useState } from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
 
 function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
-  const dispatch = useDispatch();
   const usernameRef = useRef();
   const passwordRef = useRef();
   const nameRef = useRef();
   const emailRef = useRef();
+  const [nameErrorMsg, setNameErrorMsg] = useState("");
+  const [emailErrorMsg, setEmailErrorMsg] = useState("");
+  const [usernameErrorMsg, setUsernameErrorMsg] = useState("");
+  const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
 
   const host = process.env.REACT_APP_HOST;
   const port = process.env.REACT_APP_PORT;
@@ -26,6 +28,12 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
       body: JSON.stringify(requestBody),
     };
 
+    setLoading(true);
+    setNameErrorMsg("");
+    setEmailErrorMsg("");
+    setUsernameErrorMsg("");
+    setPasswordErrorMsg("");
+
     try {
       const response = await fetch(
         `http://${host}:${port}/api/v1/user/auth/sign-up`,
@@ -36,10 +44,18 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
       if (response.status === 201) {
         setShowLogin(true);
         setShowSignUp(false);
+        setLoading(false);
       }
 
-      if (response.status === 400) throw data.error;
+      if (response.status === 400) {
+        setLoading(false);
+        throw data.error;
+      }
     } catch (error) {
+      error.name && setNameErrorMsg(error.name);
+      error.email && setEmailErrorMsg(error.email);
+      error.username && setUsernameErrorMsg(error.username);
+      error.password && setPasswordErrorMsg(error.password);
       console.error(error);
     }
   };
@@ -50,7 +66,7 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
   };
 
   return (
-    <div className="sign-up flex flex-col justify-center items-center w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] min-h-64 px-12 py-8 bg-slate-300 rounded-lg relative mt-16">
+    <div className="sign-up flex flex-col justify-center items-center w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] min-h-64 px-12 py-8 bg-slate-300 rounded-lg relative mt-20 sm:mt-32 mb-8">
       <span
         className="close absolute text-black/70 right-0 top-0 text-3xl cursor-pointer m-4"
         onClick={handleClose}
@@ -75,15 +91,21 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
           name="name"
           placeholder="Enter Name"
           spellCheck={false}
-          className="p-2 rounded-lg outline-none"
+          className={`p-2 rounded-lg mb-4 ${
+            nameErrorMsg ? "outline outline-2 outline-red-500" : " outline-none"
+          }`}
           size={25}
         />
-        {/* <label
+        <label
           htmlFor="name"
           className=" text-red-500 text-[0.92rem] text-center "
         >
-          <RiErrorWarningFill className="inline" /> Name is required
-        </label> */}
+          {nameErrorMsg && (
+            <>
+              <RiErrorWarningFill className="inline" /> {nameErrorMsg}
+            </>
+          )}
+        </label>
 
         <label htmlFor="email" className="mt-3">
           Email
@@ -94,15 +116,23 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
           name="email"
           placeholder="Enter Email"
           spellCheck={false}
-          className="p-2 rounded-lg outline-none"
+          className={`p-2 rounded-lg mb-4 ${
+            emailErrorMsg
+              ? "outline outline-2 outline-red-500"
+              : " outline-none"
+          }`}
           size={25}
         />
-        {/* <label
+        <label
           htmlFor="name"
           className=" text-red-500 text-[0.92rem] text-center "
         >
-          <RiErrorWarningFill className="inline" /> email is required
-        </label> */}
+          {emailErrorMsg && (
+            <>
+              <RiErrorWarningFill className="inline" /> {emailErrorMsg}
+            </>
+          )}
+        </label>
 
         <label htmlFor="username" className="mt-3">
           Username
@@ -113,15 +143,23 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
           name="username"
           placeholder="Enter Username"
           spellCheck={false}
-          className="p-2 rounded-lg outline-none"
+          className={`p-2 rounded-lg mb-4 ${
+            usernameErrorMsg
+              ? "outline outline-2 outline-red-500"
+              : " outline-none"
+          }`}
           size={25}
         />
-        {/* <label
+        <label
           htmlFor="username"
           className=" text-red-500 text-[0.92rem] text-center "
         >
-          <RiErrorWarningFill className="inline" /> username required
-        </label> */}
+          {usernameErrorMsg && (
+            <>
+              <RiErrorWarningFill className="inline" /> {usernameErrorMsg}
+            </>
+          )}
+        </label>
 
         <label htmlFor="password" className="mt-3">
           Password
@@ -131,15 +169,23 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
           type="password"
           name="password"
           placeholder="Enter Password"
-          className="p-2 rounded-lg outline-none"
+          className={`p-2 rounded-lg mb-4 ${
+            passwordErrorMsg
+              ? "outline outline-2 outline-red-500"
+              : " outline-none"
+          }`}
           size={25}
         />
-        {/* <label
+        <label
           htmlFor="password"
           className=" text-red-500 text-[0.92rem] text-center "
         >
-          <RiErrorWarningFill className="inline" /> password required
-        </label> */}
+          {passwordErrorMsg && (
+            <>
+              <RiErrorWarningFill className="inline" /> {passwordErrorMsg}
+            </>
+          )}
+        </label>
 
         <button
           type="button"

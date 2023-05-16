@@ -18,7 +18,11 @@ function SignIn() {
         />
       )}
       {showSignUp && (
-        <SignUp setShowLogin={setShowLogin} setShowSignUp={setShowSignUp} />
+        <SignUp
+          setShowLogin={setShowLogin}
+          setShowSignUp={setShowSignUp}
+          setLoading={setLoading}
+        />
       )}
       {loading && (
         <div className="w-full h-full flex justify-center items-center absolute top-0 left-0 ">
