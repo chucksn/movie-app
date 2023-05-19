@@ -8,7 +8,6 @@ import PosterCard from "../components/posterCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import VideoWindow from "../components/videoWindow";
-import MovieDetailModal from "../components/modal";
 import loading from "../images/loading2.svg";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 

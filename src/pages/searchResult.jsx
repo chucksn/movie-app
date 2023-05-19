@@ -31,7 +31,7 @@ function SearchResult() {
       )}
       {Object.keys(searchInfo.searchResult).length >= 1 && (
         <div className="outlet-bg min-h-screen w-full bg-black/90 py-[72px] px-2 sm:py-32 sm:px-4 md:px-7 lg:px-2">
-          <span className="section-header text-[rgb(184,184,187)] text-center block font-light mt-2 font-unbounded sm:text-[1.2rem] md:text-[1.4rem]">
+          <span className="section-header text-[rgb(184,184,187)] text-center block mt-2 text-[1.15rem] sm:text-[1.3rem] md:text-[1.6rem]">
             Search Result
           </span>
           <div className="select-movie-tv-search flex justify-center m-[1.5rem_0_1rem_0] font-medium font-ubuntu lg:text-lg cursor-pointer">
@@ -58,7 +58,7 @@ function SearchResult() {
           <PaginatedDisplay
             key="search-pagination"
             movieData={searchInfo.searchResult}
-            pgNumDisplayLimit={5}
+            pgNumDisplayLimit={returnedPage > 5 ? 5 : returnedPage}
             pages={returnedPage}
             tag={searchToggleState === "tv" ? "tv" : "movie"}
             movieDataList={searchInfo.searchResult}

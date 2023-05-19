@@ -43,7 +43,7 @@ function TvSeries() {
           <PaginatedDisplay
             key="search-pagination"
             movieDataList={movieInfoList}
-            pgNumDisplayLimit={5}
+            pgNumDisplayLimit={returnedPage > 5 ? 5 : returnedPage}
             pages={returnedPage}
             tag="tv"
           />

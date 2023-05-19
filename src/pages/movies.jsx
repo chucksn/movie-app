@@ -43,7 +43,7 @@ function Movies() {
           <PaginatedDisplay
             key="movie-pagination"
             movieDataList={movieInfoList}
-            pgNumDisplayLimit={5}
+            pgNumDisplayLimit={returnedPage > 5 ? 5 : returnedPage}
             pages={returnedPage}
             tag="movie"
           />
