@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
 
-function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
+function SignUp({ setShowLogin, setShowSignUp, setLoading, loading }) {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const nameRef = useRef();
@@ -188,6 +188,7 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading }) {
 
         <button
           type="button"
+          disabled={loading}
           onClick={handleCreateAccount}
           className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-1 rounded-lg mt-8 mb-4 outline-none"
         >

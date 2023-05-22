@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { MdError } from "react-icons/md";
 
-function Login({ setShowSignUp, setShowLogin, setLoading }) {
+function Login({ setShowSignUp, setShowLogin, setLoading, loading }) {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const [errorMsg, setErrorMsg] = useState("");
@@ -19,6 +19,14 @@ function Login({ setShowSignUp, setShowLogin, setLoading }) {
   const handleSignUp = () => {
     setShowSignUp(true);
     setShowLogin(false);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("user");
+    dispatch({ type: "LOGGED_OUT" });
+    dispatch({ type: "RESET_WATCHLIST" });
+    dispatch({ type: "RESET_USER" });
+    dispatch({ type: "RESET_USER_MENU_TOGGLE" });
   };
 
   const handleLogin = async () => {
@@ -42,19 +50,26 @@ function Login({ setShowSignUp, setShowLogin, setLoading }) {
       const data = await response.json();
 
       if (response.status === 200) {
+        localStorage.setItem("user", JSON.stringify(data));
         dispatch({ type: "SET_USER", payload: data });
         dispatch({ type: "LOGGED_IN" });
         navigate(-1);
         setLoading(false);
 
-        const getWatchlist = await fetch(
-          `${baseUri}/api/v1/user/${data.id}/watchlist`
-        );
-        const response_data = await getWatchlist.json();
-        dispatch({
-          type: "SET_WATCHLIST",
-          payload: response_data.watchlist,
+        const getWatchlist = await fetch(`${baseUri}/api/v1/watchlist`, {
+          headers: { Authorization: `Bearer ${data.token}` },
         });
+        const response_data = await getWatchlist.json();
+        if (getWatchlist.status === 200) {
+          dispatch({
+            type: "SET_WATCHLIST",
+            payload: response_data.watchlist,
+          });
+        }
+        if (response.status === 401) {
+          logout();
+          dispatch({ type: "SHOW_SESSION_EXPIRATION_PROMPT" });
+        }
       }
       if (response.status === 400) {
         setLoading(false);
@@ -111,6 +126,7 @@ function Login({ setShowSignUp, setShowLogin, setLoading }) {
           />
           <button
             type="button"
+            disabled={loading}
             onClick={handleLogin}
             className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-1 rounded-lg my-4 outline-none"
           >

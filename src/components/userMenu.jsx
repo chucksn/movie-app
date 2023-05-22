@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 function UserMenu() {
   const user = useSelector((state) => state.user);
@@ -7,6 +8,7 @@ function UserMenu() {
   const userMenuToggle = useSelector((state) => state.userMenuToggle);
   const [showDeletePrompt, setShowDeletePrompt] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const name = user && user.name;
   const email = user && user.email;
   const userMenuRef = useRef();
@@ -23,6 +25,7 @@ function UserMenu() {
   const capitalizedName = user && capitalizeWords(name);
 
   const handleLogout = () => {
+    localStorage.removeItem("user");
     dispatch({ type: "LOGGED_OUT" });
     dispatch({ type: "RESET_WATCHLIST" });
     dispatch({ type: "RESET_USER" });
@@ -39,20 +42,22 @@ function UserMenu() {
 
   const handleProceedDeletePrompt = async () => {
     try {
-      const response = await fetch(`${baseUri}/api/v1/user/${user.id}`, {
+      const response = await fetch(`${baseUri}/api/v1/user/auth`, {
         method: "DELETE",
+        headers: { Authorization: `Bearer ${user.token}` },
       });
       const responseData = await response.json();
 
       if (response.status === 200) {
         setShowDeletePrompt(false);
-        dispatch({ type: "LOGGED_OUT" });
-        dispatch({ type: "RESET_WATCHLIST" });
-        dispatch({ type: "RESET_USER" });
-        dispatch({ type: "RESET_USER_MENU_TOGGLE" });
+        handleLogout();
       }
 
       if (response.status === 404) throw responseData.error;
+      if (response.status === 401) {
+        handleLogout();
+        dispatch({ type: "SHOW_SESSION_EXPIRATION_PROMPT" });
+      }
     } catch (error) {
       console.error(error);
     }

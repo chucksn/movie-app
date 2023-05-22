@@ -175,3 +175,14 @@ export function userMenuToggleReducer(state = false, action) {
       return state;
   }
 }
+
+export function sessionPromptReducer(state = false, action) {
+  switch (action.type) {
+    case "SHOW_SESSION_EXPIRATION_PROMPT":
+      return (state = true);
+    case "HIDE_SESSION_EXPIRATION_PROMPT":
+      return (state = false);
+    default:
+      return state;
+  }
+}

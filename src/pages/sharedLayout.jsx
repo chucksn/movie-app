@@ -6,6 +6,7 @@ import MovieDetailModal from "../components/modal";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import UserMenu from "../components/userMenu";
+import SessionExpirationPrompt from "../components/sessionExpirationPrompt";
 
 function SharedLayout() {
   const modalData = useSelector((state) => state.modalData);
@@ -14,10 +15,27 @@ function SharedLayout() {
   const refCardIndex = useSelector((state) => state.refCardIndex);
   const dispatch = useDispatch();
   const location = useLocation();
+  const baseUri = process.env.REACT_APP_BASE_URI;
 
   const handleScrollToTop = () => {
     window.scrollTo(0, 0, "smooth");
   };
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      const getWatchlist = async () => {
+        const res = await fetch(`${baseUri}/api/v1/watchlist`, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
+        const data = await res.json();
+        dispatch({ type: "LOGGED_IN" });
+        dispatch({ type: "SET_USER", payload: user });
+        dispatch({ type: "SET_WATCHLIST", payload: data.watchlist });
+      };
+      getWatchlist();
+    }
+  }, []);
 
   useEffect(() => {
     dispatch({ type: "RESET_CURRENT_PAGE" });
@@ -33,6 +51,7 @@ function SharedLayout() {
       <div className="overlay bg-zinc-600/60 w-full h-full">
         <NavBar />
         <UserMenu />
+        <SessionExpirationPrompt />
         <Outlet />
         <Footer />
         {clickedCardIndex === refCardIndex && cardClicked && modalData && (

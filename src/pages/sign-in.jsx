@@ -15,6 +15,7 @@ function SignIn() {
           setShowLogin={setShowLogin}
           setShowSignUp={setShowSignUp}
           setLoading={setLoading}
+          loading={loading}
         />
       )}
       {showSignUp && (
@@ -22,6 +23,7 @@ function SignIn() {
           setShowLogin={setShowLogin}
           setShowSignUp={setShowSignUp}
           setLoading={setLoading}
+          loading={loading}
         />
       )}
       {loading && (

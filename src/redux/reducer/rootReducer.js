@@ -15,6 +15,7 @@ import {
   refCardIndexReducer,
   userReducer,
   userMenuToggleReducer,
+  sessionPromptReducer,
 } from "./reducers";
 
 import { combineReducers } from "redux";
@@ -36,4 +37,5 @@ export const rootReducer = combineReducers({
   refCardIndex: refCardIndexReducer,
   user: userReducer,
   userMenuToggle: userMenuToggleReducer,
+  showSessionExpirationPrompt: sessionPromptReducer,
 });
