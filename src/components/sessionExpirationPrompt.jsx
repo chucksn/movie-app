@@ -17,10 +17,13 @@ function SessionExpirationPrompt() {
   return (
     <>
       {showSessionExpirationPrompt && (
-        <div className="absolute w-full h-full left-0 top-0 flex justify-center items-center z-50 ">
-          <div className="prompt-ctn p-4 bg-slate-300 rounded-md w-[80%] md:w-1/2">
+        <div className="fixed w-full h-full left-0 top-0  z-50 flex justify-center items-center ">
+          <div className="prompt-ctn  p-4 bg-slate-300 rounded-md w-[80%] md:w-1/2">
             <span className="prompt-txt block text-center font-medium">
               Session expired !!
+            </span>
+            <span className="block text-red-500 text-center">
+              login to access watchlist
             </span>
             <div className="prompt-btn-ctn flex justify-center">
               <button
