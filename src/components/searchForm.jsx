@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
+import { BsSearch } from "react-icons/bs";
 
 function SearchForm() {
   const currentPage = useSelector((state) => state.currentPg);
@@ -48,7 +49,7 @@ function SearchForm() {
 
   return (
     <>
-      <div className="search hidden sm:flex items-center rounded-[4px] bg-slate-200 p-1 ">
+      <div className="search w-full flex items-center rounded-[4px] bg-slate-200 p-1 ">
         <input
           onKeyDown={handleSearchOnEnterKey}
           ref={inputRef}
@@ -60,12 +61,11 @@ function SearchForm() {
           required
         />
 
-        <i
+        <BsSearch
           onClick={handleOnClick}
-          className="fa-solid fa-magnifying-glass text-zinc-600 mx-2 text-xl hover:cursor-pointer "
-        ></i>
+          className=" text-zinc-600 mx-2 text-xl hover:cursor-pointer "
+        />
       </div>
-      <i className="fa-solid fa-magnifying-glass text-slate-200 mx-2 text-xl block sm:hidden hover:cursor-pointer "></i>
     </>
   );
 }

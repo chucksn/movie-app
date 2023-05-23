@@ -5,11 +5,14 @@ import NavLinks from "./navLinks";
 import { BsBookmarkPlusFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { AiFillCaretDown } from "react-icons/ai";
+import { BsSearch } from "react-icons/bs";
+import { MdOutlineSearchOff } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import logo from "../images/mv-hub-logo.svg";
 
 function NavBar() {
   const [menuToggle, setMenuToggle] = useState(false);
+  const [showSmScreenSearch, setShowSmScreenSearch] = useState(false);
   const location = useLocation();
   const activeRoute = location.pathname;
   const watchlist = useSelector((state) => state.watchlist);
@@ -38,17 +41,34 @@ function NavBar() {
   const handleUserProfileClick = () => {
     dispatch({ type: "TOGGLE_USER_MENU" });
   };
+
+  const handleSmScreenSearchClick = () => {
+    setShowSmScreenSearch(!showSmScreenSearch);
+  };
+
   return (
     <div className="nav-bar flex flex-col bg-black fixed top-0 left-0 w-full z-50 p-4 justify-between lg:py-4 lg:px-10">
       <div className="upper-nav flex justify-between items-center">
         <Link
           to="/"
           className="logo w-[96px] h-[34.84px] lg:w-[106px] lg:h-[38.46px] bg-sky-950 py-[1px] pl-[2px] rounded-lg"
+          onClick={handleLinkClick}
         >
           <img src={logo} alt="logo" />
         </Link>
-        <div className="search-links flex flex-col items-center sm:items-stretch  sm:w-[50%]">
+        <div className="search hidden sm:flex  sm:w-[50%]">
           <SearchForm />
+        </div>
+        <div
+          className="sm-screen-search sm:hidden hover:cursor-pointer mx-2"
+          onClick={handleSmScreenSearchClick}
+        >
+          {!showSmScreenSearch && (
+            <BsSearch className="text-slate-200 text-xl block " />
+          )}
+          {showSmScreenSearch && (
+            <MdOutlineSearchOff className="text-slate-200 text-2xl block " />
+          )}
         </div>
 
         <div className="user flex font-ubuntu">
@@ -91,6 +111,11 @@ function NavBar() {
           {menuToggle && <i className=" close fa-solid fa-xmark"></i>}
         </div>
       </div>
+      {showSmScreenSearch && (
+        <div className="search flex justify-center mt-3 w-full sm:hidden">
+          <SearchForm />
+        </div>
+      )}
       <NavLinks
         key="nav-links"
         activeRoute={activeRoute}
