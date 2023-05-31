@@ -1,5 +1,14 @@
 ### Movie Streaming Web App
 
-A movie streaming web application similar to IMDB and Fully functional. This application showcase's latest and current trends of movies and TV series in real time.
+A full-stack movie streaming web application. With this app, users can access a huge library of movies from different genres, including action, romance, comedy, horror, and drama, among others. Users can also browse movies by categories, search for specific titles, and create/delete personalized watchlists.
 
-**Tech stack used:** React.js, Redux, Context API, Chakra UI, Swiper.js
+## Features and Interfaces
+
+1. Sign-in Page
+
+   - Create an account by providing a name, username, email, password
+   - Login with username and password if you already have an account
+   - Powered by JWT tokens
+
+2. Home page
+   -

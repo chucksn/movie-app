@@ -29,7 +29,8 @@ function Login({ setShowSignUp, setShowLogin, setLoading, loading }) {
     dispatch({ type: "RESET_USER_MENU_TOGGLE" });
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
       setLoading(true);
       const username = usernameRef.current.value;
@@ -96,7 +97,7 @@ function Login({ setShowSignUp, setShowLogin, setLoading, loading }) {
             Sign Up
           </span>
         </span>
-        <form className="flex flex-col ">
+        <form className="flex flex-col " onSubmit={handleLogin}>
           <label htmlFor="username">Username</label>
           <input
             ref={usernameRef}
@@ -125,9 +126,9 @@ function Login({ setShowSignUp, setShowLogin, setLoading, loading }) {
             size={25}
           />
           <button
-            type="button"
+            type="submit"
             disabled={loading}
-            onClick={handleLogin}
+            // onClick={handleLogin}
             className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-1 rounded-lg my-4 outline-none"
           >
             Login

@@ -21,6 +21,14 @@ function SharedLayout() {
     window.scrollTo(0, 0, "smooth");
   };
 
+  const logout = () => {
+    localStorage.removeItem("user");
+    dispatch({ type: "LOGGED_OUT" });
+    dispatch({ type: "RESET_WATCHLIST" });
+    dispatch({ type: "RESET_USER" });
+    dispatch({ type: "RESET_USER_MENU_TOGGLE" });
+  };
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
@@ -29,9 +37,16 @@ function SharedLayout() {
           headers: { Authorization: `Bearer ${user.token}` },
         });
         const data = await res.json();
-        dispatch({ type: "LOGGED_IN" });
-        dispatch({ type: "SET_USER", payload: user });
-        dispatch({ type: "SET_WATCHLIST", payload: data.watchlist });
+
+        if (res.status === 200) {
+          dispatch({ type: "LOGGED_IN" });
+          dispatch({ type: "SET_USER", payload: user });
+          dispatch({ type: "SET_WATCHLIST", payload: data.watchlist });
+        }
+        if (res.status === 401) {
+          logout();
+          dispatch({ type: "SHOW_SESSION_EXPIRATION_PROMPT" });
+        }
       };
       getWatchlist();
     }
