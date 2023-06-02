@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 
 function UserMenu() {
   const user = useSelector((state) => state.user);
@@ -8,7 +7,6 @@ function UserMenu() {
   const userMenuToggle = useSelector((state) => state.userMenuToggle);
   const [showDeletePrompt, setShowDeletePrompt] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const name = user && user.name;
   const email = user && user.email;
   const userMenuRef = useRef();
