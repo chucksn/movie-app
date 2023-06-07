@@ -51,7 +51,7 @@ function NavBar() {
       <div className="upper-nav flex justify-between items-center">
         <Link
           to="/"
-          className="logo w-[96px] h-[34.84px] lg:w-[106px] lg:h-[38.46px] bg-sky-950 py-[1px] pl-[2px] rounded-lg"
+          className="logo w-[96px] h-[34.84px] lg:w-[106px] lg:h-[38.46px] bg-sky-950 border border-teal-800 py-[1px] pl-[2px] rounded-lg"
           onClick={handleLinkClick}
         >
           <img src={logo} alt="logo" />
