@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { MdError } from "react-icons/md";
+import { FcGoogle } from "react-icons/fc";
 
 function Login({ setShowSignUp, setShowLogin, setLoading, loading }) {
   const usernameRef = useRef();
@@ -82,21 +83,28 @@ function Login({ setShowSignUp, setShowLogin, setLoading, loading }) {
     }
   };
 
+  const handleGoogleLogin = () => {};
+
   return (
     <>
-      <div className="flex flex-col justify-between items-center w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] min-h-64 px-12 py-8 bg-slate-300 rounded-lg relative">
+      <div className="flex flex-col justify-between  w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] min-h-64 px-12 py-8 bg-slate-300 rounded-lg relative mt-20 sm:mt-32 mb-8">
         <span
           className="close absolute text-black/70 right-0 top-0 text-3xl cursor-pointer m-4"
           onClick={handleClose}
         >
           &times;
         </span>
-        <span className="block my-6">
+
+        <span className="block my-6 text-center">
           Don't have an account?{" "}
-          <span onClick={handleSignUp} className="text-sky-600 cursor-pointer">
+          <span
+            onClick={handleSignUp}
+            className="text-sky-600 cursor-pointer font-medium"
+          >
             Sign Up
           </span>
         </span>
+
         <form className="flex flex-col " onSubmit={handleLogin}>
           <label htmlFor="username">Username</label>
           <input
@@ -128,12 +136,29 @@ function Login({ setShowSignUp, setShowLogin, setLoading, loading }) {
           <button
             type="submit"
             disabled={loading}
-            // onClick={handleLogin}
-            className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-1 rounded-lg my-4 outline-none"
+            className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 text-sm sm:text-base rounded-lg my-4 outline-none font-medium"
           >
-            Login
+            Login with Username
           </button>
         </form>
+
+        <div className="relative my-3">
+          <hr className="absolute w-[42%] border-neutral-400 top-1/2 left-0" />
+          <span className="block text-center text-neutral-600 text-sm sm:text-base font-medium">
+            OR
+          </span>
+          <hr className="absolute w-[42%] border-neutral-400 top-1/2 right-0" />
+        </div>
+
+        <button
+          onClick={handleGoogleLogin}
+          disabled={loading}
+          className="border border-sky-600 bg-slate-100 font-medium text-sm sm:text-base text-neutral-700 hover:bg-white px-4 py-1 sm:px-6 rounded-lg my-4 outline-none"
+        >
+          <FcGoogle className="inline-block text-3xl" />
+          &nbsp; Continue with Google
+        </button>
+
         {errorMsg && (
           <span className="block text-red-500">
             <MdError className="inline text-xl" /> {errorMsg}

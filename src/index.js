@@ -6,6 +6,8 @@ import { BrowserRouter } from "react-router-dom";
 import { legacy_createStore as createStore } from "redux";
 import { Provider } from "react-redux";
 import { rootReducer } from "./redux/reducer/rootReducer";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const myStore = createStore(
   rootReducer,
@@ -13,12 +15,16 @@ const myStore = createStore(
 );
 
 // console.log("store-state", myStore.getState());
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Provider store={myStore}>
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <App />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </Provider>
   </BrowserRouter>
 );

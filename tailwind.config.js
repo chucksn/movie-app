@@ -12,12 +12,12 @@ module.exports = {
       },
 
       fontFamily: {
-        itim: ["Itim", "cursive"],
-        prosto: ["'Prosto One'", "cursive"],
+        itim: ["Itim", "sans-serif"],
+        prosto: ["'Prosto One'", "sans-serif"],
         roboto: ["Roboto", "sans-serif"],
         robotoMono: ["'Roboto Mono'", "monospace"],
         ubuntu: ["Ubuntu", "sans-serif"],
-        unbounded: ["Unbounded", "cursive"],
+        unbounded: ["Unbounded", "sans-serif"],
       },
 
       textShadow: {

@@ -65,7 +65,7 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading, loading }) {
   };
 
   return (
-    <div className="sign-up flex flex-col justify-center items-center w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] min-h-64 px-12 py-8 bg-slate-300 rounded-lg relative mt-20 sm:mt-32 mb-8">
+    <div className="sign-up flex flex-col justify-center  w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] min-h-64 px-12 py-8 bg-slate-300 rounded-lg relative mt-20 sm:mt-32 mb-8">
       <span
         className="close absolute text-black/70 right-0 top-0 text-3xl cursor-pointer m-4"
         onClick={handleClose}
@@ -73,12 +73,15 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading, loading }) {
         &times;
       </span>
 
-      <span className="block font-medium text-lg text-black/70">
+      <span className="block font-medium text-lg text-black/70 text-center">
         Create a user account
       </span>
-      <span className="block my-4">
+      <span className="block my-4 text-center">
         Already have an account?{" "}
-        <span onClick={handleClose} className="text-sky-600 cursor-pointer">
+        <span
+          onClick={handleClose}
+          className="text-sky-600 cursor-pointer font-medium"
+        >
           Login
         </span>
       </span>
@@ -190,7 +193,7 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading, loading }) {
           type="button"
           disabled={loading}
           onClick={handleCreateAccount}
-          className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-1 rounded-lg mt-8 mb-4 outline-none"
+          className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 font-medium text-sm sm:text-base rounded-lg mt-8 mb-4 outline-none"
         >
           Create Account
         </button>
