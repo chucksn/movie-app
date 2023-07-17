@@ -1,7 +1,6 @@
 import loading from "../images/loading2.svg";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
-import { useQuery } from "@tanstack/react-query";
-import { getTrending } from "../api/movieData";
+import { useGetTrending } from "../hooks/getMovies";
 import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
@@ -12,14 +11,10 @@ function HomeTrendingSection() {
   const [trendingPeriod, setTrendingPeriod] = useState("day");
   const [selectOpened, setOpenStatus] = useState(false);
   const selectRef = useRef();
-
-  const trendingQuery = useQuery({
-    queryKey: ["trending"],
-    queryFn: () => getTrending(trendingPeriod),
-  });
+  const { data, isLoading, refetch } = useGetTrending({ span: trendingPeriod });
 
   useEffect(() => {
-    trendingQuery.refetch();
+    refetch();
   }, [trendingPeriod]);
 
   const handleSelectTrending = () => {
@@ -49,10 +44,7 @@ function HomeTrendingSection() {
   };
   return (
     <div className="trending-ctn my-8 md:my-12 px-8 sm:px-12 md:p-0">
-      <span
-        style={{ marginBottom: "1rem", position: "relative" }}
-        className="section-header text-[rgb(184,184,187)] text-center block mt-2 text-[1.15rem] sm:text-[1.3rem] md:text-[1.6rem]"
-      >
+      <span className="section-header relative mb-[1rem] text-[rgb(184,184,187)] text-center block mt-2 text-[1.15rem] sm:text-[1.3rem] md:text-[1.6rem]">
         TRENDING {trendingPeriod === "day" && "TODAY"}
         {trendingPeriod === "week" && "THIS WEEK"}{" "}
         <span
@@ -87,7 +79,7 @@ function HomeTrendingSection() {
 
       <div className="trending-inner-ctn flex ">
         <>
-          {trendingQuery.isLoading && (
+          {isLoading && (
             <div className="flex justify-center items-center w-full h-[370px] md:h-[432.5px]">
               <img
                 src={loading}
@@ -96,17 +88,17 @@ function HomeTrendingSection() {
               />
             </div>
           )}
-          {trendingQuery.data && (
+          {data && (
             <>
               <div className="flex items-center">
-                <FaChevronLeft className="trending-slide-left-nav hidden md:block m-4 text-[rgb(202,202,202)] text-5xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
+                <FaChevronLeft className="trending-left-nav hidden md:block m-4 text-[rgb(202,202,202)] text-5xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
               </div>
 
               <Swiper
                 spaceBetween={30}
                 navigation={{
-                  nextEl: ".trending-slide-right-nav",
-                  prevEl: ".trending-slide-left-nav",
+                  nextEl: ".trending-right-nav",
+                  prevEl: ".trending-left-nav",
                 }}
                 breakpoints={{
                   360: {
@@ -131,25 +123,25 @@ function HomeTrendingSection() {
                 }}
                 modules={[Navigation]}
               >
-                {trendingQuery.data.results.map((data, index) => (
+                {data.results.map((result, index) => (
                   <SwiperSlide style={swiperStyle}>
                     <PosterCard
-                      key={data.id}
-                      posterImgPath={data.poster_path}
-                      date={data.release_date || data.first_air_date}
-                      rating={data.vote_average}
-                      title={data.title || data.name}
-                      tag={data.media_type}
-                      posterCardData={trendingQuery.data.results}
+                      key={result.id}
+                      posterImgPath={result.poster_path}
+                      date={result.release_date || result.first_air_date}
+                      rating={result.vote_average}
+                      title={result.title || result.name}
+                      tag={result.media_type}
+                      posterCardData={data.results}
                       index={index}
-                      movieId={data.id}
+                      movieId={result.id}
                     />
                   </SwiperSlide>
                 ))}
               </Swiper>
 
               <div className="flex items-center">
-                <FaChevronRight className="trending-slide-right-nav hidden md:block m-4 text-[rgb(202,202,202)] text-5xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
+                <FaChevronRight className="trending-right-nav hidden md:block m-4 text-[rgb(202,202,202)] text-5xl bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
               </div>
             </>
           )}

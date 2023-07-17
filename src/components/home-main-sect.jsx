@@ -7,8 +7,8 @@ import NextSlideCard from "./nextSlideCard";
 import { useDispatch, useSelector } from "react-redux";
 import loading from "../images/loading2.svg";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
-import { useQuery } from "@tanstack/react-query";
-import { getNowPlaying, getMovieById } from "../api/movieData";
+import { useGetNowPlaying } from "../hooks/getMovies";
+import { getMovieById } from "../api/movieData";
 import VideoWindow from "./videoWindow";
 
 function HomeMainSection() {
@@ -18,6 +18,8 @@ function HomeMainSection() {
   const mainSlideVideoList = useSelector((state) => state.mainSlideVideoList);
   const mainSlideClicked = useSelector((state) => state.mainSlideCardClicked);
   const mainSlideHover = useSelector((state) => state.mainSlideCardHover);
+
+  const { data, isLoading } = useGetNowPlaying();
 
   const videoInfo =
     mainSlideClicked &&
@@ -31,12 +33,7 @@ function HomeMainSection() {
     ? `https://www.youtube.com/embed/${youtubeKey}?&autoplay=1`
     : null;
 
-  const nowPlayingQuery = useQuery({
-    queryKey: ["now-playing"],
-    queryFn: getNowPlaying,
-  });
-
-  const nowPlayingList = nowPlayingQuery.data && nowPlayingQuery.data.results;
+  const nowPlayingList = data && data.results;
 
   useEffect(() => {
     if (nowPlayingList && nowPlayingList.length > 0) {
@@ -86,7 +83,7 @@ function HomeMainSection() {
           className={`main-slide-ctn flex relative w-full lg:w-[65%] lg:ml-4 `}
         >
           <>
-            {nowPlayingQuery.isLoading && (
+            {isLoading && (
               <div className="flex justify-center items-center w-full h-[230px] md:h-[400px] lg:w-[780px] lg:h-[438.75px]">
                 <img
                   src={loading}
@@ -96,7 +93,7 @@ function HomeMainSection() {
               </div>
             )}
 
-            {nowPlayingQuery.data && (
+            {data && (
               <>
                 <FaChevronRight
                   className={`main-slide-right-nav absolute right-0 top-[50%] mr-2 text-[rgb(202,202,202)] text-5xl z-[4] bg-black/40 p-2 rounded cursor-pointer shadow-[0_0_2px_rgba(255,255,255,0.8)] ${
@@ -114,7 +111,7 @@ function HomeMainSection() {
                 />
               </>
             )}
-            {nowPlayingQuery.data && (
+            {data && (
               <Swiper
                 onSlideChange={handleSlideChange}
                 onUpdate={handleSwiperUpdate}
@@ -132,7 +129,7 @@ function HomeMainSection() {
                 modules={[Autoplay, Navigation]}
                 className="mySwiper"
               >
-                {nowPlayingQuery.data.results.map((data) => (
+                {data.results.map((data) => (
                   <SwiperSlide>
                     <MainSlideCard
                       onClick={() => handleClickMainSlide(data.id)}
