@@ -16,15 +16,15 @@ import {
   userReducer,
   userMenuToggleReducer,
   sessionPromptReducer,
+  searchQueryReducer,
 } from "./reducers";
 
 import { combineReducers } from "redux";
 
 export const rootReducer = combineReducers({
   currentPg: currentPageReducer,
-  search: searchInfoReducer,
-  search_returnedPg: returnedPageReducer,
   searchToggleState: searchToggleReducer,
+  searchQuery: searchQueryReducer,
   cardClicked: cardClickedReducer,
   modalData: modalDataReducer,
   mainSlideVideoList: mainSlideVideoListReducer,

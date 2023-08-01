@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import UserMenu from "../components/userMenu";
 import SessionExpirationPrompt from "../components/sessionExpirationPrompt";
+import useLogout from "../hooks/useLogout";
+import useLogin from "../hooks/useLogin";
 
 function SharedLayout() {
   const modalData = useSelector((state) => state.modalData);
@@ -21,13 +23,8 @@ function SharedLayout() {
     window.scrollTo(0, 0, "smooth");
   };
 
-  const logout = () => {
-    localStorage.removeItem("user");
-    dispatch({ type: "LOGGED_OUT" });
-    dispatch({ type: "RESET_WATCHLIST" });
-    dispatch({ type: "RESET_USER" });
-    dispatch({ type: "RESET_USER_MENU_TOGGLE" });
-  };
+  const { logout } = useLogout();
+  const { login } = useLogin();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -39,8 +36,7 @@ function SharedLayout() {
         const data = await res.json();
 
         if (res.status === 200) {
-          dispatch({ type: "LOGGED_IN" });
-          dispatch({ type: "SET_USER", payload: user });
+          login(user);
           dispatch({ type: "SET_WATCHLIST", payload: data.watchlist });
         }
         if (res.status === 401) {

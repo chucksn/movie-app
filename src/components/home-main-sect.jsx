@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import loading from "../images/loading2.svg";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { useGetNowPlaying } from "../hooks/getMovies";
-import { getMovieById } from "../api/movieData";
+import { getMovieById } from "../api/movieDataApi";
 import VideoWindow from "./videoWindow";
 
 function HomeMainSection() {

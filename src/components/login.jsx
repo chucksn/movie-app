@@ -1,17 +1,22 @@
-import { useState, useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { MdError } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
+import { BiLoaderAlt } from "react-icons/bi";
+import useLogin from "../hooks/useLogin";
+import { usePostLogin } from "../hooks/auth";
+import useWatchList from "../hooks/useWatchlist";
 
-function Login({ setShowSignUp, setShowLogin, setLoading, loading }) {
+function Login({ setShowSignUp, setShowLogin, setShowResetPassword }) {
+  const [errorMsg, setErrorMsg] = useState("");
   const usernameRef = useRef();
   const passwordRef = useRef();
-  const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { login } = useLogin();
 
-  const baseUri = process.env.REACT_APP_BASE_URI;
+  const { getWatchlist } = useWatchList();
+
+  const { mutate, data, isLoading } = usePostLogin();
 
   const handleClose = () => {
     navigate(-1);
@@ -22,68 +27,32 @@ function Login({ setShowSignUp, setShowLogin, setLoading, loading }) {
     setShowLogin(false);
   };
 
-  const logout = () => {
-    localStorage.removeItem("user");
-    dispatch({ type: "LOGGED_OUT" });
-    dispatch({ type: "RESET_WATCHLIST" });
-    dispatch({ type: "RESET_USER" });
-    dispatch({ type: "RESET_USER_MENU_TOGGLE" });
-  };
-
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      const username = usernameRef.current.value;
-      const password = passwordRef.current.value;
 
-      const requestBody = { username, password };
-
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
-      };
-
-      const response = await fetch(
-        `${baseUri}/api/v1/user/auth/login`,
-        requestOptions
-      );
-      const data = await response.json();
-
-      if (response.status === 200) {
-        localStorage.setItem("user", JSON.stringify(data));
-        dispatch({ type: "SET_USER", payload: data });
-        dispatch({ type: "LOGGED_IN" });
-        navigate(-1);
-        setLoading(false);
-
-        const getWatchlist = await fetch(`${baseUri}/api/v1/watchlist`, {
-          headers: { Authorization: `Bearer ${data.token}` },
-        });
-        const response_data = await getWatchlist.json();
-        if (getWatchlist.status === 200) {
-          dispatch({
-            type: "SET_WATCHLIST",
-            payload: response_data.watchlist,
-          });
-        }
-        if (response.status === 401) {
-          logout();
-          dispatch({ type: "SHOW_SESSION_EXPIRATION_PROMPT" });
-        }
-      }
-      if (response.status === 400) {
-        setLoading(false);
-        throw data.error;
-      }
-    } catch (error) {
-      setErrorMsg(error);
-      console.error(error);
-    }
+    const username = usernameRef.current.value;
+    const password = passwordRef.current.value;
+    mutate({ username, password });
   };
+
+  useEffect(() => {
+    if (data && data.error) {
+      setErrorMsg(data.error);
+    }
+
+    if (data && !data.error) {
+      login(data);
+      navigate(-1);
+      getWatchlist(data.token);
+      setErrorMsg("");
+    }
+  }, [data]);
 
   const handleGoogleLogin = () => {};
+  const handleForgotPassword = () => {
+    setShowResetPassword(true);
+    setShowLogin(false);
+  };
 
   return (
     <>
@@ -133,14 +102,31 @@ function Login({ setShowSignUp, setShowLogin, setLoading, loading }) {
             }`}
             size={25}
           />
+          <span
+            onClick={handleForgotPassword}
+            className="text-sky-600 cursor-pointer font-medium text-right"
+          >
+            Forgot Password?
+          </span>
           <button
             type="submit"
-            disabled={loading}
-            className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 text-sm sm:text-base rounded-lg my-4 outline-none font-medium"
+            disabled={isLoading}
+            className={`lg:hover:bg-sky-700 text-white px-6 py-2 text-sm sm:text-base rounded-lg my-4 outline-none font-medium ${
+              isLoading ? "bg-sky-600/60" : "bg-sky-600"
+            }`}
           >
-            Login with Username
+            Login with Username{" "}
+            {isLoading && (
+              <BiLoaderAlt className="inline-block text-white  sm:text-xl animate-spin-slow" />
+            )}
           </button>
         </form>
+
+        {errorMsg && (
+          <span className="block text-red-500 font-medium text-center">
+            <MdError className="inline text-xl" /> {errorMsg}
+          </span>
+        )}
 
         <div className="relative my-3">
           <hr className="absolute w-[42%] border-neutral-400 top-1/2 left-0" />
@@ -152,18 +138,12 @@ function Login({ setShowSignUp, setShowLogin, setLoading, loading }) {
 
         <button
           onClick={handleGoogleLogin}
-          disabled={loading}
+          disabled={""}
           className="border border-sky-600 bg-slate-100 font-medium text-sm sm:text-base text-neutral-700 hover:bg-white px-4 py-1 sm:px-6 rounded-lg my-4 outline-none"
         >
           <FcGoogle className="inline-block text-3xl" />
           &nbsp; Continue with Google
         </button>
-
-        {errorMsg && (
-          <span className="block text-red-500">
-            <MdError className="inline text-xl" /> {errorMsg}
-          </span>
-        )}
       </div>
     </>
   );

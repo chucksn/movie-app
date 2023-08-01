@@ -1,7 +1,7 @@
 import loading from "../images/loading2.svg";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { useGetTrending } from "../hooks/getMovies";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
 import { Navigation } from "swiper";
@@ -11,11 +11,7 @@ function HomeTrendingSection() {
   const [trendingPeriod, setTrendingPeriod] = useState("day");
   const [selectOpened, setOpenStatus] = useState(false);
   const selectRef = useRef();
-  const { data, isLoading, refetch } = useGetTrending({ span: trendingPeriod });
-
-  useEffect(() => {
-    refetch();
-  }, [trendingPeriod]);
+  const { data, isLoading } = useGetTrending({ span: trendingPeriod });
 
   const handleSelectTrending = () => {
     setOpenStatus(!selectOpened);
@@ -63,13 +59,17 @@ function HomeTrendingSection() {
           ref={selectRef}
         >
           <span
-            className="today block cursor-pointer hover:text-[yellow]"
+            className={`today block cursor-pointer hover:text-[yellow] ${
+              trendingPeriod === "day" ? "text-[yellow]" : ""
+            }`}
             onClick={handleDayTrend}
           >
             Today
           </span>
           <span
-            className="this-week block cursor-pointer hover:text-[yellow]"
+            className={`this-week block cursor-pointer hover:text-[yellow] ${
+              trendingPeriod === "week" ? "text-[yellow]" : ""
+            }`}
             onClick={handleWeekTrend}
           >
             This Week

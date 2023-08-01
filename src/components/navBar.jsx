@@ -9,6 +9,7 @@ import { BsSearch } from "react-icons/bs";
 import { MdOutlineSearchOff } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import logo from "../images/mv-hub-logo.svg";
+import capitalizeWords from "../utils/capitalize";
 
 function NavBar() {
   const [menuToggle, setMenuToggle] = useState(false);
@@ -19,16 +20,6 @@ function NavBar() {
   const isLogged = useSelector((state) => state.isLogged);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const name = user && user.name;
-
-  const capitalizeWords = (str) => {
-    return str
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
-
-  const capitalizedName = user && capitalizeWords(name);
 
   const handleMenu = () => {
     setMenuToggle(!menuToggle);
@@ -98,7 +89,9 @@ function NavBar() {
               className="sign-in block text-zinc-300 font-medium rounded cursor-pointer lg:hover:bg-zinc-800 py-1 px-[9px] text-[1.3rem] sm:text-[1.05rem]"
             >
               <CgProfile className="inline" />{" "}
-              <span className="hidden sm:inline-block">{capitalizedName}</span>{" "}
+              <span className="hidden sm:inline-block">
+                {capitalizeWords(user.name)}
+              </span>{" "}
               <AiFillCaretDown className="inline" />
             </span>
           )}

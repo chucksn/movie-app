@@ -79,19 +79,12 @@ export function modalDataReducer(state = null, action) {
   }
 }
 
-export function returnedPageReducer(state = 1, action) {
+export function searchQueryReducer(state = "", action) {
   switch (action.type) {
-    case "SEARCH_RETURNED_PAGES":
-      return action.payload;
-    default:
-      return state;
-  }
-}
-
-export function searchInfoReducer(state = {}, action) {
-  switch (action.type) {
-    case "UPDATE_SEARCH":
-      return { ...state, searchResult: action.payload };
+    case "SET_SEARCH_QUERY":
+      return (state = action.payload);
+    case "RESET_SEARCH_QUERY":
+      return (state = "");
     default:
       return state;
   }

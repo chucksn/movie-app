@@ -1,17 +1,18 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
+import { BiLoaderAlt } from "react-icons/bi";
+import { usePostSignUp } from "../hooks/auth";
 
-function SignUp({ setShowLogin, setShowSignUp, setLoading, loading }) {
+function SignUp({ setShowLogin, setShowSignUp }) {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const nameRef = useRef();
   const emailRef = useRef();
+  const { data, mutate, isLoading } = usePostSignUp();
   const [nameErrorMsg, setNameErrorMsg] = useState("");
   const [emailErrorMsg, setEmailErrorMsg] = useState("");
   const [usernameErrorMsg, setUsernameErrorMsg] = useState("");
   const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
-
-  const baseUri = process.env.REACT_APP_BASE_URI;
 
   const handleCreateAccount = async () => {
     const username = usernameRef.current.value;
@@ -19,45 +20,27 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading, loading }) {
     const name = nameRef.current.value;
     const email = emailRef.current.value;
 
-    const requestBody = { name, email, username, password };
+    mutate({ username, password, name, email });
+  };
 
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(requestBody),
-    };
-
-    setLoading(true);
-    setNameErrorMsg("");
-    setEmailErrorMsg("");
-    setUsernameErrorMsg("");
-    setPasswordErrorMsg("");
-
-    try {
-      const response = await fetch(
-        `${baseUri}/api/v1/user/auth/sign-up`,
-        requestOptions
-      );
-      const data = await response.json();
-      console.log(data);
-      if (response.status === 201) {
+  useEffect(() => {
+    if (data) {
+      if (!data.error) {
         setShowLogin(true);
         setShowSignUp(false);
-        setLoading(false);
+        setNameErrorMsg("");
+        setEmailErrorMsg("");
+        setUsernameErrorMsg("");
+        setPasswordErrorMsg("");
       }
-
-      if (response.status === 400) {
-        setLoading(false);
-        throw data.error;
+      if (data.error) {
+        data.error.name && setNameErrorMsg(data.error.name);
+        data.error.email && setEmailErrorMsg(data.error.email);
+        data.error.username && setUsernameErrorMsg(data.error.username);
+        data.error.password && setPasswordErrorMsg(data.error.password);
       }
-    } catch (error) {
-      error.name && setNameErrorMsg(error.name);
-      error.email && setEmailErrorMsg(error.email);
-      error.username && setUsernameErrorMsg(error.username);
-      error.password && setPasswordErrorMsg(error.password);
-      console.error(error);
     }
-  };
+  }, [data]);
 
   const handleClose = () => {
     setShowLogin(true);
@@ -191,11 +174,16 @@ function SignUp({ setShowLogin, setShowSignUp, setLoading, loading }) {
 
         <button
           type="button"
-          disabled={loading}
+          disabled={isLoading}
           onClick={handleCreateAccount}
-          className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 font-medium text-sm sm:text-base rounded-lg mt-8 mb-4 outline-none"
+          className={`lg:hover:bg-sky-700 text-white px-6 py-2 font-medium text-sm sm:text-base rounded-lg mt-8 mb-4 outline-none ${
+            isLoading ? "bg-sky-600/60" : "bg-sky-600"
+          }`}
         >
-          Create Account
+          Create Account{" "}
+          {isLoading && (
+            <BiLoaderAlt className="inline-block text-white  sm:text-xl animate-spin-slow" />
+          )}
         </button>
       </form>
     </div>

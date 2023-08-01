@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useRef } from "react";
+import useLogout from "../hooks/useLogout";
 
 function UserMenu() {
   const user = useSelector((state) => state.user);
@@ -10,6 +11,7 @@ function UserMenu() {
   const name = user && user.name;
   const email = user && user.email;
   const userMenuRef = useRef();
+  const { logout } = useLogout();
 
   const baseUri = process.env.REACT_APP_BASE_URI;
 
@@ -23,11 +25,7 @@ function UserMenu() {
   const capitalizedName = user && capitalizeWords(name);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    dispatch({ type: "LOGGED_OUT" });
-    dispatch({ type: "RESET_WATCHLIST" });
-    dispatch({ type: "RESET_USER" });
-    dispatch({ type: "RESET_USER_MENU_TOGGLE" });
+    logout();
   };
 
   const handleDeleteAccount = () => {
