@@ -24,7 +24,7 @@ function MainSlideCard({ posterImgPath, title, year, onClick }) {
 
   let image =
     posterImgPath === null
-      ? "./no-poster.jpg"
+      ? ""
       : `https://image.tmdb.org/t/p/w780${posterImgPath}`;
 
   return (

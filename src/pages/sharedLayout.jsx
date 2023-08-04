@@ -7,8 +7,8 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import UserMenu from "../components/userMenu";
 import SessionExpirationPrompt from "../components/sessionExpirationPrompt";
-import useLogout from "../hooks/useLogout";
 import useLogin from "../hooks/useLogin";
+import useWatchList from "../hooks/useWatchlist";
 
 function SharedLayout() {
   const modalData = useSelector((state) => state.modalData);
@@ -17,34 +17,20 @@ function SharedLayout() {
   const refCardIndex = useSelector((state) => state.refCardIndex);
   const dispatch = useDispatch();
   const location = useLocation();
-  const baseUri = process.env.REACT_APP_BASE_URI;
+
+  const { getWatchlist } = useWatchList();
 
   const handleScrollToTop = () => {
     window.scrollTo(0, 0, "smooth");
   };
 
-  const { logout } = useLogout();
   const { login } = useLogin();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
-      const getWatchlist = async () => {
-        const res = await fetch(`${baseUri}/api/v1/watchlist`, {
-          headers: { Authorization: `Bearer ${user.token}` },
-        });
-        const data = await res.json();
-
-        if (res.status === 200) {
-          login(user);
-          dispatch({ type: "SET_WATCHLIST", payload: data.watchlist });
-        }
-        if (res.status === 401) {
-          logout();
-          dispatch({ type: "SHOW_SESSION_EXPIRATION_PROMPT" });
-        }
-      };
-      getWatchlist();
+      login(user);
+      getWatchlist(user.token);
     }
   }, []);
 

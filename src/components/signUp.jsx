@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { BiLoaderAlt } from "react-icons/bi";
 import { usePostSignUp } from "../hooks/auth";
@@ -8,11 +8,19 @@ function SignUp({ setShowLogin, setShowSignUp }) {
   const passwordRef = useRef();
   const nameRef = useRef();
   const emailRef = useRef();
-  const { data, mutate, isLoading } = usePostSignUp();
   const [nameErrorMsg, setNameErrorMsg] = useState("");
   const [emailErrorMsg, setEmailErrorMsg] = useState("");
   const [usernameErrorMsg, setUsernameErrorMsg] = useState("");
   const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
+
+  const { mutate, isLoading } = usePostSignUp({
+    setShowLogin,
+    setShowSignUp,
+    setNameErrorMsg,
+    setEmailErrorMsg,
+    setUsernameErrorMsg,
+    setPasswordErrorMsg,
+  });
 
   const handleCreateAccount = async () => {
     const username = usernameRef.current.value;
@@ -22,25 +30,6 @@ function SignUp({ setShowLogin, setShowSignUp }) {
 
     mutate({ username, password, name, email });
   };
-
-  useEffect(() => {
-    if (data) {
-      if (!data.error) {
-        setShowLogin(true);
-        setShowSignUp(false);
-        setNameErrorMsg("");
-        setEmailErrorMsg("");
-        setUsernameErrorMsg("");
-        setPasswordErrorMsg("");
-      }
-      if (data.error) {
-        data.error.name && setNameErrorMsg(data.error.name);
-        data.error.email && setEmailErrorMsg(data.error.email);
-        data.error.username && setUsernameErrorMsg(data.error.username);
-        data.error.password && setPasswordErrorMsg(data.error.password);
-      }
-    }
-  }, [data]);
 
   const handleClose = () => {
     setShowLogin(true);

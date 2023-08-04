@@ -90,7 +90,7 @@ function NavBar() {
             >
               <CgProfile className="inline" />{" "}
               <span className="hidden sm:inline-block">
-                {capitalizeWords(user.name)}
+                {capitalizeWords(user.name).split(" ")[0]}
               </span>{" "}
               <AiFillCaretDown className="inline" />
             </span>

@@ -54,7 +54,7 @@ function HomeMainSection() {
   };
 
   const handleClickMainSlide = async (id) => {
-    const data = await getMovieById(id);
+    const data = await getMovieById({ id, tag: "movie" });
     dispatch({
       type: "UPDATE_MAIN_SLIDE_VIDEO_LIST_DATA",
       payload: data.videos.results,

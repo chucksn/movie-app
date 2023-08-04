@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import loadingSvg from "../images/loading2.svg";
 import BookmarkTag from "./bookmarkTag";
+import useWatchList from "../hooks/useWatchlist";
 
 function PosterCard({
   posterImgPath,
@@ -19,10 +20,10 @@ function PosterCard({
   const isLogged = useSelector((state) => state.isLogged);
   const watchlist = useSelector((state) => state.watchlist);
   const [isItemInWatchlist, setIsItemInWatchlist] = useState(false);
+  const { getWatchlist, updateWatchlist, deleteWatchlist } = useWatchList();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const baseUri = process.env.REACT_APP_BASE_URI;
 
   const handleCardClick = async (index, id) => {
     dispatch({ type: "CARD_CLICKED" });
@@ -40,88 +41,13 @@ function PosterCard({
     });
   };
 
-  const logout = () => {
-    localStorage.removeItem("user");
-    dispatch({ type: "LOGGED_OUT" });
-    dispatch({ type: "RESET_WATCHLIST" });
-    dispatch({ type: "RESET_USER" });
-    dispatch({ type: "RESET_USER_MENU_TOGGLE" });
-  };
-
-  const updateWatchlist = async (id) => {
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/${tag}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=videos,credits`
-      );
-      let watchlistItem = await response.json();
-      //add tag to watchlistItem posted to backend
-      watchlistItem.tag = tag;
-      const requestOptions = {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify(watchlistItem),
-      };
-
-      const res = await fetch(`${baseUri}/api/v1/watchlist`, requestOptions);
-      if (res.status === 401) {
-        logout();
-        dispatch({ type: "SHOW_SESSION_EXPIRATION_PROMPT" });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getWatchlist = async () => {
-    try {
-      const response = await fetch(`${baseUri}/api/v1/watchlist`, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-      const response_data = await response.json();
-      if (response.status === 200) {
-        dispatch({
-          type: "SET_WATCHLIST",
-          payload: response_data.watchlist,
-        });
-      }
-      if (response.status === 401) {
-        logout();
-        dispatch({ type: "SHOW_SESSION_EXPIRATION_PROMPT" });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const deleteWatchlist = async (watchlistItemId) => {
-    try {
-      const response = await fetch(
-        `${baseUri}/api/v1/watchlist/${watchlistItemId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      if (response.status === 401) {
-        logout();
-        dispatch({ type: "SHOW_SESSION_EXPIRATION_PROMPT" });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleBookmarkClick = async (event, id) => {
     event.stopPropagation();
     if (isLogged) {
-      isItemInWatchlist ? await deleteWatchlist(id) : await updateWatchlist(id);
-      await getWatchlist();
+      isItemInWatchlist
+        ? await deleteWatchlist({ token: user.token, watchlistItemId: id })
+        : await updateWatchlist({ id, tag, token: user.token });
+      await getWatchlist(user.token);
     } else {
       navigate("/sign-in");
     }

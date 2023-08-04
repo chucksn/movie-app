@@ -1,6 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useRef } from "react";
 import useLogout from "../hooks/useLogout";
+import capitalizeWords from "../utils/capitalize";
+import { useDeleteUser } from "../hooks/auth";
 
 function UserMenu() {
   const user = useSelector((state) => state.user);
@@ -8,21 +10,11 @@ function UserMenu() {
   const userMenuToggle = useSelector((state) => state.userMenuToggle);
   const [showDeletePrompt, setShowDeletePrompt] = useState(false);
   const dispatch = useDispatch();
-  const name = user && user.name;
   const email = user && user.email;
   const userMenuRef = useRef();
   const { logout } = useLogout();
 
-  const baseUri = process.env.REACT_APP_BASE_URI;
-
-  const capitalizeWords = (str) => {
-    return str
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
-
-  const capitalizedName = user && capitalizeWords(name);
+  const { mutate } = useDeleteUser({ token: user?.token, setShowDeletePrompt });
 
   const handleLogout = () => {
     logout();
@@ -36,27 +28,8 @@ function UserMenu() {
     setShowDeletePrompt(false);
   };
 
-  const handleProceedDeletePrompt = async () => {
-    try {
-      const response = await fetch(`${baseUri}/api/v1/user/auth`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-      const responseData = await response.json();
-
-      if (response.status === 200) {
-        setShowDeletePrompt(false);
-        handleLogout();
-      }
-
-      if (response.status === 404) throw responseData.error;
-      if (response.status === 401) {
-        handleLogout();
-        dispatch({ type: "SHOW_SESSION_EXPIRATION_PROMPT" });
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  const handleProceedDeletePrompt = () => {
+    mutate();
   };
 
   window.onclick = (event) => {
@@ -71,7 +44,7 @@ function UserMenu() {
 
   return (
     <>
-      {isLogged && userMenuToggle && (
+      {isLogged && user && userMenuToggle && (
         <div
           ref={userMenuRef}
           className="user-menu-layer fixed top-0 left-0 w-full h-full z-50"
@@ -79,10 +52,10 @@ function UserMenu() {
           <div className="user-menu-content min-h-72 min-w-60 text-black/80 bg-slate-300 border border-gray-300 rounded-lg absolute top-16 right-4 flex flex-col p-4 justify-between">
             <div className="user-profile p-2 flex flex-col justify-center items-center">
               <div className="user-avatar text-white font-semibold text-xl bg-green-600 w-12 h-12 my-4 flex justify-center items-center rounded-full">
-                {name.charAt(0).toUpperCase()}
+                {user.name.charAt(0).toUpperCase()}
               </div>
               <span className="name block font-semibold font-roboto">
-                {capitalizedName}
+                {capitalizeWords(user.name)}
               </span>
               <span className="email block font-semibold font-roboto text-xs ">
                 {email}

@@ -1,22 +1,17 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdError } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import { BiLoaderAlt } from "react-icons/bi";
-import useLogin from "../hooks/useLogin";
 import { usePostLogin } from "../hooks/auth";
-import useWatchList from "../hooks/useWatchlist";
 
 function Login({ setShowSignUp, setShowLogin, setShowResetPassword }) {
   const [errorMsg, setErrorMsg] = useState("");
   const usernameRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
-  const { login } = useLogin();
 
-  const { getWatchlist } = useWatchList();
-
-  const { mutate, data, isLoading } = usePostLogin();
+  const { mutate, isLoading } = usePostLogin({ setErrorMsg });
 
   const handleClose = () => {
     navigate(-1);
@@ -34,19 +29,6 @@ function Login({ setShowSignUp, setShowLogin, setShowResetPassword }) {
     const password = passwordRef.current.value;
     mutate({ username, password });
   };
-
-  useEffect(() => {
-    if (data && data.error) {
-      setErrorMsg(data.error);
-    }
-
-    if (data && !data.error) {
-      login(data);
-      navigate(-1);
-      getWatchlist(data.token);
-      setErrorMsg("");
-    }
-  }, [data]);
 
   const handleGoogleLogin = () => {};
   const handleForgotPassword = () => {
