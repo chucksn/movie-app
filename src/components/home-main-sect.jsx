@@ -33,10 +33,10 @@ function HomeMainSection() {
     ? `https://www.youtube.com/embed/${youtubeKey}?&autoplay=1`
     : null;
 
-  const nowPlayingList = data && data.results;
+  const nowPlayingList = data?.results;
 
   useEffect(() => {
-    if (nowPlayingList && nowPlayingList.length > 0) {
+    if (nowPlayingList?.length > 0) {
       const reorderedList = [
         ...nowPlayingList.slice(currentSlideIndex + 1),
         ...nowPlayingList.slice(0, currentSlideIndex + 1),

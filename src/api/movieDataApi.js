@@ -37,7 +37,7 @@ export const getTopRated = async () => {
 export const getMovieById = async ({ id, tag }) => {
   try {
     let response = await fetch(
-      `https://api.themoviedb.org/3/${tag}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=videos`
+      `https://api.themoviedb.org/3/${tag}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=videos,credits`
     );
     let data = await response.json();
     return data;

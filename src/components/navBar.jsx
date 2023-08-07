@@ -71,7 +71,7 @@ function NavBar() {
             <span className="hidden md:inline-block">Watchlist</span>{" "}
             {isLogged && (
               <span className="inline-block text-[yellow]">
-                {watchlist && watchlist.length > 0 ? watchlist.length : ""}
+                {watchlist?.length > 0 ? watchlist.length : ""}
               </span>
             )}
           </Link>
@@ -86,7 +86,7 @@ function NavBar() {
           {isLogged && user && (
             <span
               onClick={handleUserProfileClick}
-              className="sign-in block text-zinc-300 font-medium rounded cursor-pointer lg:hover:bg-zinc-800 py-1 px-[9px] text-[1.3rem] sm:text-[1.05rem]"
+              className="user block text-zinc-300 font-medium rounded cursor-pointer lg:hover:bg-zinc-800 py-1 px-[9px] text-[1.3rem] sm:text-[1.05rem]"
             >
               <CgProfile className="inline" />{" "}
               <span className="hidden sm:inline-block">

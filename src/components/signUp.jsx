@@ -8,6 +8,10 @@ function SignUp({ setShowLogin, setShowSignUp }) {
   const passwordRef = useRef();
   const nameRef = useRef();
   const emailRef = useRef();
+  const username = usernameRef.current?.value;
+  const password = passwordRef.current?.value;
+  const name = nameRef.current?.value;
+  const email = emailRef.current?.value;
   const [nameErrorMsg, setNameErrorMsg] = useState("");
   const [emailErrorMsg, setEmailErrorMsg] = useState("");
   const [usernameErrorMsg, setUsernameErrorMsg] = useState("");
@@ -23,11 +27,6 @@ function SignUp({ setShowLogin, setShowSignUp }) {
   });
 
   const handleCreateAccount = async () => {
-    const username = usernameRef.current.value;
-    const password = passwordRef.current.value;
-    const name = nameRef.current.value;
-    const email = emailRef.current.value;
-
     mutate({ username, password, name, email });
   };
 

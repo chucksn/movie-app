@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import loadingSvg from "../images/loading2.svg";
 import BookmarkTag from "./bookmarkTag";
 import useWatchList from "../hooks/useWatchlist";
+import { getMovieById } from "../api/movieDataApi";
 
 function PosterCard({
   posterImgPath,
@@ -26,18 +27,13 @@ function PosterCard({
   const navigate = useNavigate();
 
   const handleCardClick = async (index, id) => {
+    const data = await getMovieById({ id, tag });
     dispatch({ type: "CARD_CLICKED" });
     dispatch({ type: "SET_CLICKED_CARD_INDEX", payload: index });
     dispatch({ type: "SET_REF_CARD_INDEX", payload: index });
-
-    let res = await fetch(
-      `https://api.themoviedb.org/3/${tag}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=videos,credits`
-    );
-    let modal_data = await res.json();
-
     dispatch({
       type: "UPDATE_MODAL_DATA",
-      payload: modal_data,
+      payload: data,
     });
   };
 
@@ -54,15 +50,10 @@ function PosterCard({
   };
 
   useEffect(() => {
-    const isInWatchlist =
-      watchlist &&
-      watchlist.some((watchlistItem) => watchlistItem.id === movieId);
-    if (isInWatchlist) {
-      setIsItemInWatchlist(true);
-    }
-    if (!isInWatchlist) {
-      setIsItemInWatchlist(false);
-    }
+    const isInWatchlist = watchlist?.some(
+      (watchlistItem) => watchlistItem.id === movieId
+    );
+    isInWatchlist ? setIsItemInWatchlist(true) : setIsItemInWatchlist(false);
   }, [watchlist]);
 
   const handleLoad = () => {
